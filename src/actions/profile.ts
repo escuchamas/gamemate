@@ -18,6 +18,25 @@ const ratingSchema = z.object({
   comment: z.string().max(300).optional(),
 });
 
+export async function updateProfileImageAction(
+  imageUrl: string
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+
+  if (!imageUrl.startsWith("https://res.cloudinary.com/")) {
+    return { error: "URL de imagen no válida" };
+  }
+
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { image: imageUrl },
+  });
+
+  updateTag(`profile-${session.user.id}`);
+  return { success: "Foto actualizada" };
+}
+
 export async function updateGameProfileAction(
   _prev: ActionResult,
   formData: FormData

@@ -10,6 +10,7 @@ import {
 } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
 import { GameProfileForm } from "./game-profile-form";
+import { ProfileImageUpload } from "./profile-image-upload";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -60,9 +61,7 @@ export default async function ProfilePage() {
       {/* Profile header */}
       <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-6">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white text-2xl font-bold">
-            {getInitials(u.name)}
-          </div>
+          <ProfileImageUpload currentImage={u.image} name={u.name} />
           <div className="flex-1">
             <h1 className="text-xl font-bold text-white">{u.name}</h1>
             <p className="text-sm text-[var(--muted-foreground)]">
