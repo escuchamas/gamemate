@@ -14,9 +14,7 @@ export default async function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
       <header className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto w-full">
-        <span className="text-xl font-bold text-white flex items-center gap-2">
-          🎮 GameMate
-        </span>
+        <img src="/logo.png" alt="GameMate" className="h-8" />
         <div className="flex gap-3">
           <Link
             href="/login"
@@ -34,13 +32,16 @@ export default async function LandingPage() {
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center gap-8 py-16">
-        <div className="flex gap-4 text-5xl">
-          <span>{GAME_ICONS.MINECRAFT}</span>
-          <span>{GAME_ICONS.PROJECT_ZOMBOID}</span>
+        <div className="flex flex-col items-center gap-6">
+          <img src="/logo.png" alt="GameMate" className="w-72 sm:w-96 drop-shadow-2xl" />
+          <div className="flex gap-3 text-4xl">
+            <span>{GAME_ICONS.MINECRAFT}</span>
+            <span>{GAME_ICONS.PROJECT_ZOMBOID}</span>
+          </div>
         </div>
 
         <div className="max-w-2xl">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
             {t("tagline")}
             <br />
             <span className="text-orange-400">{t("taglineHighlight")}</span>

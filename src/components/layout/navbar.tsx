@@ -17,12 +17,8 @@ export async function Navbar() {
     <header className="sticky top-0 z-50 border-b border-[var(--card-border)] bg-[var(--background)]/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 font-bold text-lg text-white hover:text-orange-400 transition-colors"
-        >
-          <span className="text-2xl">🎮</span>
-          <span>GameMate</span>
+        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <img src="/logo.png" alt="GameMate" className="h-7" />
         </Link>
 
         {/* Nav links */}
