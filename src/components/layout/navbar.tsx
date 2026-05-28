@@ -13,6 +13,10 @@ export async function Navbar() {
     ? (await prisma.user.findUnique({ where: { id: session.user.id }, select: { image: true } }))?.image
     : null;
 
+  const pendingFriendRequests = session?.user?.id
+    ? await prisma.friendship.count({ where: { receiverId: session.user.id, status: "PENDING" } })
+    : 0;
+
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--card-border)] bg-[var(--background)]/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
@@ -30,13 +34,38 @@ export async function Navbar() {
             {t("parties")}
           </Link>
           {session && (
-            <Link
-              href="/parties/new"
-              className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-            >
-              {t("createParty")}
-            </Link>
+            <>
+              <Link
+                href="/parties/new"
+                className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                {t("createParty")}
+              </Link>
+              <Link
+                href="/history"
+                className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                Historial
+              </Link>
+              <Link
+                href="/friends"
+                className="relative px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                Amigos
+                {pendingFriendRequests > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-orange-500 text-white text-[10px] rounded-full flex items-center justify-center font-bold">
+                    {pendingFriendRequests}
+                  </span>
+                )}
+              </Link>
+            </>
           )}
+          <Link
+            href="/suggestions"
+            className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+          >
+            Sugerencias
+          </Link>
         </nav>
 
         {/* Auth + Locale switcher */}

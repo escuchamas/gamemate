@@ -49,6 +49,12 @@ model User {
   marketplaceContacts   MarketplaceContact[]
   bugReports            BugReport[]
   joinRequests          PartyJoinRequest[]
+  friendsSent           Friendship[]         @relation("FriendshipSender")
+  friendsReceived       Friendship[]         @relation("FriendshipReceiver")
+  directMessagesSent    DirectMessage[]      @relation("DMSender")
+  directMessagesReceived DirectMessage[]     @relation("DMReceiver")
+  suggestions           Suggestion[]
+  suggestionVotes       SuggestionVote[]
   joinRequestVotes      JoinRequestVote[]
   kickProposalsReceived PartyKickProposal[] @relation("KickTarget")
   kickProposalsInitiated PartyKickProposal[] @relation("KickInitiator")
@@ -513,6 +519,83 @@ model MarketplaceContact {
   user    User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([listingId, userId])
+}
+
+// ─── AMIGOS ───────────────────────────────────────────────────────────────────
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}
+
+model Friendship {
+  id         String           @id @default(cuid())
+  senderId   String
+  receiverId String
+  status     FriendshipStatus @default(PENDING)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  sender   User @relation("FriendshipSender",   fields: [senderId],   references: [id], onDelete: Cascade)
+  receiver User @relation("FriendshipReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+}
+
+model DirectMessage {
+  id          String   @id @default(cuid())
+  senderId    String
+  receiverId  String
+  content     String   @db.VarChar(1000)
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  sender   User @relation("DMSender",   fields: [senderId],   references: [id], onDelete: Cascade)
+  receiver User @relation("DMReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+}
+
+// ─── SUGERENCIAS ──────────────────────────────────────────────────────────────
+
+enum SuggestionCategory {
+  NEW_GAME
+  FEATURE
+  DESIGN
+  OTHER
+}
+
+enum SuggestionStatus {
+  OPEN
+  IN_REVIEW
+  IMPLEMENTED
+  REJECTED
+}
+
+model Suggestion {
+  id          String             @id @default(cuid())
+  userId      String
+  title       String             @db.VarChar(100)
+  description String             @db.VarChar(1000)
+  category    SuggestionCategory @default(FEATURE)
+  status      SuggestionStatus   @default(OPEN)
+  voteCount   Int                @default(0)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  user  User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  votes SuggestionVote[]
+}
+
+model SuggestionVote {
+  id           String   @id @default(cuid())
+  userId       String
+  suggestionId String
+  createdAt    DateTime @default(now())
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  suggestion Suggestion @relation(fields: [suggestionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, suggestionId])
 }
 
 // ─── BUG REPORTS (plataforma) ─────────────────────────────────────────────────
