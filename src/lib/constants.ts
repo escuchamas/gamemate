@@ -30,6 +30,52 @@ export const SKILL_DESCRIPTIONS = {
   },
 } as const;
 
+export const SKILL_CRITERIA = {
+  MINECRAFT: {
+    BEGINNER: "Acabas de empezar. Aún aprendes a craftear y a sobrevivir la primera noche. No has conseguido herramientas de hierro.",
+    INTERMEDIATE: "Sabes craftear herramientas y armadura de hierro, conoces los mobs principales y te manejas con soltura en cuevas y superficie.",
+    ADVANCED: "Has llegado al Nether, tienes equipo de diamante o netherite, construyes granjas básicas y conoces redstone elemental.",
+    EXPERT: "Has derrotado al Dragón del End, dominas redstone avanzado, granjas automatizadas o juegas en hardcore/speedrun.",
+  },
+  PROJECT_ZOMBOID: {
+    BEGINNER: "Acabas de empezar. Mueres en los primeros días, aún aprendes sigilo, gestión de heridas e inventario.",
+    INTERMEDIATE: "Sobrevives la primera semana, sabes construir una base segura, conducir y gestionar el inventario con eficiencia.",
+    ADVANCED: "Runs de más de un mes, bases fortificadas con generador, dominas vehículos, loot eficiente y gestión de grupos.",
+    EXPERT: "Superviviente veterano. Conoces todos los sistemas del juego, juegas con dificultad alta, mods de challenge o llevas el servidor.",
+  },
+} as const;
+
+export const POPULAR_MODPACKS = {
+  MINECRAFT: [
+    "RLCraft",
+    "All the Mods 9",
+    "Vault Hunters",
+    "SkyFactory 4",
+    "Better Minecraft",
+    "Create: Above and Beyond",
+    "Valhelsia 6",
+    "Roguelike Adventures and Dungeons",
+    "Stoneblock 3",
+    "Pixelmon",
+    "FTB Academy",
+    "Enigmatica 9",
+    "Farming Valley",
+    "Dungeons Dragons Space Shuttles",
+    "Tekkit 2",
+    "FTB Revelation",
+  ],
+  PROJECT_ZOMBOID: [
+    "Brita's Weapon Pack",
+    "More Traits",
+    "Hydrocraft",
+    "ORGM Rechambered",
+    "Superb Survivors",
+    "Filibuster Rhymes' Used Cars",
+    "Bedford Falls",
+    "Raven Creek",
+  ],
+} as const;
+
 export const MINECRAFT_STYLE_LABELS = {
   SURVIVAL: "Supervivencia",
   HARDCORE: "Hardcore",

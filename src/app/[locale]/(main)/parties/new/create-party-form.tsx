@@ -7,7 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { DEFAULT_RULES, RULE_CATEGORY_LABELS, LANGUAGES } from "@/lib/constants";
+import {
+  DEFAULT_RULES,
+  RULE_CATEGORY_LABELS,
+  LANGUAGES,
+  SKILL_CRITERIA,
+  POPULAR_MODPACKS,
+} from "@/lib/constants";
 import type { Game } from "@/generated/prisma/client";
 
 type RuleCategory = "BEHAVIOR" | "GAMEPLAY" | "COMMUNICATION" | "CUSTOM";
@@ -17,9 +23,15 @@ interface CustomRule {
   text: string;
 }
 
+type SkillLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT";
+
 export function CreatePartyForm() {
   const [state, action, isPending] = useActionState(createPartyAction, {});
   const [selectedGame, setSelectedGame] = useState<Game | "">("");
+  const [selectedSkill, setSelectedSkill] = useState<SkillLevel | "">("");
+  const [showSkillGuide, setShowSkillGuide] = useState(false);
+  const [modded, setModded] = useState(false);
+  const [modTags, setModTags] = useState<string[]>([]);
   const [selectedRules, setSelectedRules] = useState<Set<string>>(new Set());
   const [customRules, setCustomRules] = useState<CustomRule[]>([]);
   const [newRuleText, setNewRuleText] = useState("");
@@ -39,6 +51,12 @@ export function CreatePartyForm() {
     });
   };
 
+  const toggleModTag = (tag: string) => {
+    setModTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
   const addCustomRule = () => {
     if (newRuleText.trim().length < 5) return;
     setCustomRules((prev) => [
@@ -52,6 +70,18 @@ export function CreatePartyForm() {
     setCustomRules((prev) => prev.filter((_, i) => i !== idx));
   };
 
+  const skillLevels: { value: SkillLevel; label: string }[] = [
+    { value: "BEGINNER", label: "Principiante — nuevo en el juego" },
+    { value: "INTERMEDIATE", label: "Intermedio — conozco lo básico" },
+    { value: "ADVANCED", label: "Avanzado — tengo mucha experiencia" },
+    { value: "EXPERT", label: "Experto — domino todo el juego" },
+  ];
+
+  const popularPacks =
+    selectedGame && selectedGame in POPULAR_MODPACKS
+      ? POPULAR_MODPACKS[selectedGame as keyof typeof POPULAR_MODPACKS]
+      : [];
+
   return (
     <form action={action} className="flex flex-col gap-6">
       <input
@@ -63,6 +93,11 @@ export function CreatePartyForm() {
         type="hidden"
         name="customRules"
         value={JSON.stringify(customRules)}
+      />
+      <input
+        type="hidden"
+        name="modTags"
+        value={JSON.stringify(modTags)}
       />
 
       {state.error && (
@@ -99,7 +134,10 @@ export function CreatePartyForm() {
           name="game"
           label={t("fields.game")}
           value={selectedGame}
-          onChange={(e) => setSelectedGame(e.target.value as Game)}
+          onChange={(e) => {
+            setSelectedGame(e.target.value as Game);
+            setModTags([]);
+          }}
           options={[
             { value: "MINECRAFT", label: "⛏️ Minecraft" },
             { value: "PROJECT_ZOMBOID", label: "🧟 Project Zomboid" },
@@ -108,18 +146,55 @@ export function CreatePartyForm() {
           required
         />
 
-        <Select
-          name="skillLevel"
-          label={t("fields.skillLevel")}
-          options={[
-            { value: "BEGINNER", label: "Principiante — nuevo en el juego" },
-            { value: "INTERMEDIATE", label: "Intermedio — conozco lo básico" },
-            { value: "ADVANCED", label: "Avanzado — tengo mucha experiencia" },
-            { value: "EXPERT", label: "Experto — domino todo el juego" },
-          ]}
-          placeholder="Selecciona un nivel"
-          required
-        />
+        {/* Skill level selector + criteria guide */}
+        <div className="flex flex-col gap-1.5">
+          <Select
+            name="skillLevel"
+            label={t("fields.skillLevel")}
+            value={selectedSkill}
+            onChange={(e) => setSelectedSkill(e.target.value as SkillLevel)}
+            options={skillLevels}
+            placeholder="Selecciona un nivel"
+            required
+          />
+
+          {selectedGame && (
+            <button
+              type="button"
+              onClick={() => setShowSkillGuide((v) => !v)}
+              className="text-xs text-indigo-400 hover:text-indigo-300 text-left transition-colors"
+            >
+              {showSkillGuide ? "▲ Ocultar guía de niveles" : "▼ ¿Qué significa cada nivel?"}
+            </button>
+          )}
+
+          {showSkillGuide && selectedGame && selectedGame in SKILL_CRITERIA && (
+            <div className="rounded-lg bg-[var(--muted)] border border-[var(--card-border)] p-3 flex flex-col gap-2 mt-1">
+              {skillLevels.map(({ value, label }) => {
+                const criteria = SKILL_CRITERIA[selectedGame as keyof typeof SKILL_CRITERIA][value];
+                const isSelected = selectedSkill === value;
+                return (
+                  <div
+                    key={value}
+                    className={`rounded-lg px-3 py-2 border transition-colors cursor-pointer ${
+                      isSelected
+                        ? "bg-indigo-600/15 border-indigo-600/40"
+                        : "bg-[var(--card)] border-[var(--card-border)]"
+                    }`}
+                    onClick={() => setSelectedSkill(value)}
+                  >
+                    <p className="text-xs font-semibold text-white mb-0.5">
+                      {label.split(" — ")[0]}
+                    </p>
+                    <p className="text-xs text-[var(--muted-foreground)]">
+                      {criteria}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Players & settings */}
@@ -153,26 +228,64 @@ export function CreatePartyForm() {
           defaultValue="es"
         />
 
-        <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              name="modded"
-              value="true"
-              className="w-4 h-4 rounded accent-indigo-600"
-              onChange={(e) => {
-                const hiddenInput = document.querySelector(
-                  'input[name="modded"][type="hidden"]'
-                ) as HTMLInputElement;
-                if (hiddenInput) hiddenInput.value = String(e.target.checked);
-              }}
-            />
-            <span className="text-sm text-[var(--foreground)]">
-              {t("fields.modded")}
-            </span>
-          </label>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                name="modded"
+                value="true"
+                checked={modded}
+                className="w-4 h-4 rounded accent-indigo-600"
+                onChange={(e) => {
+                  setModded(e.target.checked);
+                  if (!e.target.checked) setModTags([]);
+                  const hiddenInput = document.querySelector(
+                    'input[name="modded"][type="hidden"]'
+                  ) as HTMLInputElement;
+                  if (hiddenInput) hiddenInput.value = String(e.target.checked);
+                }}
+              />
+              <span className="text-sm text-[var(--foreground)]">
+                {t("fields.modded")}
+              </span>
+            </label>
+          </div>
+          <input type="hidden" name="modded" value={String(modded)} />
+
+          {/* Popular modpacks — shown when modded + game selected */}
+          {modded && selectedGame && popularPacks.length > 0 && (
+            <div className="rounded-lg bg-[var(--muted)] border border-[var(--card-border)] p-3 flex flex-col gap-2">
+              <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wide">
+                Modpacks populares — toca para añadir
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {popularPacks.map((pack) => {
+                  const active = modTags.includes(pack);
+                  return (
+                    <button
+                      key={pack}
+                      type="button"
+                      onClick={() => toggleModTag(pack)}
+                      className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors border ${
+                        active
+                          ? "bg-indigo-600 border-indigo-500 text-white"
+                          : "bg-[var(--card)] border-[var(--card-border)] text-[var(--muted-foreground)] hover:border-indigo-500/50 hover:text-[var(--foreground)]"
+                      }`}
+                    >
+                      {active ? "✓ " : ""}{pack}
+                    </button>
+                  );
+                })}
+              </div>
+              {modTags.length > 0 && (
+                <p className="text-xs text-indigo-400">
+                  Seleccionados: {modTags.join(", ")}
+                </p>
+              )}
+            </div>
+          )}
         </div>
-        <input type="hidden" name="modded" value="false" />
 
         <Input
           name="modsNote"

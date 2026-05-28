@@ -66,6 +66,7 @@ export const createPartySchema = z.object({
   maxPlayers: z.number().int().min(2).max(6),
   language: z.string().min(2).max(5),
   modded: z.boolean(),
+  modTags: z.array(z.string().max(50)).max(10).optional(),
   modsNote: z.string().max(200).optional(),
   serverInfo: z.string().max(200).optional(),
   selectedRules: z.array(z.string()),
