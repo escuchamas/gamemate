@@ -1,0 +1,549 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── AUTH (required by Auth.js) ───────────────────────────────────────────────
+
+model User {
+  id              String    @id @default(cuid())
+  name            String?
+  username        String?   @unique
+  email           String    @unique
+  emailVerified   DateTime?
+  image           String?
+  password        String?
+  phone           String?   @unique
+  phoneVerified   Boolean   @default(false)
+  bio             String?
+  country         String?
+  language        String    @default("es")   // idioma preferido de la UI
+  spokenLangs     String[]  @default(["es"]) // idiomas que habla (matchmaking)
+  reputation      Float     @default(5.0)
+  reputationCount Int       @default(0)
+  banned          Boolean   @default(false)
+  banReason       String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  accounts         Account[]
+  sessions         Session[]
+  gameProfiles     GameProfile[]
+  partiesCreated   Party[]            @relation("PartyCreator")
+  partyMembers     PartyMember[]
+  reportsGiven     Report[]           @relation("Reporter")
+  reportsReceived  Report[]           @relation("Reported")
+  phoneTokens      PhoneVerification[]
+  ratingsGiven          Rating[]             @relation("Rater")
+  ratingsReceived       Rating[]             @relation("Rated")
+  messages              Message[]
+  badges                UserBadge[]
+  badgeVotesGiven       BadgeVote[]          @relation("BadgeVoter")
+  badgeVotesReceived    BadgeVote[]          @relation("BadgeTarget")
+  portfolioSubmissions  PortfolioSubmission[]
+  marketplaceListings   MarketplaceListing[]
+  marketplaceContacts   MarketplaceContact[]
+  bugReports            BugReport[]
+  joinRequests          PartyJoinRequest[]
+  joinRequestVotes      JoinRequestVote[]
+  kickProposalsReceived PartyKickProposal[] @relation("KickTarget")
+  kickProposalsInitiated PartyKickProposal[] @relation("KickInitiator")
+  kickVotes             KickVoteRecord[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── JUEGOS ───────────────────────────────────────────────────────────────────
+
+enum Game {
+  MINECRAFT
+  PROJECT_ZOMBOID
+}
+
+enum SkillLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum MinecraftStyle {
+  SURVIVAL
+  HARDCORE
+  CREATIVE
+  ADVENTURE
+}
+
+enum PZStyle {
+  CASUAL
+  ROLEPLAY
+  HARDCORE
+  CHALLENGE
+}
+
+// Etiquetas de lo que busca/ofrece el jugador (JSON array de strings)
+// Ej Minecraft: ["exploración", "farms", "builds técnicas", "roleplay", "sin metas"]
+// Ej PZ: ["base building", "roleplay", "lore-friendly", "sin voz", "cooperación"]
+model GameProfile {
+  id             String          @id @default(cuid())
+  userId         String
+  game           Game
+  skillLevel     SkillLevel      @default(BEGINNER)
+  playtimeHours  Int?
+  modded         Boolean         @default(false)
+  modsNote       String?
+  minecraftStyle MinecraftStyle?
+  pzStyle        PZStyle?
+  tags           String[]        // Lo que busca/ofrece el jugador
+  notes          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, game])
+}
+
+// ─── PARTIES ─────────────────────────────────────────────────────────────────
+
+enum PartyStatus {
+  OPEN
+  FULL
+  IN_GAME
+  CLOSED
+}
+
+enum MemberRole {
+  LEADER
+  MEMBER
+}
+
+model Party {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  game        Game
+  status      PartyStatus @default(OPEN)
+  minPlayers  Int         @default(2)
+  maxPlayers  Int         @default(4)
+  skillLevel  SkillLevel
+  language    String      @default("es")
+  modded           Boolean     @default(false)
+  modTags          String[]    @default([]) // Tags de mods específicos (ej: "Create", "Fabric", "RLCraft")
+  modsNote         String?
+  serverInfo       String?
+  currentMilestone String?     // ID del hito de progreso (ej: "IRON_AGE", "WEEK_1")
+  creatorId        String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  creator       User                @relation("PartyCreator", fields: [creatorId], references: [id])
+  members       PartyMember[]
+  rules         PartyRule[]
+  messages      Message[]
+  joinRequests  PartyJoinRequest[]
+  kickProposals PartyKickProposal[]
+}
+
+model PartyMember {
+  id       String     @id @default(cuid())
+  partyId  String
+  userId   String
+  role     MemberRole @default(MEMBER)
+  joinedAt DateTime   @default(now())
+
+  party Party @relation(fields: [partyId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([partyId, userId])
+}
+
+enum RuleCategory {
+  BEHAVIOR
+  GAMEPLAY
+  COMMUNICATION
+  CUSTOM
+}
+
+model PartyRule {
+  id         String       @id @default(cuid())
+  partyId    String
+  category   RuleCategory
+  text       String
+  isDefault  Boolean      @default(false)
+  isRequired Boolean      @default(false)
+
+  party Party @relation(fields: [partyId], references: [id], onDelete: Cascade)
+}
+
+// ─── SOLICITUDES DE UNIÓN ────────────────────────────────────────────────────
+// El primer miembro en aceptar es el líder. Luego todos los miembros deben aceptar.
+
+enum JoinRequestStatus {
+  PENDING   // Esperando votos
+  APPROVED  // Todos votaron a favor
+  REJECTED  // Alguien rechazó (o líder rechazó)
+  CANCELLED // El solicitante canceló
+}
+
+model PartyJoinRequest {
+  id        String            @id @default(cuid())
+  partyId   String
+  userId    String
+  message   String?           @db.VarChar(500) // Qué quiere hacer / a quién busca
+  status    JoinRequestStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  party   Party                @relation(fields: [partyId], references: [id], onDelete: Cascade)
+  user    User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  votes   JoinRequestVote[]
+
+  @@unique([partyId, userId]) // un usuario solo puede tener una solicitud activa por party
+}
+
+model JoinRequestVote {
+  id        String   @id @default(cuid())
+  requestId String
+  voterId   String
+  approve   Boolean
+  createdAt DateTime @default(now())
+
+  request PartyJoinRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  voter   User             @relation(fields: [voterId], references: [id], onDelete: Cascade)
+
+  @@unique([requestId, voterId])
+}
+
+// ─── VOTACIONES DE EXPULSIÓN ──────────────────────────────────────────────────
+// Cualquier miembro puede proponer expulsar a otro (no al líder).
+// Si todos los demás miembros aprueban, el jugador es expulsado.
+// Cualquier rechazo cancela la propuesta.
+
+enum KickProposalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+model PartyKickProposal {
+  id          String             @id @default(cuid())
+  partyId     String
+  targetId    String
+  initiatorId String
+  status      KickProposalStatus @default(PENDING)
+  createdAt   DateTime           @default(now())
+
+  votingDeadline DateTime         // 3 días para votar — pasados, se cuenta como "sí"
+
+  party     Party            @relation(fields: [partyId], references: [id], onDelete: Cascade)
+  target    User             @relation("KickTarget",    fields: [targetId],    references: [id], onDelete: Cascade)
+  initiator User             @relation("KickInitiator", fields: [initiatorId], references: [id], onDelete: Cascade)
+  votes     KickVoteRecord[]
+
+  @@unique([partyId, targetId]) // solo una propuesta activa por target
+}
+
+model KickVoteRecord {
+  id         String   @id @default(cuid())
+  proposalId String
+  voterId    String
+  approve    Boolean
+  createdAt  DateTime @default(now())
+
+  proposal PartyKickProposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  voter    User              @relation(fields: [voterId], references: [id], onDelete: Cascade)
+
+  @@unique([proposalId, voterId])
+}
+
+// ─── CHAT DE GRUPO ────────────────────────────────────────────────────────────
+
+model Message {
+  id        String   @id @default(cuid())
+  partyId   String
+  userId    String
+  content   String   @db.VarChar(1000)
+  createdAt DateTime @default(now())
+
+  party Party @relation(fields: [partyId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── MODERACIÓN ──────────────────────────────────────────────────────────────
+
+enum ReportReason {
+  HARASSMENT
+  HATE_SPEECH
+  CHEATING
+  GHOSTING
+  INAPPROPRIATE_CONTENT
+  SPAM
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  RESOLVED_ACTION
+  RESOLVED_NO_ACTION
+}
+
+model Report {
+  id          String       @id @default(cuid())
+  reporterId  String
+  reportedId  String
+  reason      ReportReason
+  description String?
+  status      ReportStatus @default(PENDING)
+  createdAt   DateTime     @default(now())
+
+  reporter User @relation("Reporter", fields: [reporterId], references: [id])
+  reported User @relation("Reported", fields: [reportedId], references: [id])
+}
+
+// score = average of the 4 criteria (1–5 each)
+model Rating {
+  id           String   @id @default(cuid())
+  raterId      String
+  ratedId      String
+  partyId      String?
+  // Criterios específicos (1-5)
+  levelMatch   Int      // ¿Su nivel coincidía con lo declarado?
+  friendliness Int      // ¿Era amable y respetuoso?
+  funFactor    Int      // ¿Fue divertido jugar con él/ella?
+  reliability  Int      // ¿Fue responsable y constante?
+  comment      String?
+  createdAt    DateTime @default(now())
+
+  rater User @relation("Rater", fields: [raterId], references: [id])
+  rated User @relation("Rated", fields: [ratedId], references: [id])
+
+  @@unique([raterId, ratedId, partyId])
+}
+
+// ─── BADGES VERIFICADOS POR LA COMUNIDAD ─────────────────────────────────────
+// Un badge se concede automáticamente cuando >= 100 jugadores distintos lo avalan
+// Solo puede votar alguien que haya estado en la misma party que el usuario
+
+enum BadgeType {
+  // Minecraft — verificados por comunidad (100 votos)
+  BUILDER_PRO       // Construye cosas increíbles
+  REDSTONE_MASTER   // Domina el redstone
+  EXPLORER          // Conoce cada bioma y dimensión
+  // Minecraft — verificado por STAFF + portfolio (único)
+  ARCHITECT         // Arquitecto profesional — verificado por staff con portfolio
+  // Project Zomboid — verificados por comunidad (100 votos)
+  TRUE_SURVIVOR     // Superviviente de largo plazo de verdad
+  MECHANIC_EXPERT   // Domina la mecánica de vehículos
+  FARMER            // El rey de la granja zomboid
+  // Universales — verificados por comunidad
+  TEAM_PLAYER       // Siempre colabora con el equipo
+  MENTOR            // Explica y ayuda sin spoilers
+  CHILL_VIBES       // Jugador 0 tóxico, pura buena onda
+}
+
+model UserBadge {
+  id        String    @id @default(cuid())
+  userId    String
+  badge     BadgeType
+  grantedAt DateTime  @default(now())
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  votes BadgeVote[]
+
+  @@unique([userId, badge])
+}
+
+model BadgeVote {
+  id        String    @id @default(cuid())
+  voterId   String
+  targetId  String
+  badge     BadgeType
+  createdAt DateTime  @default(now())
+
+  voter  User       @relation("BadgeVoter", fields: [voterId], references: [id], onDelete: Cascade)
+  target User       @relation("BadgeTarget", fields: [targetId], references: [id], onDelete: Cascade)
+  badge_record UserBadge? @relation(fields: [targetId, badge], references: [userId, badge])
+
+  @@unique([voterId, targetId, badge])
+}
+
+// ─── VERIFICACIÓN TELÉFONO ────────────────────────────────────────────────────
+
+model PhoneVerification {
+  id        String   @id @default(cuid())
+  userId    String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── PORTFOLIO (para badge ARCHITECT — verificado por staff) ─────────────────
+
+// Pago único de 19.99€ para la revisión. Solo se empieza la revisión tras el pago.
+model PortfolioSubmission {
+  id               String          @id @default(cuid())
+  userId           String
+  description      String
+  projectUrls      String[]        // Links a videos/screenshots/mapas
+  toolsUsed        String[]        // Ej: WorldEdit, Litematica, Java vanilla
+  status           PortfolioStatus @default(PENDING_PAYMENT)
+  staffNotes       String?
+  reviewedAt       DateTime?
+  // Pago — se integra con Stripe más adelante
+  paymentStatus    PaymentStatus   @default(UNPAID)
+  paymentId        String?         // Stripe payment intent ID
+  paidAt           DateTime?
+  createdAt        DateTime        @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+}
+
+enum PortfolioStatus {
+  PENDING_PAYMENT   // Esperando pago de 19.99€
+  PENDING           // Pago recibido, en cola de revisión
+  IN_REVIEW         // Staff revisando
+  APPROVED          // Badge ARCHITECT concedido
+  REJECTED          // No cumple los estándares
+  NEEDS_MORE_INFO   // Staff pide más info/fotos
+}
+
+// ─── MARKETPLACE ─────────────────────────────────────────────────────────────
+// Plataforma para contratar constructores y programadores de Minecraft
+
+enum MarketplaceCategory {
+  MAP           // Mapa personalizado
+  MOD           // Modificación Java/Bedrock
+  PLUGIN        // Plugin para servidor
+  BUILD         // Construcción in-game
+  TEXTURE_PACK  // Pack de texturas
+  DATAPACK      // Datapack vanilla
+  OTHER
+}
+
+enum ListingType {
+  OFFER         // El profesional ofrece un servicio
+  REQUEST       // El usuario solicita un servicio
+}
+
+enum ListingStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DISPUTED
+}
+
+model MarketplaceListing {
+  id           String              @id @default(cuid())
+  userId       String
+  type         ListingType
+  category     MarketplaceCategory
+  title        String
+  description  String
+  budgetMin    Int?                // Euros
+  budgetMax    Int?                // Euros
+  deadline     DateTime?
+  status       ListingStatus       @default(OPEN)
+  tags         String[]
+  portfolioUrl String?             // Para los que ofrecen
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  user     User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contacts MarketplaceContact[]
+}
+
+model MarketplaceContact {
+  id          String   @id @default(cuid())
+  listingId   String
+  userId      String
+  message     String
+  createdAt   DateTime @default(now())
+
+  listing MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  user    User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([listingId, userId])
+}
+
+// ─── BUG REPORTS (plataforma) ─────────────────────────────────────────────────
+
+enum BugSeverity {
+  LOW       // Algo molesto pero no bloquea
+  MEDIUM    // Dificulta el uso normal
+  HIGH      // Bloquea una función importante
+  CRITICAL  // La plataforma no funciona
+}
+
+enum BugStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  WONT_FIX
+  DUPLICATE
+}
+
+model BugReport {
+  id          String      @id @default(cuid())
+  userId      String?     // Puede ser anónimo
+  title       String
+  description String
+  steps       String?     // Pasos para reproducir
+  url         String?     // URL donde ocurrió
+  severity    BugSeverity @default(MEDIUM)
+  status      BugStatus   @default(OPEN)
+  staffNotes  String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}

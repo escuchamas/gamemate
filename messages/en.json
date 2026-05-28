@@ -1,0 +1,262 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "send": "Send",
+    "create": "Create",
+    "join": "Join",
+    "leave": "Leave",
+    "close": "Close",
+    "report": "Report",
+    "optional": "optional"
+  },
+  "nav": {
+    "parties": "Parties",
+    "createParty": "Create party",
+    "profile": "Profile",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out"
+  },
+  "landing": {
+    "tagline": "Solo gaming sucks.",
+    "taglineHighlight": "Play with people like you.",
+    "description": "Tired of lobbies with sweaty pros who spoil everything, or total newbies who don't even know the basics? Here you'll find players at {strong} to enjoy the game the way it's meant to be played.",
+    "descriptionStrong": "your exact skill level",
+    "cta": "Start for free 🚀",
+    "browseParties": "Browse active parties",
+    "featuresTitle": "Why GameMate?",
+    "features": {
+      "level": {
+        "title": "Same level",
+        "desc": "Groups of 2 to 6 players filtered by skill level. No pros, no noobs — just your pace."
+      },
+      "rules": {
+        "title": "Clear rules",
+        "desc": "Every party has its rules from the start. No drama, no surprises. What you agree to, is what you get."
+      },
+      "reputation": {
+        "title": "Real reputation",
+        "desc": "Others rate your skill, friendliness, and if you're fun to play with. Badges verified by 100+ players."
+      }
+    },
+    "badgesNote": "Only awarded when more than 100 players have confirmed them",
+    "footer": "Made by a gamer, for gamers. 0 corporate, 100% community."
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Log in to find your next gaming crew",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Sign up for free",
+      "registered": "Account created successfully. You can now log in.",
+      "error": "Invalid email or password"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Join the community and find players at your level",
+      "name": "Name",
+      "username": "Username",
+      "usernamePlaceholder": "gamer123",
+      "usernameHint": "Letters, numbers and _ only",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "phoneHint": "International format. Enables extra security verification.",
+      "password": "Password",
+      "passwordHint": "At least 8 characters, one uppercase and one number",
+      "confirmPassword": "Confirm password",
+      "submit": "Create account",
+      "terms": "By signing up you agree not to engage in any harassment or toxic behavior. Users with bad conduct will be banned.",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in"
+    }
+  },
+  "parties": {
+    "title": "Open parties",
+    "createButton": "+ Create party",
+    "joinToCreate": "Sign up to create one",
+    "allGames": "All games",
+    "allLevels": "All levels",
+    "empty": {
+      "title": "Nobody has created a party here yet",
+      "subtitle": "Be the first. Others will show up after.",
+      "cta": "Create the first party",
+      "ctaGuest": "Sign up and create it"
+    },
+    "waiting": "{count, plural, one {# party} other {# parties}} waiting for players",
+    "status": {
+      "OPEN": "Open",
+      "FULL": "Full",
+      "IN_GAME": "In game",
+      "CLOSED": "Closed"
+    },
+    "players": "{current}/{max} players",
+    "createdBy": "by {name}"
+  },
+  "createParty": {
+    "title": "Create party",
+    "subtitle": "Set up your gaming group. You can have between 2 and 6 players.",
+    "sections": {
+      "basic": "Basic info",
+      "players": "Players & settings",
+      "rules": "Party rules"
+    },
+    "fields": {
+      "name": "Party name",
+      "namePlaceholder": "E.g. Relaxed vanilla survival",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "Tell us more about how you want to play...",
+      "game": "Game",
+      "skillLevel": "Required level",
+      "minPlayers": "Minimum players",
+      "maxPlayers": "Maximum players",
+      "language": "Language",
+      "modded": "Modded game",
+      "modTags": "Mod tags",
+      "modTagsPlaceholder": "E.g. Create, Fabric, RLCraft...",
+      "modsNote": "Mods notes (optional)",
+      "modsNotePlaceholder": "E.g. Fabric 1.21, exploration mods",
+      "serverInfo": "Server info (optional)",
+      "serverInfoPlaceholder": "IP, server name, Discord...",
+      "serverInfoHint": "You can add this after creating the party"
+    },
+    "rules": {
+      "subtitle": "Required rules always apply. Pick the optional ones you want and add your own.",
+      "required": "Required",
+      "optional": "Optional — check the ones you want to include",
+      "custom": "Custom rules",
+      "addPlaceholder": "Write a custom rule...",
+      "categories": {
+        "BEHAVIOR": "Behavior",
+        "GAMEPLAY": "Gameplay",
+        "COMMUNICATION": "Communication",
+        "CUSTOM": "Other"
+      }
+    },
+    "submit": "Create party",
+    "selectGameFirst": "Select a game first"
+  },
+  "partyDetail": {
+    "joinButton": "Join",
+    "leaveButton": "Leave",
+    "closeButton": "Close party",
+    "loginToJoin": "Log in to join",
+    "members": "Members",
+    "freeSlot": "Open slot",
+    "rules": "Party rules",
+    "noRules": "No rules defined.",
+    "requiredLegend": "🔴 Required",
+    "optionalLegend": "🔵 Agreed optional",
+    "server": "Server",
+    "chatTitle": "Group chat",
+    "chatEmpty": "Nobody has written anything yet. Say hi! 👋",
+    "chatPlaceholder": "Write a message...",
+    "chatJoinFirst": "Join the party to access the group chat",
+    "chatConnected": "Connected",
+    "chatDisconnected": "Disconnected",
+    "modded": "Mods",
+    "confirmLeave": "Are you sure you want to leave the party?",
+    "confirmClose": "Close the party? Members won't be able to join anymore."
+  },
+  "profile": {
+    "title": "Your profile",
+    "reputation": "reputation",
+    "ratings": "{count} ratings",
+    "phoneVerified": "✓ Phone verified",
+    "emailVerified": "✓ Email verified",
+    "reputationBreakdown": "Your reputation in detail",
+    "reviews": "What others say about you",
+    "gameProfiles": "Your game profiles",
+    "editProfile": "Edit",
+    "createProfile": "Create profile for",
+    "saveChanges": "Save changes",
+    "noRatings": "Nobody has rated you yet. Play more games!",
+    "criteria": {
+      "levelMatch": "Declared level",
+      "levelMatchDesc": "Did their level match what they declared?",
+      "friendliness": "Friendliness",
+      "friendlinessDesc": "Were they kind and respectful?",
+      "funFactor": "Fun factor",
+      "funFactorDesc": "Was it fun playing with them?",
+      "reliability": "Reliability",
+      "reliabilityDesc": "Were they consistent and did they give notice if they couldn't connect?"
+    },
+    "gameProfile": {
+      "level": "Your level",
+      "playtime": "Hours played (approx.)",
+      "style": "Preferred mode",
+      "pzStyle": "Play style",
+      "tagsLabel": "What do you seek / offer? (max. 8)",
+      "modded": "I play with mods",
+      "notes": "Extra note (optional)",
+      "notesPlaceholder": "Tell us something more about how you play..."
+    }
+  },
+  "kickVote": {
+    "title": "Kick proposals",
+    "propose": "Propose kick",
+    "confirmPropose": "Propose kicking {name}?",
+    "approve": "✓ Kick",
+    "reject": "✗ Veto",
+    "votesNeeded": "{approved}/{total} votes",
+    "deadline": "Deadline: {date}",
+    "deadlineNote": "Members who don't vote within 3 days count as 'yes'",
+    "alreadyVoted": "Already voted",
+    "noPending": "No active proposals"
+  },
+  "joinRequest": {
+    "title": "Join requests",
+    "pending": "pending",
+    "messagePlaceholder": "Tell us what you want to do and who you're looking for... (optional)",
+    "sendRequest": "Send request",
+    "cancelRequest": "Cancel request",
+    "pendingRequest": "Request sent — waiting for approval",
+    "approve": "✓ Accept",
+    "reject": "✗ Reject",
+    "votesNeeded": "{approved}/{total} approvals",
+    "noRequests": "No pending requests"
+  },
+  "milestone": {
+    "title": "Current progress",
+    "banner": "This game is already in progress. Here's how far they've gotten:",
+    "joinInGame": "Join the ongoing game",
+    "update": "Update milestone",
+    "notSet": "No milestone set yet",
+    "MINECRAFT": {
+      "START": "🌱 Day 1 — Just started",
+      "STONE_AGE": "⛏️ Stone Age — Basic tools",
+      "IRON_AGE": "🪨 Iron Age — Iron armor",
+      "PRE_NETHER": "🔥 Pre-Nether — Ready for the portal",
+      "NETHER": "😈 Nether explored",
+      "END_READY": "⚡ End ready",
+      "END_DONE": "🐉 Ender Dragon slain",
+      "LATE_GAME": "🏰 Late game — Base established"
+    },
+    "PROJECT_ZOMBOID": {
+      "START": "🌱 Day 1 — Fresh start",
+      "FIRST_BASE": "🏠 First base built",
+      "WEEK_1": "📅 Week 1 survived",
+      "VEHICLE": "🚗 Vehicle found",
+      "FORTIFIED": "🛡️ Base fortified",
+      "MONTH_1": "📅 Month 1 survived",
+      "LATE_GAME": "🏆 Long-term survivors"
+    }
+  },
+  "skill": {
+    "BEGINNER": "Beginner",
+    "INTERMEDIATE": "Intermediate",
+    "ADVANCED": "Advanced",
+    "EXPERT": "Expert"
+  },
+  "games": {
+    "MINECRAFT": "Minecraft",
+    "PROJECT_ZOMBOID": "Project Zomboid"
+  }
+}
