@@ -65,7 +65,7 @@
       "name": "Nombre",
       "username": "Usuario",
       "usernamePlaceholder": "gamer123",
-      "usernameHint": "Solo letras, números y _",
+      "usernameHint": "Solo minúsculas, números y _ (sin espacios ni mayúsculas)",
       "email": "Email",
       "phone": "Teléfono",
       "phoneHint": "Formato internacional (ej: +34612345678). Garantiza que cada cuenta es de una persona real, por el bien de la comunidad.",

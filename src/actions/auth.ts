@@ -16,7 +16,7 @@ export async function registerAction(
 ): Promise<ActionResult> {
   const raw = {
     name: formData.get("name"),
-    username: formData.get("username"),
+    username: (formData.get("username") as string)?.toLowerCase(),
     email: formData.get("email"),
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),
