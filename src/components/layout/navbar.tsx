@@ -19,7 +19,7 @@ export async function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 font-bold text-lg text-white hover:text-indigo-400 transition-colors"
+          className="flex items-center gap-2 font-bold text-lg text-white hover:text-orange-400 transition-colors"
         >
           <span className="text-2xl">🎮</span>
           <span>GameMate</span>
@@ -65,7 +65,7 @@ export async function Navbar() {
               >
                 <button
                   type="submit"
-                  className="px-3 py-1.5 text-xs rounded-lg border border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-indigo-500/50 transition-colors"
+                  className="px-3 py-1.5 text-xs rounded-lg border border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-orange-500/50 transition-colors"
                 >
                   {t("logout")}
                 </button>
@@ -81,7 +81,7 @@ export async function Navbar() {
               </Link>
               <Link
                 href="/register"
-                className="px-4 py-1.5 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors font-medium"
+                className="px-4 py-1.5 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium"
               >
                 {t("register")}
               </Link>

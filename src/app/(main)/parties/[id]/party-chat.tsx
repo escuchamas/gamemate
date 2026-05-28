@@ -100,7 +100,7 @@ export function PartyChat({ partyId, userId }: Props) {
               key={msg.id}
               className={`flex items-start gap-2 ${isOwn ? "flex-row-reverse" : ""}`}
             >
-              <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+              <div className="w-7 h-7 rounded-full bg-orange-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                 {getInitials(msg.user.name)}
               </div>
               <div className={`flex flex-col ${isOwn ? "items-end" : ""}`}>
@@ -115,7 +115,7 @@ export function PartyChat({ partyId, userId }: Props) {
                 <div
                   className={`rounded-lg px-3 py-1.5 text-sm max-w-xs break-words ${
                     isOwn
-                      ? "bg-indigo-600 text-white"
+                      ? "bg-orange-600 text-white"
                       : "bg-[var(--muted)] text-[var(--foreground)]"
                   }`}
                 >
@@ -142,12 +142,12 @@ export function PartyChat({ partyId, userId }: Props) {
           }}
           placeholder="Escribe un mensaje..."
           maxLength={1000}
-          className="flex-1 px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="flex-1 px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
         <button
           onClick={sendMessage}
           disabled={sending || !input.trim()}
-          className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm hover:bg-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 rounded-lg bg-orange-600 text-white text-sm hover:bg-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {sending ? "..." : "Enviar"}
         </button>

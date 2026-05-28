@@ -364,12 +364,20 @@ export const RATING_CRITERIA_DESCRIPTIONS = {
 } as const;
 
 export const LANGUAGES = [
-  { value: "es", label: "Español" },
-  { value: "en", label: "English" },
-  { value: "pt", label: "Português" },
-  { value: "fr", label: "Français" },
-  { value: "de", label: "Deutsch" },
+  { value: "es", label: "🇪🇸 Español" },
+  { value: "en", label: "🇬🇧 English" },
+  { value: "pt", label: "🇵🇹 Português" },
+  { value: "fr", label: "🇫🇷 Français" },
+  { value: "de", label: "🇩🇪 Deutsch" },
 ] as const;
+
+export const LANGUAGE_FLAG: Record<string, string> = {
+  es: "🇪🇸",
+  en: "🇬🇧",
+  pt: "🇵🇹",
+  fr: "🇫🇷",
+  de: "🇩🇪",
+};
 
 // IDs de hitos de progreso por juego (las labels están en i18n)
 export const GAME_MILESTONES = {

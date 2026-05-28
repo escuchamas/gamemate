@@ -59,7 +59,7 @@ export default async function ProfilePage() {
       {/* Profile header */}
       <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-6">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white text-2xl font-bold">
+          <div className="w-16 h-16 rounded-full bg-orange-600 flex items-center justify-center text-white text-2xl font-bold">
             {getInitials(user.name)}
           </div>
           <div className="flex-1">
@@ -108,7 +108,7 @@ export default async function ProfilePage() {
                 </div>
                 <div className="h-2 rounded-full bg-[var(--muted)]">
                   <div
-                    className="h-2 rounded-full bg-indigo-500 transition-all"
+                    className="h-2 rounded-full bg-orange-500 transition-all"
                     style={{
                       width: `${((avgByCriteria[key] ?? 0) / 5) * 100}%`,
                     }}
@@ -194,7 +194,7 @@ export default async function ProfilePage() {
                 {profile.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-0.5 rounded-full text-xs bg-indigo-600/20 text-indigo-300 border border-indigo-600/30"
+                    className="px-2 py-0.5 rounded-full text-xs bg-orange-600/20 text-orange-300 border border-orange-600/30"
                   >
                     {tag}
                   </span>

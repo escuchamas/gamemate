@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { cn } from "@/lib/utils";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
@@ -23,18 +23,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const base =
-      "inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
+      "inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
 
     const variants = {
       primary:
-        "bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-700",
+        "bg-orange-600 text-white hover:bg-orange-500 active:bg-orange-700",
       secondary:
         "bg-[var(--card)] border border-[var(--card-border)] text-[var(--foreground)] hover:bg-[var(--muted)]",
       ghost:
         "text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)]",
       danger: "bg-red-600 text-white hover:bg-red-500",
       outline:
-        "border border-indigo-600 text-indigo-400 hover:bg-indigo-600/10",
+        "border border-orange-600 text-orange-400 hover:bg-orange-600/10",
     };
 
     const sizes = {

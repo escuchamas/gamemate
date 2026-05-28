@@ -51,12 +51,12 @@ export function PartyCard({
 }: PartyCardProps) {
   return (
     <Link href={`/parties/${id}`} className="block group">
-      <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-4 hover:border-indigo-500/50 transition-all hover:shadow-lg hover:shadow-indigo-500/5">
+      <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-4 hover:border-orange-500/50 transition-all hover:shadow-lg hover:shadow-orange-500/5">
         {/* Header */}
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-xl flex-shrink-0">{GAME_ICONS[game]}</span>
-            <h3 className="font-semibold text-sm text-white truncate group-hover:text-indigo-300 transition-colors">
+            <h3 className="font-semibold text-sm text-white truncate group-hover:text-orange-300 transition-colors">
               {name}
             </h3>
           </div>

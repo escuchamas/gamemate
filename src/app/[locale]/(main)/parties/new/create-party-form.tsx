@@ -124,7 +124,7 @@ export function CreatePartyForm() {
           <textarea
             name="description"
             placeholder={t("fields.descriptionPlaceholder")}
-            className="w-full px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            className="w-full px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
             rows={3}
             maxLength={300}
           />
@@ -162,7 +162,7 @@ export function CreatePartyForm() {
             <button
               type="button"
               onClick={() => setShowSkillGuide((v) => !v)}
-              className="text-xs text-indigo-400 hover:text-indigo-300 text-left transition-colors"
+              className="text-xs text-orange-400 hover:text-orange-300 text-left transition-colors"
             >
               {showSkillGuide ? "▲ Ocultar guía de niveles" : "▼ ¿Qué significa cada nivel?"}
             </button>
@@ -178,7 +178,7 @@ export function CreatePartyForm() {
                     key={value}
                     className={`rounded-lg px-3 py-2 border transition-colors cursor-pointer ${
                       isSelected
-                        ? "bg-indigo-600/15 border-indigo-600/40"
+                        ? "bg-orange-600/15 border-orange-600/40"
                         : "bg-[var(--card)] border-[var(--card-border)]"
                     }`}
                     onClick={() => setSelectedSkill(value)}
@@ -236,7 +236,7 @@ export function CreatePartyForm() {
                 name="modded"
                 value="true"
                 checked={modded}
-                className="w-4 h-4 rounded accent-indigo-600"
+                className="w-4 h-4 rounded accent-orange-600"
                 onChange={(e) => {
                   setModded(e.target.checked);
                   if (!e.target.checked) setModTags([]);
@@ -269,8 +269,8 @@ export function CreatePartyForm() {
                       onClick={() => toggleModTag(pack)}
                       className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors border ${
                         active
-                          ? "bg-indigo-600 border-indigo-500 text-white"
-                          : "bg-[var(--card)] border-[var(--card-border)] text-[var(--muted-foreground)] hover:border-indigo-500/50 hover:text-[var(--foreground)]"
+                          ? "bg-orange-600 border-orange-500 text-white"
+                          : "bg-[var(--card)] border-[var(--card-border)] text-[var(--muted-foreground)] hover:border-orange-500/50 hover:text-[var(--foreground)]"
                       }`}
                     >
                       {active ? "✓ " : ""}{pack}
@@ -279,7 +279,7 @@ export function CreatePartyForm() {
                 })}
               </div>
               {modTags.length > 0 && (
-                <p className="text-xs text-indigo-400">
+                <p className="text-xs text-orange-400">
                   Seleccionados: {modTags.join(", ")}
                 </p>
               )}
@@ -343,15 +343,15 @@ export function CreatePartyForm() {
                   key={rule.text}
                   className={`flex items-start gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
                     selectedRules.has(rule.text)
-                      ? "bg-indigo-600/15 border-indigo-600/40"
-                      : "bg-[var(--muted)] border-[var(--card-border)] hover:border-indigo-500/30"
+                      ? "bg-orange-600/15 border-orange-600/40"
+                      : "bg-[var(--muted)] border-[var(--card-border)] hover:border-orange-500/30"
                   }`}
                 >
                   <input
                     type="checkbox"
                     checked={selectedRules.has(rule.text)}
                     onChange={() => toggleRule(rule.text)}
-                    className="mt-0.5 w-4 h-4 accent-indigo-600 flex-shrink-0"
+                    className="mt-0.5 w-4 h-4 accent-orange-600 flex-shrink-0"
                   />
                   <span className="flex-1 text-xs text-[var(--foreground)]">
                     {rule.text}
@@ -400,7 +400,7 @@ export function CreatePartyForm() {
                 onChange={(e) =>
                   setNewRuleCategory(e.target.value as RuleCategory)
                 }
-                className="px-2 py-1.5 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-xs text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-indigo-500 flex-shrink-0"
+                className="px-2 py-1.5 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-xs text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500 flex-shrink-0"
               >
                 <option value="BEHAVIOR">{t("rules.categories.BEHAVIOR")}</option>
                 <option value="GAMEPLAY">{t("rules.categories.GAMEPLAY")}</option>
@@ -412,7 +412,7 @@ export function CreatePartyForm() {
                 value={newRuleText}
                 onChange={(e) => setNewRuleText(e.target.value)}
                 placeholder={t("rules.addPlaceholder")}
-                className="flex-1 px-3 py-1.5 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-xs text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="flex-1 px-3 py-1.5 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-xs text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500"
                 maxLength={200}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -424,7 +424,7 @@ export function CreatePartyForm() {
               <button
                 type="button"
                 onClick={addCustomRule}
-                className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs hover:bg-indigo-500 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-orange-600 text-white text-xs hover:bg-orange-500 transition-colors"
               >
                 +
               </button>

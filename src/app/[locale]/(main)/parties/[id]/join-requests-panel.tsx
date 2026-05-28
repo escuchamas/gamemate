@@ -52,7 +52,7 @@ export function JoinRequestsPanel({ requests, totalMembers, currentUserId }: Pro
             className="rounded-lg bg-[var(--muted)] border border-[var(--card-border)] p-3"
           >
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+              <div className="w-8 h-8 rounded-full bg-orange-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                 {getInitials(req.user.name)}
               </div>
               <div className="flex-1 min-w-0">

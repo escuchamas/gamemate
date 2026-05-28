@@ -52,7 +52,7 @@ export function JoinRequestForm({ partyId, hasPendingRequest, isInGame }: Props)
   };
 
   return (
-    <div className="flex flex-col gap-3 p-4 rounded-xl bg-indigo-600/10 border border-indigo-600/20">
+    <div className="flex flex-col gap-3 p-4 rounded-xl bg-orange-600/10 border border-orange-600/20">
       {isInGame && (
         <p className="text-xs text-[var(--muted-foreground)]">
           {tMilestone("banner")}
@@ -64,7 +64,7 @@ export function JoinRequestForm({ partyId, hasPendingRequest, isInGame }: Props)
         placeholder={t("messagePlaceholder")}
         maxLength={500}
         rows={2}
-        className="w-full px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+        className="w-full px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
       />
       <Button onClick={handleSubmit} loading={isPending} size="sm">
         {t("sendRequest")}

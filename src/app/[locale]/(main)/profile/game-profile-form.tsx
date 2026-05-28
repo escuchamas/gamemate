@@ -120,8 +120,8 @@ export function GameProfileForm({ game, existing }: Props) {
               onClick={() => toggleTag(tag)}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-all border cursor-pointer ${
                 selectedTags.has(tag)
-                  ? "bg-indigo-600 text-white border-indigo-600"
-                  : "bg-[var(--muted)] text-[var(--muted-foreground)] border-[var(--card-border)] hover:border-indigo-500/50"
+                  ? "bg-orange-600 text-white border-orange-600"
+                  : "bg-[var(--muted)] text-[var(--muted-foreground)] border-[var(--card-border)] hover:border-orange-500/50"
               }`}
             >
               {tag}
@@ -137,7 +137,7 @@ export function GameProfileForm({ game, existing }: Props) {
             name="modded"
             value="true"
             defaultChecked={existing?.modded ?? false}
-            className="w-4 h-4 accent-indigo-600"
+            className="w-4 h-4 accent-orange-600"
           />
           <span className="text-sm text-[var(--foreground)]">{t("modded")}</span>
         </label>
@@ -156,7 +156,7 @@ export function GameProfileForm({ game, existing }: Props) {
           name="notes"
           defaultValue={existing?.notes ?? ""}
           placeholder={t("notesPlaceholder")}
-          className="w-full px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+          className="w-full px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
           rows={2}
           maxLength={300}
         />

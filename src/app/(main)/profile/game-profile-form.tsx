@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useActionState, useState } from "react";
 import { updateGameProfileAction } from "@/actions/profile";
@@ -103,7 +103,7 @@ export function GameProfileForm({ game, existing }: Props) {
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium text-[var(--foreground)]">
-            ¿Qué buscas / qué ofreces? (máx. 8)
+            Â¿QuÃ© buscas / quÃ© ofreces? (mÃ¡x. 8)
           </label>
           <span className="text-xs text-[var(--muted-foreground)]">
             {selectedTags.size}/8
@@ -117,8 +117,8 @@ export function GameProfileForm({ game, existing }: Props) {
               onClick={() => toggleTag(tag)}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-all border cursor-pointer ${
                 selectedTags.has(tag)
-                  ? "bg-indigo-600 text-white border-indigo-600"
-                  : "bg-[var(--muted)] text-[var(--muted-foreground)] border-[var(--card-border)] hover:border-indigo-500/50"
+                  ? "bg-orange-600 text-white border-orange-600"
+                  : "bg-[var(--muted)] text-[var(--muted-foreground)] border-[var(--card-border)] hover:border-orange-500/50"
               }`}
             >
               {tag}
@@ -134,7 +134,7 @@ export function GameProfileForm({ game, existing }: Props) {
             name="modded"
             value="true"
             defaultChecked={existing?.modded ?? false}
-            className="w-4 h-4 accent-indigo-600"
+            className="w-4 h-4 accent-orange-600"
           />
           <span className="text-sm text-[var(--foreground)]">Juego con mods</span>
         </label>
@@ -152,8 +152,8 @@ export function GameProfileForm({ game, existing }: Props) {
         <textarea
           name="notes"
           defaultValue={existing?.notes ?? ""}
-          placeholder="Cuéntanos algo más sobre cómo juegas..."
-          className="w-full px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+          placeholder="CuÃ©ntanos algo mÃ¡s sobre cÃ³mo juegas..."
+          className="w-full px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
           rows={2}
           maxLength={300}
         />

@@ -64,7 +64,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
           ) : (
             <Link
               href="/register"
-              className="px-4 py-2 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors"
+              className="px-4 py-2 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
             >
               {t("joinToCreate")}
             </Link>
@@ -163,7 +163,7 @@ function FilterLink({
       href={href}
       className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
         active
-          ? "bg-indigo-600 text-white"
+          ? "bg-orange-600 text-white"
           : "bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
       }`}
     >

@@ -20,7 +20,7 @@ export default function RegisterPage() {
 
       <p className="text-center text-sm text-[var(--muted-foreground)]">
         ¿Ya tienes cuenta?{" "}
-        <Link href="/login" className="text-indigo-400 hover:text-indigo-300 font-medium">
+        <Link href="/login" className="text-orange-400 hover:text-orange-300 font-medium">
           Inicia sesión
         </Link>
       </p>

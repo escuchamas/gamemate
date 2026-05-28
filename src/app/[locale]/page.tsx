@@ -26,7 +26,7 @@ export default async function LandingPage() {
           </Link>
           <Link
             href="/register"
-            className="px-4 py-1.5 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors font-medium"
+            className="px-4 py-1.5 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium"
           >
             {tNav("register")}
           </Link>
@@ -43,7 +43,7 @@ export default async function LandingPage() {
           <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-4">
             {t("tagline")}
             <br />
-            <span className="text-indigo-400">{t("taglineHighlight")}</span>
+            <span className="text-orange-400">{t("taglineHighlight")}</span>
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] mb-8">
             {t.rich("description", {
@@ -55,7 +55,7 @@ export default async function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/register"
-              className="px-8 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-500 transition-colors text-lg"
+              className="px-8 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors text-lg"
             >
               {t("cta")}
             </Link>

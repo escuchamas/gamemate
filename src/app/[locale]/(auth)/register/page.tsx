@@ -25,7 +25,7 @@ export default async function RegisterPage() {
         {t("hasAccount")}{" "}
         <Link
           href="/login"
-          className="text-indigo-400 hover:text-indigo-300 font-medium"
+          className="text-orange-400 hover:text-orange-300 font-medium"
         >
           {t("loginLink")}
         </Link>

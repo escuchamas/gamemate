@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
@@ -18,8 +18,8 @@ export function LocaleSwitcher() {
   return (
     <button
       onClick={toggle}
-      className="px-2 py-1 text-xs rounded-lg border border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-indigo-500/50 transition-colors font-mono uppercase"
-      title={`Switch to ${otherLocale === "en" ? "English" : "Español"}`}
+      className="px-2 py-1 text-xs rounded-lg border border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-orange-500/50 transition-colors font-mono uppercase"
+      title={`Switch to ${otherLocale === "en" ? "English" : "EspaÃ±ol"}`}
     >
       {locale}
     </button>

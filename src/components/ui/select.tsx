@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+﻿import { cn } from "@/lib/utils";
 import { forwardRef, type SelectHTMLAttributes } from "react";
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -27,10 +27,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           id={selectId}
           className={cn(
             "w-full px-3 py-2 rounded-lg bg-[var(--muted)] border text-sm text-[var(--foreground)] transition-colors",
-            "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
+            "focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent",
             error
               ? "border-red-500"
-              : "border-[var(--card-border)] hover:border-indigo-500/50",
+              : "border-[var(--card-border)] hover:border-orange-500/50",
             className
           )}
           {...props}

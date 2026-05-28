@@ -23,7 +23,7 @@ export default async function LandingPage() {
           </Link>
           <Link
             href="/register"
-            className="px-4 py-1.5 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors font-medium"
+            className="px-4 py-1.5 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium"
           >
             Registrarse
           </Link>
@@ -41,7 +41,7 @@ export default async function LandingPage() {
           <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-4">
             Jugar solo mola menos.
             <br />
-            <span className="text-indigo-400">Juega con gente como tú.</span>
+            <span className="text-orange-400">Juega con gente como tú.</span>
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] mb-8">
             ¿Harto de partidas con pros que te lo spoilean todo, o con novatos
@@ -52,7 +52,7 @@ export default async function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/register"
-              className="px-8 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-500 transition-colors text-lg"
+              className="px-8 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors text-lg"
             >
               Empezar gratis 🚀
             </Link>

@@ -40,7 +40,7 @@ export default async function LoginPage({
 
       <p className="text-center text-sm text-[var(--muted-foreground)]">
         ¿No tienes cuenta?{" "}
-        <Link href="/register" className="text-indigo-400 hover:text-indigo-300 font-medium">
+        <Link href="/register" className="text-orange-400 hover:text-orange-300 font-medium">
           Regístrate gratis
         </Link>
       </p>

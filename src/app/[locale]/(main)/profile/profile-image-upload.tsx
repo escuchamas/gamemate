@@ -63,7 +63,7 @@ export function ProfileImageUpload({ currentImage, name }: Props) {
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={uploading || isPending}
-        className="relative w-16 h-16 rounded-full overflow-hidden group focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="relative w-16 h-16 rounded-full overflow-hidden group focus:outline-none focus:ring-2 focus:ring-orange-500"
         title="Cambiar foto de perfil"
       >
         {preview ? (
@@ -73,7 +73,7 @@ export function ProfileImageUpload({ currentImage, name }: Props) {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-indigo-600 flex items-center justify-center text-white text-2xl font-bold">
+          <div className="w-full h-full bg-orange-600 flex items-center justify-center text-white text-2xl font-bold">
             {getInitials(name)}
           </div>
         )}

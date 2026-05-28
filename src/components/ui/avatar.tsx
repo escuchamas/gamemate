@@ -1,4 +1,4 @@
-import { getInitials } from "@/lib/utils";
+﻿import { getInitials } from "@/lib/utils";
 
 interface AvatarProps {
   image?: string | null;
@@ -28,7 +28,7 @@ export function Avatar({ image, name, size = "md", className = "" }: AvatarProps
   }
 
   return (
-    <div className={`${base} bg-indigo-600 flex items-center justify-center text-white font-bold`}>
+    <div className={`${base} bg-orange-600 flex items-center justify-center text-white font-bold`}>
       {getInitials(name)}
     </div>
   );

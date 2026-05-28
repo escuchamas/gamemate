@@ -241,7 +241,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
         )}
 
         {!session && (party.status === "OPEN" || party.status === "IN_GAME") && (
-          <div className="rounded-xl bg-indigo-600/10 border border-indigo-600/20 p-5 text-center">
+          <div className="rounded-xl bg-orange-600/10 border border-orange-600/20 p-5 text-center">
             <p className="text-sm text-[var(--muted-foreground)]">
               {t("chatJoinFirst")}
             </p>
@@ -277,7 +277,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
           <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
             <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
               {tJoin("title")}
-              <span className="text-xs bg-indigo-600 text-white px-1.5 py-0.5 rounded-full">
+              <span className="text-xs bg-orange-600 text-white px-1.5 py-0.5 rounded-full">
                 {joinRequests.length}
               </span>
             </h2>

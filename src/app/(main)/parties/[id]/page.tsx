@@ -171,7 +171,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
         )}
 
         {!isMember && party.status === "OPEN" && (
-          <div className="rounded-xl bg-indigo-600/10 border border-indigo-600/20 p-5 text-center">
+          <div className="rounded-xl bg-orange-600/10 border border-orange-600/20 p-5 text-center">
             <p className="text-sm text-[var(--muted-foreground)] mb-2">
               Únete a la party para acceder al chat del grupo
             </p>
@@ -188,7 +188,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
           <div className="flex flex-col gap-3">
             {party.members.map((member) => (
               <div key={member.id} className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-orange-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                   {getInitials(member.user.name)}
                 </div>
                 <div className="flex-1 min-w-0">

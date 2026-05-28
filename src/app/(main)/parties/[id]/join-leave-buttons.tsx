@@ -53,7 +53,7 @@ export function JoinLeaveButtons({
     return (
       <a
         href="/login"
-        className="px-4 py-2 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition-colors font-medium"
+        className="px-4 py-2 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium"
       >
         Entra para unirte
       </a>
