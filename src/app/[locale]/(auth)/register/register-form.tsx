@@ -51,6 +51,7 @@ export function RegisterForm() {
         label={t("phone")}
         placeholder="+34612345678"
         autoComplete="tel"
+        required
         hint={t("phoneHint")}
       />
 

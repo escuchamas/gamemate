@@ -29,11 +29,10 @@ export const registerSchema = z
     confirmPassword: z.string(),
     phone: z
       .string()
+      .min(1, { error: "El teléfono es obligatorio" })
       .regex(/^\+[1-9]\d{7,14}$/, {
         error: "Formato inválido. Ej: +34612345678",
-      })
-      .optional()
-      .or(z.literal("")),
+      }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: "Las contraseñas no coinciden",
