@@ -1,12 +1,17 @@
 import { auth, signOut } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
-import { getInitials } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./locale-switcher";
+import { Avatar } from "@/components/ui/avatar";
 
 export async function Navbar() {
   const session = await auth();
   const t = await getTranslations("nav");
+
+  const userImage = session?.user?.id
+    ? (await prisma.user.findUnique({ where: { id: session.user.id }, select: { image: true } }))?.image
+    : null;
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--card-border)] bg-[var(--background)]/80 backdrop-blur-md">
@@ -47,9 +52,7 @@ export async function Navbar() {
                 href="/profile"
                 className="flex items-center gap-2 text-sm hover:opacity-80 transition-opacity"
               >
-                <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">
-                  {getInitials(session.user.name)}
-                </div>
+                <Avatar image={userImage} name={session.user.name} size="sm" />
                 <span className="hidden sm:block text-[var(--foreground)] text-sm">
                   {session.user.name?.split(" ")[0]}
                 </span>

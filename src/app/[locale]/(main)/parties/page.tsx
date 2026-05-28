@@ -39,7 +39,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
     orderBy: { createdAt: "desc" },
     take: 50,
     include: {
-      creator: { select: { name: true } },
+      creator: { select: { name: true, image: true } },
       _count: { select: { members: true } },
     },
   });
@@ -139,6 +139,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
               language={party.language}
               modded={party.modded}
               creatorName={party.creator.name}
+              creatorImage={party.creator.image}
               createdAt={party.createdAt}
             />
           ))}

@@ -8,8 +8,10 @@ import {
   SKILL_LABELS,
   PARTY_STATUS_LABELS,
   RULE_CATEGORY_LABELS,
+  LANGUAGE_FLAG,
 } from "@/lib/constants";
-import { formatDate, getInitials } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
+import { Avatar } from "@/components/ui/avatar";
 import { getTranslations } from "next-intl/server";
 import { JoinLeaveButtons } from "./join-leave-buttons";
 import { PartyChat } from "./party-chat";
@@ -48,7 +50,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
       members: {
         include: {
           user: {
-            select: { id: true, name: true, username: true, reputation: true },
+            select: { id: true, name: true, username: true, reputation: true, image: true },
           },
         },
         orderBy: { joinedAt: "asc" },
@@ -135,7 +137,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
             <Badge variant="default">
               👥 {party.members.length}/{party.maxPlayers}
             </Badge>
-            <Badge variant="default">{party.language.toUpperCase()}</Badge>
+            <Badge variant="default">{LANGUAGE_FLAG[party.language] ?? party.language.toUpperCase()}</Badge>
             {party.modded && (
               <Badge variant="accent">{t("modded")}</Badge>
             )}
@@ -294,9 +296,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
           <div className="flex flex-col gap-3">
             {party.members.map((member) => (
               <div key={member.id} className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                  {getInitials(member.user.name)}
-                </div>
+                <Avatar image={member.user.image} name={member.user.name} size="md" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-white truncate">
                     {member.user.name}

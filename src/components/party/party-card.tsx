@@ -1,10 +1,12 @@
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
+import { Avatar } from "@/components/ui/avatar";
 import {
   GAME_ICONS,
   GAME_LABELS,
   SKILL_LABELS,
   PARTY_STATUS_LABELS,
+  LANGUAGE_FLAG,
 } from "@/lib/constants";
 import { formatRelativeTime } from "@/lib/utils";
 import type { Game, SkillLevel, PartyStatus } from "@/generated/prisma/client";
@@ -21,6 +23,7 @@ interface PartyCardProps {
   language: string;
   modded: boolean;
   creatorName: string | null;
+  creatorImage?: string | null;
   createdAt: Date;
 }
 
@@ -43,6 +46,7 @@ export function PartyCard({
   language,
   modded,
   creatorName,
+  creatorImage,
   createdAt,
 }: PartyCardProps) {
   return (
@@ -72,7 +76,7 @@ export function PartyCard({
         <div className="flex flex-wrap gap-1.5 mb-3">
           <Badge variant="primary">{SKILL_LABELS[skillLevel]}</Badge>
           <Badge variant="default">{GAME_LABELS[game]}</Badge>
-          <Badge variant="default">{language.toUpperCase()}</Badge>
+          <Badge variant="default">{LANGUAGE_FLAG[language] ?? language.toUpperCase()}</Badge>
           {modded && <Badge variant="accent">Mods</Badge>}
         </div>
 
@@ -84,8 +88,15 @@ export function PartyCard({
               {memberCount}/{maxPlayers} jugadores
             </span>
           </span>
-          <span>
-            {creatorName ? `por ${creatorName}` : ""} · {formatRelativeTime(createdAt)}
+          <span className="flex items-center gap-1.5">
+            {creatorName && (
+              <>
+                <Avatar image={creatorImage} name={creatorName} size="sm" className="w-5 h-5 text-[10px]" />
+                <span>{creatorName}</span>
+                <span>·</span>
+              </>
+            )}
+            {formatRelativeTime(createdAt)}
           </span>
         </div>
       </div>
