@@ -126,9 +126,8 @@ function FriendButton({
   friendship: { id: string; status: string; senderId: string } | undefined;
 }) {
   if (!friendship) {
-    const send = async () => { "use server"; await sendFriendRequestAction(userId); };
     return (
-      <form action={send}>
+      <form action={sendFriendRequestAction.bind(null, userId)}>
         <button
           type="submit"
           className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"

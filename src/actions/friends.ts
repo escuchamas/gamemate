@@ -6,10 +6,10 @@ import { revalidatePath } from "next/cache";
 
 type ActionResult = { error?: string; success?: string };
 
-export async function sendFriendRequestAction(targetId: string): Promise<ActionResult> {
+export async function sendFriendRequestAction(targetId: string, _formData: FormData): Promise<void> {
   const session = await auth();
-  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
-  if (targetId === session.user.id) return { error: "No puedes añadirte a ti mismo" };
+  if (!session?.user?.id) return;
+  if (targetId === session.user.id) return;
 
   const existing = await prisma.friendship.findFirst({
     where: {
@@ -20,25 +20,22 @@ export async function sendFriendRequestAction(targetId: string): Promise<ActionR
     },
   });
 
-  if (existing) {
-    if (existing.status === "ACCEPTED") return { error: "Ya sois amigos" };
-    if (existing.status === "PENDING") return { error: "Solicitud ya enviada" };
-  }
+  if (existing) return;
 
   await prisma.friendship.create({
     data: { senderId: session.user.id, receiverId: targetId },
   });
 
+  revalidatePath("/history");
   revalidatePath("/friends");
-  return { success: "Solicitud enviada" };
 }
 
-export async function acceptFriendRequestAction(friendshipId: string): Promise<ActionResult> {
+export async function acceptFriendRequestAction(friendshipId: string, _formData: FormData): Promise<void> {
   const session = await auth();
-  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+  if (!session?.user?.id) return;
 
   const friendship = await prisma.friendship.findUnique({ where: { id: friendshipId } });
-  if (!friendship || friendship.receiverId !== session.user.id) return { error: "Solicitud no encontrada" };
+  if (!friendship || friendship.receiverId !== session.user.id) return;
 
   await prisma.friendship.update({
     where: { id: friendshipId },
@@ -46,36 +43,31 @@ export async function acceptFriendRequestAction(friendshipId: string): Promise<A
   });
 
   revalidatePath("/friends");
-  return { success: "Solicitud aceptada" };
 }
 
-export async function rejectFriendRequestAction(friendshipId: string): Promise<ActionResult> {
+export async function rejectFriendRequestAction(friendshipId: string, _formData: FormData): Promise<void> {
   const session = await auth();
-  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+  if (!session?.user?.id) return;
 
   const friendship = await prisma.friendship.findUnique({ where: { id: friendshipId } });
-  if (!friendship || friendship.receiverId !== session.user.id) return { error: "Solicitud no encontrada" };
+  if (!friendship || friendship.receiverId !== session.user.id) return;
 
   await prisma.friendship.delete({ where: { id: friendshipId } });
 
   revalidatePath("/friends");
-  return { success: "Solicitud rechazada" };
 }
 
-export async function removeFriendAction(friendshipId: string): Promise<ActionResult> {
+export async function removeFriendAction(friendshipId: string, _formData: FormData): Promise<void> {
   const session = await auth();
-  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+  if (!session?.user?.id) return;
 
   const friendship = await prisma.friendship.findUnique({ where: { id: friendshipId } });
-  if (!friendship) return { error: "No encontrado" };
-  if (friendship.senderId !== session.user.id && friendship.receiverId !== session.user.id) {
-    return { error: "Sin permiso" };
-  }
+  if (!friendship) return;
+  if (friendship.senderId !== session.user.id && friendship.receiverId !== session.user.id) return;
 
   await prisma.friendship.delete({ where: { id: friendshipId } });
 
   revalidatePath("/friends");
-  return { success: "Amigo eliminado" };
 }
 
 export async function sendDirectMessageAction(receiverId: string, content: string): Promise<ActionResult> {

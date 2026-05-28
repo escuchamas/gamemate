@@ -50,33 +50,29 @@ export default async function FriendsPage() {
             </span>
           </h2>
           <div className="flex flex-col gap-3">
-            {pendingReceived.map((f) => {
-              const accept = async () => { "use server"; await acceptFriendRequestAction(f.id); };
-              const reject = async () => { "use server"; await rejectFriendRequestAction(f.id); };
-              return (
-                <div key={f.id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Avatar image={f.sender.image} name={f.sender.name} size="sm" />
-                    <div>
-                      <p className="text-sm font-medium text-white">{f.sender.name}</p>
-                      <p className="text-xs text-[var(--muted-foreground)]">@{f.sender.username ?? "—"}</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <form action={accept}>
-                      <button type="submit" className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors">
-                        Aceptar
-                      </button>
-                    </form>
-                    <form action={reject}>
-                      <button type="submit" className="px-3 py-1 text-xs rounded-lg bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-white transition-colors">
-                        Rechazar
-                      </button>
-                    </form>
+            {pendingReceived.map((f) => (
+              <div key={f.id} className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Avatar image={f.sender.image} name={f.sender.name} size="sm" />
+                  <div>
+                    <p className="text-sm font-medium text-white">{f.sender.name}</p>
+                    <p className="text-xs text-[var(--muted-foreground)]">@{f.sender.username ?? "—"}</p>
                   </div>
                 </div>
-              );
-            })}
+                <div className="flex gap-2">
+                  <form action={acceptFriendRequestAction.bind(null, f.id)}>
+                    <button type="submit" className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors">
+                      Aceptar
+                    </button>
+                  </form>
+                  <form action={rejectFriendRequestAction.bind(null, f.id)}>
+                    <button type="submit" className="px-3 py-1 text-xs rounded-lg bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-white transition-colors">
+                      Rechazar
+                    </button>
+                  </form>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -96,7 +92,6 @@ export default async function FriendsPage() {
             {friendships.map((f) => {
               const friend = f.senderId === session.user.id ? f.receiver : f.sender;
               const unread = unreadMap.get(friend.id) ?? 0;
-              const remove = async () => { "use server"; await removeFriendAction(f.id); };
               return (
                 <div key={f.id} className="flex items-center justify-between">
                   <Link href={`/friends/${friend.id}`} className="flex items-center gap-3 group">
@@ -124,7 +119,7 @@ export default async function FriendsPage() {
                     >
                       💬 Mensaje
                     </Link>
-                    <form action={remove}>
+                    <form action={removeFriendAction.bind(null, f.id)}>
                       <button type="submit" className="px-3 py-1 text-xs rounded-lg bg-[var(--muted)] text-[var(--muted-foreground)] hover:text-white transition-colors">
                         Eliminar
                       </button>

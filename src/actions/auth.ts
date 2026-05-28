@@ -1,7 +1,7 @@
 "use server";
 
 import bcrypt from "bcryptjs";
-import { signIn } from "@/lib/auth";
+import { signIn, auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { registerSchema, loginSchema, phoneVerifySchema } from "@/lib/validations";
 import { AuthError } from "next-auth";
@@ -175,7 +175,7 @@ export async function sendEmailVerificationCode(userId: string, email: string, n
 }
 
 export async function resendEmailVerificationAction(): Promise<ActionResult> {
-  const session = await (await import("@/lib/auth")).auth();
+  const session = await auth();
   if (!session?.user?.id) return { error: "Debes iniciar sesión" };
 
   const user = await prisma.user.findUnique({
@@ -194,7 +194,7 @@ export async function verifyEmailAction(
   _prev: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
-  const session = await (await import("@/lib/auth")).auth();
+  const session = await auth();
   if (!session?.user?.id) return { error: "Debes iniciar sesión" };
 
   const code = (formData.get("code") as string)?.trim();
