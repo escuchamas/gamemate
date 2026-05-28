@@ -1,7 +1,7 @@
 "use server";
 
 import bcrypt from "bcryptjs";
-import { signIn, auth } from "@/lib/auth";
+import { signIn, auth, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { registerSchema, loginSchema, phoneVerifySchema } from "@/lib/validations";
 import { AuthError } from "next-auth";
@@ -213,4 +213,8 @@ export async function verifyEmailAction(
   await prisma.emailVerification.deleteMany({ where: { userId: session.user.id } });
 
   redirect("/parties");
+}
+
+export async function signOutAction(): Promise<void> {
+  await signOut({ redirectTo: "/login" });
 }
