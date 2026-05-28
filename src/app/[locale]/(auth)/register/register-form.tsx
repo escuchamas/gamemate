@@ -46,16 +46,6 @@ export function RegisterForm() {
       />
 
       <Input
-        name="phone"
-        type="tel"
-        label={t("phone")}
-        placeholder="+34612345678"
-        autoComplete="tel"
-        required
-        hint={t("phoneHint")}
-      />
-
-      <Input
         name="password"
         type="password"
         label={t("password")}

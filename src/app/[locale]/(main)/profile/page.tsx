@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { GameProfileForm } from "./game-profile-form";
 import { ProfileImageUpload } from "./profile-image-upload";
+import { Link } from "@/i18n/navigation";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -58,6 +59,17 @@ export default async function ProfilePage() {
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-6">
+      {!u.emailVerified && (
+        <div className="rounded-xl bg-orange-500/10 border border-orange-500/30 p-4 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-orange-400">Email sin verificar</p>
+            <p className="text-xs text-[var(--muted-foreground)]">Verifica tu cuenta para acceder a todas las funciones.</p>
+          </div>
+          <Link href="/verify-email" className="px-3 py-1.5 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors flex-shrink-0">
+            Verificar ahora
+          </Link>
+        </div>
+      )}
       {/* Profile header */}
       <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-6">
         <div className="flex items-center gap-4">

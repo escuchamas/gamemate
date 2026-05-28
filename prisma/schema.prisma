@@ -49,6 +49,7 @@ model User {
   marketplaceContacts   MarketplaceContact[]
   bugReports            BugReport[]
   joinRequests          PartyJoinRequest[]
+  emailVerifications    EmailVerification[]
   friendsSent           Friendship[]         @relation("FriendshipSender")
   friendsReceived       Friendship[]         @relation("FriendshipReceiver")
   directMessagesSent    DirectMessage[]      @relation("DMSender")
@@ -412,6 +413,18 @@ model BadgeVote {
   badge_record UserBadge? @relation(fields: [targetId, badge], references: [userId, badge])
 
   @@unique([voterId, targetId, badge])
+}
+
+// ─── VERIFICACIÓN EMAIL ───────────────────────────────────────────────────────
+
+model EmailVerification {
+  id        String   @id @default(cuid())
+  userId    String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // ─── VERIFICACIÓN TELÉFONO ────────────────────────────────────────────────────

@@ -27,12 +27,6 @@ export const registerSchema = z
       .regex(/[A-Z]/, { error: "Debe contener al menos una mayúscula" })
       .regex(/[0-9]/, { error: "Debe contener al menos un número" }),
     confirmPassword: z.string(),
-    phone: z
-      .string()
-      .min(1, { error: "El teléfono es obligatorio" })
-      .regex(/^\+[1-9]\d{7,14}$/, {
-        error: "Formato inválido. Ej: +34612345678",
-      }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: "Las contraseñas no coinciden",
