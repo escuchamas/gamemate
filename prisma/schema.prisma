@@ -60,6 +60,7 @@ model User {
   kickProposalsReceived PartyKickProposal[] @relation("KickTarget")
   kickProposalsInitiated PartyKickProposal[] @relation("KickInitiator")
   kickVotes             KickVoteRecord[]
+  passwordResetTokens   PasswordResetToken[]
 }
 
 model Account {
@@ -433,6 +434,18 @@ model PhoneVerification {
   id        String   @id @default(cuid())
   userId    String
   code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── RESET DE CONTRASEÑA ─────────────────────────────────────────────────────
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
 

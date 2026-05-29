@@ -28,7 +28,8 @@
     "descriptionBefore": "Pros who spoil the ending, noobs who can't even craft a pickaxe, teammates who quit after two weeks and leave you alone in the world... GameMate matches you with players at ",
     "descriptionStrong": "your exact skill level and commitment",
     "descriptionAfter": " so you can finally enjoy the game the way it's meant to be played.",
-    "cta": "Start for free 🚀",
+    "cta": "Start — it's free 🚀",
+    "freeForever": "Free forever for players. No subscriptions, no catch.",
     "browseParties": "Browse active parties",
     "featuresTitle": "Why GameMate?",
     "features": {
@@ -58,7 +59,26 @@
       "noAccount": "Don't have an account?",
       "registerLink": "Sign up for free",
       "registered": "Account created successfully. You can now log in.",
-      "error": "Invalid email or password"
+      "error": "Invalid email or password",
+      "forgotPassword": "Forgot your password?"
+    },
+    "forgotPassword": {
+      "title": "Reset password",
+      "subtitle": "We'll send a link to your email so you can set a new password",
+      "email": "Email",
+      "submit": "Send link",
+      "success": "If that email exists, we've sent you a link. Check your spam folder too.",
+      "backToLogin": "Back to log in"
+    },
+    "resetPassword": {
+      "title": "New password",
+      "subtitle": "Choose a new password for your account",
+      "password": "New password",
+      "confirmPassword": "Confirm password",
+      "submit": "Save password",
+      "success": "Password updated. You can now log in.",
+      "invalidToken": "The link has expired or is invalid. Please request a new one.",
+      "backToLogin": "Back to log in"
     },
     "register": {
       "title": "Create your account",

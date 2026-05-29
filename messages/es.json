@@ -28,7 +28,8 @@
     "descriptionBefore": "Pros que te spoilean el final, novatos que no saben ni hacer un pico, compis que se aburren a las dos semanas y te dejan tirado en el mundo... GameMate te empareja con jugadores de ",
     "descriptionStrong": "tu mismo nivel y compromiso",
     "descriptionAfter": " para que por fin disfrutes el juego como se merece.",
-    "cta": "Empezar gratis 🚀",
+    "cta": "Empezar — es gratis 🚀",
+    "freeForever": "Gratis para siempre para el jugador. Sin suscripciones, sin trampa.",
     "browseParties": "Ver parties activas",
     "featuresTitle": "¿Por qué GameMate?",
     "features": {
@@ -58,7 +59,26 @@
       "noAccount": "¿No tienes cuenta?",
       "registerLink": "Regístrate gratis",
       "registered": "Cuenta creada correctamente. Ya puedes iniciar sesión.",
-      "error": "Email o contraseña incorrectos"
+      "error": "Email o contraseña incorrectos",
+      "forgotPassword": "¿Olvidaste tu contraseña?"
+    },
+    "forgotPassword": {
+      "title": "Recuperar contraseña",
+      "subtitle": "Te mandamos un enlace a tu email para que puedas crear una nueva",
+      "email": "Email",
+      "submit": "Enviar enlace",
+      "success": "Si ese email existe, te hemos mandado un enlace. Revisa también el spam.",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "resetPassword": {
+      "title": "Nueva contraseña",
+      "subtitle": "Elige una contraseña nueva para tu cuenta",
+      "password": "Nueva contraseña",
+      "confirmPassword": "Repetir contraseña",
+      "submit": "Guardar contraseña",
+      "success": "Contraseña actualizada. Ya puedes iniciar sesión.",
+      "invalidToken": "El enlace ha expirado o no es válido. Solicita uno nuevo.",
+      "backToLogin": "Volver al inicio de sesión"
     },
     "register": {
       "title": "Crea tu cuenta",

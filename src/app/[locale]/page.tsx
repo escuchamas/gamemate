@@ -60,12 +60,13 @@ export default async function LandingPage() {
               {t("cta")}
             </Link>
             <Link
-              href="/parties"
+              href="/login"
               className="px-8 py-3 rounded-xl bg-[var(--card)] border border-[var(--card-border)] text-white font-semibold hover:bg-[var(--muted)] transition-colors text-lg"
             >
-              {t("browseParties")}
+              {tNav("login")}
             </Link>
           </div>
+          <p className="text-xs text-[var(--muted-foreground)] mt-1">{t("freeForever")}</p>
         </div>
 
         {/* Features */}

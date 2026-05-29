@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { loginAction } from "@/actions/auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export function LoginForm() {
   const [state, action, isPending] = useActionState(loginAction, {});
@@ -27,14 +28,22 @@ export function LoginForm() {
         required
       />
 
-      <Input
-        name="password"
-        type="password"
-        label={t("password")}
-        placeholder="••••••••"
-        autoComplete="current-password"
-        required
-      />
+      <div className="flex flex-col gap-1">
+        <Input
+          name="password"
+          type="password"
+          label={t("password")}
+          placeholder="••••••••"
+          autoComplete="current-password"
+          required
+        />
+        <Link
+          href="/forgot-password"
+          className="text-xs text-[var(--muted-foreground)] hover:text-orange-400 transition-colors self-end"
+        >
+          {t("forgotPassword")}
+        </Link>
+      </div>
 
       <Button type="submit" loading={isPending} size="lg" className="mt-2">
         {t("submit")}

@@ -218,3 +218,80 @@ export async function verifyEmailAction(
 export async function signOutAction(): Promise<void> {
   await signOut({ redirectTo: "/login" });
 }
+
+export async function forgotPasswordAction(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const email = (formData.get("email") as string)?.trim().toLowerCase();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "Email inválido" };
+  }
+
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  // Always return success to avoid email enumeration
+  if (!user || !user.password) {
+    return { success: "ok" };
+  }
+
+  const token = crypto.randomUUID();
+  const expiresAt = new Date(Date.now() + 30 * 60 * 1000); // 30 min
+
+  await prisma.passwordResetToken.deleteMany({ where: { userId: user.id } });
+  await prisma.passwordResetToken.create({ data: { userId: user.id, token, expiresAt } });
+
+  const baseUrl = process.env.NEXTAUTH_URL ?? "https://gamemate.es";
+  const resetUrl = `${baseUrl}/reset-password?token=${token}`;
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? "GameMate <noreply@gamemate.es>",
+    to: email,
+    subject: "Recupera tu contraseña de GameMate",
+    html: `
+      <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0f0f13;color:#e8e8f0;border-radius:12px">
+        <h1 style="color:#f97316;font-size:24px;margin-bottom:8px">Recupera tu contraseña</h1>
+        <p style="color:#8888aa;margin-bottom:24px">Haz clic en el botón para crear una contraseña nueva. El enlace caduca en 30 minutos.</p>
+        <a href="${resetUrl}" style="display:inline-block;background:#f97316;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin-bottom:24px">Restablecer contraseña</a>
+        <p style="color:#8888aa;font-size:12px">Si no solicitaste esto, ignora este email.</p>
+      </div>
+    `,
+  });
+
+  return { success: "ok" };
+}
+
+export async function resetPasswordAction(
+  token: string,
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
+
+  if (!password || password.length < 8) {
+    return { error: "La contraseña debe tener al menos 8 caracteres" };
+  }
+  if (password !== confirmPassword) {
+    return { error: "Las contraseñas no coinciden" };
+  }
+
+  const resetToken = await prisma.passwordResetToken.findUnique({
+    where: { token },
+    include: { user: true },
+  });
+
+  if (!resetToken || resetToken.expiresAt < new Date()) {
+    return { error: "invalid_token" };
+  }
+
+  const hashed = await bcrypt.hash(password, 12);
+
+  await prisma.$transaction([
+    prisma.user.update({ where: { id: resetToken.userId }, data: { password: hashed } }),
+    prisma.passwordResetToken.delete({ where: { token } }),
+  ]);
+
+  return { success: "ok" };
+}
