@@ -47,11 +47,9 @@ export default async function LandingPage() {
             <span className="text-orange-400">{t("taglineHighlight")}</span>
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] mb-8">
-            {t.rich("description", {
-              strong: (chunks) => (
-                <strong className="text-white">{chunks}</strong>
-              ),
-            })}
+            {t("descriptionBefore")}
+            <strong className="text-white">{t("descriptionStrong")}</strong>
+            {t("descriptionAfter")}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link

@@ -25,8 +25,9 @@
   "landing": {
     "tagline": "Solo gaming sucks.",
     "taglineHighlight": "Play with people like you.",
-    "description": "Tired of lobbies with sweaty pros who spoil everything, or total newbies who don't even know the basics? Here you'll find players at {strong} to enjoy the game the way it's meant to be played.",
+    "descriptionBefore": "Tired of lobbies with sweaty pros who spoil everything, or total newbies who don't even know the basics? Here you'll find players at ",
     "descriptionStrong": "your exact skill level",
+    "descriptionAfter": " to enjoy the game the way it's meant to be played.",
     "cta": "Start for free 🚀",
     "browseParties": "Browse active parties",
     "featuresTitle": "Why GameMate?",

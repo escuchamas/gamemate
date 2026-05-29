@@ -25,8 +25,9 @@
   "landing": {
     "tagline": "Jugar solo mola menos.",
     "taglineHighlight": "Juega con gente como tú.",
-    "description": "¿Harto de partidas con pros que te lo spoilean todo, o con novatos que no saben ni crafting? Aquí encontrarás jugadores de {strong} para disfrutar el juego como se merece.",
+    "descriptionBefore": "¿Harto de partidas con pros que te lo spoilean todo, o con novatos que no saben ni crafting? Aquí encontrarás jugadores de ",
     "descriptionStrong": "tu mismo nivel",
+    "descriptionAfter": " para disfrutar el juego como se merece.",
     "cta": "Empezar gratis 🚀",
     "browseParties": "Ver parties activas",
     "featuresTitle": "¿Por qué GameMate?",
