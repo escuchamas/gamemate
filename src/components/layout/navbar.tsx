@@ -6,6 +6,8 @@ import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./locale-switcher";
 import { Avatar } from "@/components/ui/avatar";
 
+const ADMIN_EMAILS = ["fernandomcq123@gmail.com", "fernando_mcq@hotmail.com"];
+
 export async function Navbar() {
   const session = await auth();
   const t = await getTranslations("nav");
@@ -13,6 +15,8 @@ export async function Navbar() {
   const userImage = session?.user?.id
     ? (await prisma.user.findUnique({ where: { id: session.user.id }, select: { image: true } }))?.image
     : null;
+
+  const isAdmin = session?.user?.email ? ADMIN_EMAILS.includes(session.user.email) : false;
 
   const pendingFriendRequests = session?.user?.id
     ? await prisma.friendship.count({ where: { receiverId: session.user.id, status: "PENDING" } })
@@ -71,6 +75,12 @@ export async function Navbar() {
           >
             Peticiones
           </Link>
+          <Link
+            href="/contact"
+            className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+          >
+            Contacto
+          </Link>
         </nav>
 
         {/* Auth + Locale switcher */}
@@ -90,6 +100,14 @@ export async function Navbar() {
           <LocaleSwitcher />
           {session ? (
             <>
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="px-2 py-1 text-xs rounded-lg bg-orange-600/20 text-orange-400 hover:bg-orange-600/30 transition-colors font-medium"
+                >
+                  Admin
+                </Link>
+              )}
               <Link
                 href="/profile"
                 className="flex items-center gap-2 text-sm hover:opacity-80 transition-opacity"

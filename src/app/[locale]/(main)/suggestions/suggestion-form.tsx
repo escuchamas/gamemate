@@ -1,33 +1,28 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import { createSuggestionAction } from "@/actions/suggestions";
 
 export function SuggestionForm() {
   const [state, action, pending] = useActionState(createSuggestionAction, {});
-  const [open, setOpen] = useState(false);
 
-  if (!open) {
+  if (state.success) {
     return (
-      <button
-        onClick={() => setOpen(true)}
-        className="w-full py-3 rounded-xl border border-dashed border-[var(--card-border)] text-sm text-[var(--muted-foreground)] hover:text-white hover:border-orange-500/50 transition-colors"
-      >
-        + Nueva petición
-      </button>
+      <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-8 text-center flex flex-col items-center gap-3">
+        <span className="text-4xl">✅</span>
+        <p className="font-semibold text-white">Petición recibida</p>
+        <p className="text-sm text-[var(--muted-foreground)]">
+          Gracias por tu propuesta. La revisaremos y si encaja la añadiremos a la hoja de ruta.
+        </p>
+      </div>
     );
   }
 
   return (
     <form
-      action={async (fd) => {
-        await action(fd);
-        setOpen(false);
-      }}
-      className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5 flex flex-col gap-3"
+      action={action}
+      className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5 flex flex-col gap-4"
     >
-      <h3 className="font-semibold text-white">Nueva petición</h3>
-
       <input
         name="title"
         placeholder="Título (ej: Añadir Terraria)"
@@ -41,7 +36,7 @@ export function SuggestionForm() {
         placeholder="Describe tu idea con detalle..."
         maxLength={1000}
         required
-        rows={3}
+        rows={4}
         className="w-full bg-[var(--muted)] border border-[var(--card-border)] rounded-lg px-3 py-2 text-sm text-white placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-1 focus:ring-orange-500 resize-none"
       />
 
@@ -57,22 +52,13 @@ export function SuggestionForm() {
 
       {state.error && <p className="text-xs text-red-400">{state.error}</p>}
 
-      <div className="flex gap-2">
-        <button
-          type="submit"
-          disabled={pending}
-          className="px-4 py-2 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-500 transition-colors disabled:opacity-50"
-        >
-          {pending ? "Enviando..." : "Enviar"}
-        </button>
-        <button
-          type="button"
-          onClick={() => setOpen(false)}
-          className="px-4 py-2 rounded-lg bg-[var(--muted)] text-[var(--muted-foreground)] text-sm hover:text-white transition-colors"
-        >
-          Cancelar
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={pending}
+        className="px-4 py-2 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-500 transition-colors disabled:opacity-50"
+      >
+        {pending ? "Enviando..." : "Enviar petición"}
+      </button>
     </form>
   );
 }

@@ -621,11 +621,32 @@ model Suggestion {
   category    SuggestionCategory @default(FEATURE)
   status      SuggestionStatus   @default(OPEN)
   voteCount   Int                @default(0)
+  read        Boolean            @default(false)
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
 
   user  User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   votes SuggestionVote[]
+}
+
+// ─── CONTACTO ──────────────────────────────────────────────────────────────────
+
+enum ContactCategory {
+  GENERAL
+  BUG
+  QUESTION
+  OTHER
+}
+
+model ContactMessage {
+  id        String          @id @default(cuid())
+  name      String
+  email     String
+  subject   String?         @db.VarChar(150)
+  message   String          @db.VarChar(3000)
+  category  ContactCategory @default(GENERAL)
+  read      Boolean         @default(false)
+  createdAt DateTime        @default(now())
 }
 
 model SuggestionVote {

@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import { getInitials, formatRelativeTime } from "@/lib/utils";
+import { formatRelativeTime } from "@/lib/utils";
+import { Avatar } from "@/components/ui/avatar";
 
 interface ChatMessage {
   id: string;
@@ -12,6 +13,7 @@ interface ChatMessage {
     id: string;
     name: string | null;
     username: string | null;
+    image: string | null;
   };
 }
 
@@ -155,9 +157,7 @@ export function PartyChat({ partyId, userId }: Props) {
               key={msg.id}
               className={`flex items-start gap-2 ${isOwn ? "flex-row-reverse" : ""}`}
             >
-              <div className="w-7 h-7 rounded-full bg-orange-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                {getInitials(msg.user.name)}
-              </div>
+              <Avatar image={msg.user.image} name={msg.user.name} size="sm" />
               <div className={`flex flex-col ${isOwn ? "items-end" : ""}`}>
                 <div className="flex items-center gap-1.5 mb-0.5">
                   <span className="text-xs font-medium text-[var(--foreground)]">

@@ -29,7 +29,7 @@ export async function GET(
     },
     orderBy: { createdAt: "asc" },
     take: lastId ? 50 : 50,
-    include: { user: { select: { id: true, name: true, username: true } } },
+    include: { user: { select: { id: true, name: true, username: true, image: true } } },
   });
 
   return Response.json({ messages });
@@ -64,7 +64,7 @@ export async function POST(
 
   const message = await prisma.message.create({
     data: { partyId, userId: session.user.id, content: content.trim() },
-    include: { user: { select: { id: true, name: true, username: true } } },
+    include: { user: { select: { id: true, name: true, username: true, image: true } } },
   });
 
   return Response.json({ message });
