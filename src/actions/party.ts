@@ -6,6 +6,7 @@ import { createPartySchema } from "@/lib/validations";
 import { DEFAULT_RULES } from "@/lib/constants";
 import { redirect } from "next/navigation";
 import { updateTag } from "next/cache";
+import { createNotification } from "@/lib/notifications";
 
 type ActionResult = { error?: string; success?: string; partyId?: string };
 
@@ -150,6 +151,18 @@ export async function requestJoinPartyAction(
     },
   });
 
+  // Notificar a todos los miembros
+  const requester = await prisma.user.findUnique({ where: { id: session.user.id }, select: { name: true } });
+  for (const member of party.members) {
+    await createNotification({
+      userId: member.userId,
+      type: "JOIN_REQUEST",
+      title: "Nueva solicitud de unión",
+      body: `${requester?.name ?? "Alguien"} quiere unirse a "${party.name}"`,
+      link: `/parties/${partyId}`,
+    });
+  }
+
   updateTag(`party-${partyId}`);
   return { success: "Solicitud enviada. Los miembros deben aceptarte." };
 }
@@ -189,6 +202,13 @@ export async function voteJoinRequestAction(
         data: { status: "REJECTED" },
       }),
     ]);
+    await createNotification({
+      userId: request.userId,
+      type: "JOIN_REJECTED",
+      title: "Solicitud rechazada",
+      body: `Tu solicitud para unirte a "${request.party.name}" fue rechazada`,
+      link: `/parties/${request.partyId}`,
+    });
     updateTag(`party-${request.partyId}`);
     return { success: "Solicitud rechazada" };
   }
@@ -224,6 +244,13 @@ export async function voteJoinRequestAction(
           : []),
       ]);
     }
+    await createNotification({
+      userId: request.userId,
+      type: "JOIN_APPROVED",
+      title: "¡Solicitud aprobada!",
+      body: `Te han aceptado en "${request.party.name}"`,
+      link: `/parties/${request.partyId}`,
+    });
     updateTag(`party-${request.partyId}`);
     updateTag(`parties`);
     return { success: "¡Solicitud aprobada! El jugador se ha unido." };

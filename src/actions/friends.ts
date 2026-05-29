@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { createNotification } from "@/lib/notifications";
 
 type ActionResult = { error?: string; success?: string };
 
@@ -26,6 +27,15 @@ export async function sendFriendRequestAction(targetId: string, _formData: FormD
     data: { senderId: session.user.id, receiverId: targetId },
   });
 
+  const sender = await prisma.user.findUnique({ where: { id: session.user.id }, select: { name: true } });
+  await createNotification({
+    userId: targetId,
+    type: "FRIEND_REQUEST",
+    title: "Nueva solicitud de amistad",
+    body: `${sender?.name ?? "Alguien"} quiere ser tu amigo`,
+    link: "/friends",
+  });
+
   revalidatePath("/history");
   revalidatePath("/friends");
 }
@@ -42,6 +52,15 @@ export async function acceptFriendRequestAction(friendshipId: string, _formData:
     data: { status: "ACCEPTED" },
   });
 
+  const accepter = await prisma.user.findUnique({ where: { id: session.user.id }, select: { name: true } });
+  await createNotification({
+    userId: friendship.senderId,
+    type: "FRIEND_ACCEPTED",
+    title: "Solicitud de amistad aceptada",
+    body: `${accepter?.name ?? "Alguien"} aceptó tu solicitud de amistad`,
+    link: "/friends",
+  });
+
   revalidatePath("/friends");
 }
 
@@ -52,7 +71,18 @@ export async function rejectFriendRequestAction(friendshipId: string, _formData:
   const friendship = await prisma.friendship.findUnique({ where: { id: friendshipId } });
   if (!friendship || friendship.receiverId !== session.user.id) return;
 
+  const rejecter = await prisma.user.findUnique({ where: { id: session.user.id }, select: { name: true } });
+  const senderId = friendship.senderId;
+
   await prisma.friendship.delete({ where: { id: friendshipId } });
+
+  await createNotification({
+    userId: senderId,
+    type: "FRIEND_REJECTED",
+    title: "Solicitud de amistad rechazada",
+    body: `${rejecter?.name ?? "Alguien"} rechazó tu solicitud de amistad`,
+    link: "/friends",
+  });
 
   revalidatePath("/friends");
 }

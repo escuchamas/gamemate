@@ -61,6 +61,7 @@ model User {
   kickProposalsInitiated PartyKickProposal[] @relation("KickInitiator")
   kickVotes             KickVoteRecord[]
   passwordResetTokens   PasswordResetToken[]
+  notifications         Notification[]
 }
 
 model Account {
@@ -435,6 +436,21 @@ model PhoneVerification {
   userId    String
   code      String
   expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── NOTIFICACIONES ──────────────────────────────────────────────────────────
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  body      String?
+  link      String?
+  read      Boolean  @default(false)
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
