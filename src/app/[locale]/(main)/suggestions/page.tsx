@@ -40,7 +40,7 @@ export default async function SuggestionsPage() {
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-6">
       <div>
-        <h1 className="text-xl font-bold text-white">Buzón de sugerencias</h1>
+        <h1 className="text-xl font-bold text-white">Peticiones</h1>
         <p className="text-sm text-[var(--muted-foreground)] mt-1">
           Propón ideas para mejorar GameMate. Las más votadas se implementan primero.
         </p>
@@ -51,7 +51,7 @@ export default async function SuggestionsPage() {
       {suggestions.length === 0 ? (
         <div className="text-center py-12 text-[var(--muted-foreground)]">
           <p className="text-4xl mb-3">💡</p>
-          <p className="font-medium text-white mb-1">Aún no hay sugerencias</p>
+          <p className="font-medium text-white mb-1">Aún no hay peticiones</p>
           <p className="text-sm">¡Sé el primero en proponer algo!</p>
         </div>
       ) : (

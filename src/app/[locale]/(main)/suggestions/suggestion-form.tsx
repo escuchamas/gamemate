@@ -13,7 +13,7 @@ export function SuggestionForm() {
         onClick={() => setOpen(true)}
         className="w-full py-3 rounded-xl border border-dashed border-[var(--card-border)] text-sm text-[var(--muted-foreground)] hover:text-white hover:border-orange-500/50 transition-colors"
       >
-        + Nueva sugerencia
+        + Nueva petición
       </button>
     );
   }
@@ -26,7 +26,7 @@ export function SuggestionForm() {
       }}
       className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5 flex flex-col gap-3"
     >
-      <h3 className="font-semibold text-white">Nueva sugerencia</h3>
+      <h3 className="font-semibold text-white">Nueva petición</h3>
 
       <input
         name="title"

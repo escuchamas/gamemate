@@ -65,7 +65,7 @@ export async function Navbar() {
             href="/suggestions"
             className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
           >
-            Sugerencias
+            Peticiones
           </Link>
         </nav>
 
