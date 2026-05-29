@@ -42,10 +42,10 @@
       },
       "reputation": {
         "title": "Reputación real",
-        "desc": "Los demás valoran tu nivel, simpatía y si eres divertido. Badges verificados por 100+ jugadores."
+        "desc": "Los demás valoran tu nivel, simpatía y si eres divertido. Badges verificados por los propios jugadores."
       }
     },
-    "badgesNote": "Solo se conceden cuando más de 100 jugadores los avalan",
+    "badgesNote": "Solo se conceden cuando 15 o más jugadores los avalan",
     "footer": "Hecho por un gamer, para gamers. 0 corporativo, 100% comunidad."
   },
   "auth": {

@@ -210,11 +210,7 @@ export async function voteBadgeAction(
       where: { targetId, badge: badge as any },
     });
 
-    // Thresholds per badge
-    const THRESHOLDS: Record<string, number> = {
-      MENTOR: 50,
-    };
-    const threshold = THRESHOLDS[badge] ?? 100;
+    const threshold = 15;
 
     // Grant badge if threshold reached and not already granted
     if (voteCount >= threshold) {

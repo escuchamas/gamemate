@@ -42,10 +42,10 @@
       },
       "reputation": {
         "title": "Real reputation",
-        "desc": "Others rate your skill, friendliness, and if you're fun to play with. Badges verified by 100+ players."
+        "desc": "Others rate your skill, friendliness, and if you're fun to play with. Badges verified by the players themselves."
       }
     },
-    "badgesNote": "Only awarded when more than 100 players have confirmed them",
+    "badgesNote": "Only awarded when 15 or more players have confirmed them",
     "footer": "Made by a gamer, for gamers. 0 corporate, 100% community."
   },
   "auth": {

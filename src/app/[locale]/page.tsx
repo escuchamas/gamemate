@@ -15,7 +15,8 @@ export default async function LandingPage() {
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
       <header className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto w-full">
         <img src="/logo.png" alt="GameMate" className="h-8" />
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
+          <img src="/icon.png" alt="" className="h-8 w-8 rounded-full" />
           <Link
             href="/login"
             className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors"
