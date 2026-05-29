@@ -1,10 +1,25 @@
 import { Navbar } from "@/components/layout/navbar";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
+  if (session?.user?.id) {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { emailVerified: true },
+    });
+    if (!user?.emailVerified) {
+      redirect("/verify-email");
+    }
+  }
+
   return (
     <>
       <Navbar />
