@@ -20,7 +20,7 @@ export default function DonationsPage() {
         </div>
         {/* Reemplaza este enlace con tu URL de PayPal.me */}
         <a
-          href="https://paypal.me/TU_USUARIO"
+          href="https://paypal.me/paginasamarillas"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#0070BA] text-white font-semibold hover:bg-[#005EA6] transition-colors text-sm"
