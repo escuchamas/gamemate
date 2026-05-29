@@ -15,13 +15,15 @@ export function LocaleSwitcher() {
     router.replace(pathname, { locale: otherLocale });
   };
 
+  const flags: Record<string, string> = { es: "🇪🇸", en: "🇬🇧" };
+
   return (
     <button
       onClick={toggle}
-      className="px-2 py-1 text-xs rounded-lg border border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-orange-500/50 transition-colors font-mono uppercase"
-      title={`Switch to ${otherLocale === "en" ? "English" : "EspaÃ±ol"}`}
+      className="px-2 py-1 text-base rounded-lg border border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-orange-500/50 transition-colors"
+      title={`Switch to ${otherLocale === "en" ? "English" : "Español"}`}
     >
-      {locale}
+      {flags[locale] ?? locale}
     </button>
   );
 }

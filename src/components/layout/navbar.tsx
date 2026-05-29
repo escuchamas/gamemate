@@ -23,7 +23,7 @@ export async function Navbar() {
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-          <img src="/logo.png" alt="GameMate" className="h-7" />
+          <img src="/icon.png" alt="GameMate" className="h-8 w-8 rounded-full" />
         </Link>
 
         {/* Nav links */}

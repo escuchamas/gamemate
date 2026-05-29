@@ -4,6 +4,7 @@ import { PartyCard } from "@/components/party/party-card";
 import { Button } from "@/components/ui/button";
 import { GAME_ICONS, GAME_LABELS, SKILL_LABELS } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
+import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Game, SkillLevel } from "@/generated/prisma/client";
 
@@ -18,6 +19,7 @@ interface PartiesPageProps {
 export default async function PartiesPage({ searchParams }: PartiesPageProps) {
   const params = await searchParams;
   const session = await auth();
+  if (!session) redirect("/login");
   const t = await getTranslations("parties");
 
   const where: Record<string, unknown> = { status: "OPEN" };
