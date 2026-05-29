@@ -23,26 +23,26 @@
     "logout": "Log out"
   },
   "landing": {
-    "tagline": "Solo gaming sucks.",
-    "taglineHighlight": "Play with people like you.",
-    "descriptionBefore": "Tired of lobbies with sweaty pros who spoil everything, or total newbies who don't even know the basics? Here you'll find players at ",
-    "descriptionStrong": "your exact skill level",
-    "descriptionAfter": " to enjoy the game the way it's meant to be played.",
+    "tagline": "Finding good teammates",
+    "taglineHighlight": "shouldn't be this hard.",
+    "descriptionBefore": "Pros who spoil the ending, noobs who can't even craft a pickaxe, teammates who quit after two weeks and leave you alone in the world... GameMate matches you with players at ",
+    "descriptionStrong": "your exact skill level and commitment",
+    "descriptionAfter": " so you can finally enjoy the game the way it's meant to be played.",
     "cta": "Start for free 🚀",
     "browseParties": "Browse active parties",
     "featuresTitle": "Why GameMate?",
     "features": {
       "level": {
-        "title": "Same level",
-        "desc": "Groups of 2 to 6 players filtered by skill level. No pros, no noobs — just your pace."
+        "title": "No spoilers",
+        "desc": "Filtered by real skill. Everyone's at the same point. No one rushing ahead and ruining the experience."
       },
       "rules": {
-        "title": "Clear rules",
-        "desc": "Every party has its rules from the start. No drama, no surprises. What you agree to, is what you get."
+        "title": "No clueless noobs",
+        "desc": "Level is declared and verified by the community with badges. No more teammates who can't craft a pickaxe."
       },
       "reputation": {
-        "title": "Real reputation",
-        "desc": "Others rate your skill, friendliness, and if you're fun to play with. Badges verified by the players themselves."
+        "title": "No quitters",
+        "desc": "Commitment reputation visible on every profile. Two-week quitters have it on their record for everyone to see."
       }
     },
     "badgesNote": "Only awarded when 15 or more players have confirmed them",

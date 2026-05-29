@@ -23,26 +23,26 @@
     "logout": "Salir"
   },
   "landing": {
-    "tagline": "Jugar solo mola menos.",
-    "taglineHighlight": "Juega con gente como tú.",
-    "descriptionBefore": "¿Harto de partidas con pros que te lo spoilean todo, o con novatos que no saben ni crafting? Aquí encontrarás jugadores de ",
-    "descriptionStrong": "tu mismo nivel",
-    "descriptionAfter": " para disfrutar el juego como se merece.",
+    "tagline": "Jugar en buena compañía",
+    "taglineHighlight": "no debería ser tan difícil.",
+    "descriptionBefore": "Pros que te spoilean el final, novatos que no saben ni hacer un pico, compis que se aburren a las dos semanas y te dejan tirado en el mundo... GameMate te empareja con jugadores de ",
+    "descriptionStrong": "tu mismo nivel y compromiso",
+    "descriptionAfter": " para que por fin disfrutes el juego como se merece.",
     "cta": "Empezar gratis 🚀",
     "browseParties": "Ver parties activas",
     "featuresTitle": "¿Por qué GameMate?",
     "features": {
       "level": {
-        "title": "Mismo nivel",
-        "desc": "Grupos de 2 a 6 jugadores filtrados por nivel de juego. Sin pros, sin novatos — solo tu ritmo."
+        "title": "Sin spoileadores",
+        "desc": "Filtramos por nivel real. Todos van al mismo punto del juego. Nada de que el experto te cuente el final antes de tiempo."
       },
       "rules": {
-        "title": "Normas claras",
-        "desc": "Cada party tiene sus reglas desde el principio. Sin dramas, sin sorpresas. Lo que acuerdas, lo que hay."
+        "title": "Sin novatos perdidos",
+        "desc": "El nivel se declara y la comunidad lo verifica con badges. No más compis que no saben ni craftear un pico."
       },
       "reputation": {
-        "title": "Reputación real",
-        "desc": "Los demás valoran tu nivel, simpatía y si eres divertido. Badges verificados por los propios jugadores."
+        "title": "Sin abandoners",
+        "desc": "Reputación de compromiso visible en cada perfil. Los que dejan el mundo a las dos semanas lo tienen reflejado."
       }
     },
     "badgesNote": "Solo se conceden cuando 15 o más jugadores los avalan",
