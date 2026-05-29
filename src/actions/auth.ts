@@ -241,7 +241,7 @@ export async function forgotPasswordAction(
   await prisma.passwordResetToken.deleteMany({ where: { userId: user.id } });
   await prisma.passwordResetToken.create({ data: { userId: user.id, token, expiresAt } });
 
-  const baseUrl = process.env.NEXTAUTH_URL ?? "https://gamemate.es";
+  const baseUrl = process.env.AUTH_URL ?? "https://gamemate.es";
   const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
   const resend = new Resend(process.env.RESEND_API_KEY);
