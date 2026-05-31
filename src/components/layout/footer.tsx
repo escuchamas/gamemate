@@ -40,6 +40,9 @@ export function Footer() {
             <p className="text-xs font-semibold text-[var(--foreground)] uppercase tracking-wider mb-1">
               Legal
             </p>
+            <Link href="/terms" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
+              Términos y condiciones
+            </Link>
             <Link href="/privacy" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
               Política de privacidad
             </Link>

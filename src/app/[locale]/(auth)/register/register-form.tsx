@@ -98,7 +98,10 @@ export function RegisterForm() {
       </Button>
 
       <p className="text-xs text-center text-[var(--muted-foreground)]">
-        {t("terms")}
+        Al registrarte aceptas los{" "}
+        <a href="/terms" className="text-orange-400 hover:underline">Términos y Condiciones</a>{" "}
+        y la{" "}
+        <a href="/privacy" className="text-orange-400 hover:underline">Política de Privacidad</a>.
       </p>
     </form>
   );
