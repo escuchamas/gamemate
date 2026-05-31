@@ -11,6 +11,7 @@ interface Props {
   isLeader: boolean;
   canJoin: boolean;
   isLoggedIn: boolean;
+  game: string;
 }
 
 export function JoinLeaveButtons({

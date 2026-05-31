@@ -122,6 +122,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
               isLeader={isLeader}
               canJoin={!!canJoin}
               isLoggedIn={!!session}
+              game={party.game}
             />
           </div>
         </div>

@@ -137,6 +137,11 @@ export async function requestJoinPartyAction(
   if (party.members.length >= party.maxPlayers)
     return { error: "La party está llena" };
 
+  const gameProfile = await prisma.gameProfile.findUnique({
+    where: { userId_game: { userId: session.user.id, game: party.game } },
+  });
+  if (!gameProfile) return { error: `INCOMPLETE_PROFILE:${party.game}` };
+
   const existing = await prisma.partyJoinRequest.findUnique({
     where: { partyId_userId: { partyId, userId: session.user.id } },
   });
