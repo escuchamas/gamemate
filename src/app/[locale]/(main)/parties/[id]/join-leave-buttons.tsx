@@ -87,15 +87,19 @@ export function JoinLeaveButtons({
   return (
     <div className="flex flex-col gap-2">
       {incompleteProfileGame && (
-        <div className="rounded-lg bg-orange-500/10 border border-orange-500/30 px-4 py-3 flex items-start gap-2">
-          <span className="text-orange-400 text-sm flex-shrink-0">⚠</span>
-          <p className="text-sm text-orange-300">
-            Necesitas configurar tu perfil de{" "}
-            <strong>{GAME_LABELS[incompleteProfileGame] ?? incompleteProfileGame}</strong> antes de unirte.{" "}
-            <Link href="/profile" className="underline hover:text-orange-200 transition-colors">
-              Ir a mi perfil
-            </Link>
+        <div className="rounded-lg bg-orange-500/10 border border-orange-500/30 px-4 py-3 flex flex-col gap-1.5">
+          <p className="text-sm font-medium text-orange-300">
+            Necesitas completar tu perfil de {GAME_LABELS[incompleteProfileGame] ?? incompleteProfileGame}
           </p>
+          <p className="text-xs text-[var(--muted-foreground)]">
+            Los miembros de la party ven tu perfil antes de aceptarte — nivel, estilo de juego y lo que buscas. Sin esa información no pueden valorar si encajas con el grupo.
+          </p>
+          <Link
+            href="/profile"
+            className="text-xs text-orange-400 hover:text-orange-300 underline transition-colors mt-0.5 w-fit"
+          >
+            Completar perfil ahora →
+          </Link>
         </div>
       )}
       <div className="flex gap-2">
