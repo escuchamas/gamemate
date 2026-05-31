@@ -7,6 +7,13 @@ import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Game, SkillLevel } from "@/generated/prisma/client";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Parties activas – Busca equipo para Minecraft, LoL y Project Zomboid",
+  description:
+    "Encuentra parties de Minecraft, League of Legends y Project Zomboid a tu nivel. Filtra por juego, nivel y idioma. Únete a jugadores verificados.",
+};
 
 interface PartiesPageProps {
   searchParams: Promise<{

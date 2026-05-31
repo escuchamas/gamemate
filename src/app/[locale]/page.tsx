@@ -5,6 +5,42 @@ import { Link } from "@/i18n/navigation";
 import { BADGE_INFO } from "@/lib/constants";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEs = locale === "es";
+  return {
+    title: isEs
+      ? "GameMate – Encuentra compañeros para Minecraft, LoL y Project Zomboid"
+      : "GameMate – Find teammates for Minecraft, LoL and Project Zomboid",
+    description: isEs
+      ? "Busca jugadores a tu nivel para Minecraft, League of Legends y Project Zomboid. Perfiles verificados, sistema de reputación y parties organizadas. Gratis para siempre."
+      : "Find players at your skill level for Minecraft, League of Legends and Project Zomboid. Verified profiles, reputation system and organized parties. Free forever.",
+  };
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "GameMate",
+  url: "https://gamemate.es",
+  description:
+    "Plataforma de matchmaking para gamers. Encuentra compañeros de juego a tu nivel para Minecraft, League of Legends y Project Zomboid.",
+  applicationCategory: "GameApplication",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "EUR",
+    description: "Gratis para el jugador",
+  },
+  inLanguage: ["es", "en"],
+};
 
 export default async function LandingPage() {
   const session = await auth();
@@ -15,6 +51,10 @@ export default async function LandingPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto w-full">
         <Link href="/" className="hover:opacity-80 transition-opacity">
           <img src="/logo.png" alt="GameMate" className="h-8" />
