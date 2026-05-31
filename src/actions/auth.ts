@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import twilio from "twilio";
 import { Resend } from "resend";
 
-type ActionResult = { error?: string; success?: string };
+type ActionResult = { error?: string; field?: string; success?: string };
 
 export async function registerAction(
   _prev: ActionResult,
@@ -25,8 +25,11 @@ export async function registerAction(
 
   const parsed = registerSchema.safeParse(raw);
   if (!parsed.success) {
-    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos";
-    return { error: firstError };
+    const firstIssue = parsed.error.issues[0];
+    return {
+      error: firstIssue?.message ?? "Datos inválidos",
+      field: String(firstIssue?.path[0] ?? ""),
+    };
   }
 
   const { name, username, email, password } = parsed.data;
@@ -35,8 +38,8 @@ export async function registerAction(
     where: { OR: [{ email }, { username }] },
   });
   if (existing) {
-    if (existing.email === email) return { error: "Este email ya está registrado" };
-    return { error: "Este nombre de usuario ya está en uso" };
+    if (existing.email === email) return { error: "Este email ya está registrado", field: "email" };
+    return { error: "Este nombre de usuario ya está en uso", field: "username" };
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
