@@ -14,6 +14,8 @@ import {
   SKILL_CRITERIA,
   POPULAR_MODPACKS,
   MINECRAFT_VERSION_LABELS,
+  LOL_ROLE_LABELS,
+  LOL_RANK_LABELS,
 } from "@/lib/constants";
 import type { Game } from "@/generated/prisma/client";
 
@@ -33,6 +35,7 @@ export function CreatePartyForm() {
   const [showSkillGuide, setShowSkillGuide] = useState(false);
   const [modded, setModded] = useState(false);
   const [modTags, setModTags] = useState<string[]>([]);
+  const [lolRoles, setLolRoles] = useState<string[]>([]);
   const [selectedRules, setSelectedRules] = useState<Set<string>>(new Set());
   const [customRules, setCustomRules] = useState<CustomRule[]>([]);
   const [newRuleText, setNewRuleText] = useState("");
@@ -142,6 +145,7 @@ export function CreatePartyForm() {
           options={[
             { value: "MINECRAFT", label: "⛏️ Minecraft" },
             { value: "PROJECT_ZOMBOID", label: "🧟 Project Zomboid" },
+            { value: "LEAGUE_OF_LEGENDS", label: "⚔️ League of Legends" },
           ]}
           placeholder={t("selectGameFirst")}
           required
@@ -155,6 +159,52 @@ export function CreatePartyForm() {
             placeholder="Selecciona versión"
             required
           />
+        )}
+
+        {selectedGame === "LEAGUE_OF_LEGENDS" && (
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-[var(--foreground)]">
+                Roles buscados <span className="text-[var(--muted-foreground)] font-normal">(selecciona los que necesitas)</span>
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(LOL_ROLE_LABELS).map(([role, label]) => {
+                  const selected = lolRoles.includes(role);
+                  return (
+                    <button
+                      key={role}
+                      type="button"
+                      onClick={() => setLolRoles((prev) =>
+                        prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]
+                      )}
+                      className={`px-3 py-1.5 rounded-full text-sm transition-colors border ${
+                        selected
+                          ? "bg-orange-600 border-orange-600 text-white"
+                          : "bg-[var(--muted)] border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-white"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+              <input type="hidden" name="lolRoles" value={JSON.stringify(lolRoles)} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Select
+                name="lolRankMin"
+                label="Rango mínimo"
+                options={Object.entries(LOL_RANK_LABELS).map(([value, label]) => ({ value, label }))}
+                placeholder="Sin mínimo"
+              />
+              <Select
+                name="lolRankMax"
+                label="Rango máximo"
+                options={Object.entries(LOL_RANK_LABELS).map(([value, label]) => ({ value, label }))}
+                placeholder="Sin máximo"
+              />
+            </div>
+          </div>
         )}
 
         {/* Skill level selector + criteria guide */}

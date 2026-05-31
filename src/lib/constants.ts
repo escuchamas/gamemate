@@ -1,11 +1,13 @@
 export const GAME_LABELS = {
   MINECRAFT: "Minecraft",
   PROJECT_ZOMBOID: "Project Zomboid",
+  LEAGUE_OF_LEGENDS: "League of Legends",
 } as const;
 
 export const GAME_ICONS = {
   MINECRAFT: "⛏️",
   PROJECT_ZOMBOID: "🧟",
+  LEAGUE_OF_LEGENDS: "⚔️",
 } as const;
 
 export const SKILL_LABELS = {
@@ -28,7 +30,35 @@ export const SKILL_DESCRIPTIONS = {
     ADVANCED: "Superviviente de meses, gestión avanzada de recursos",
     EXPERT: "Domino todas las mecánicas, builds duraderas",
   },
+  LEAGUE_OF_LEGENDS: {
+    BEGINNER: "Hierro, Bronce o Plata — aprendiendo el juego",
+    INTERMEDIATE: "Oro o Platino — conozco los fundamentos",
+    ADVANCED: "Esmeralda o Diamante — jugador competitivo serio",
+    EXPERT: "Master, Grandmaster o Challenger",
+  },
 } as const;
+
+export const LOL_ROLE_LABELS: Record<string, string> = {
+  TOP:     "🛡️ Top",
+  JUNGLE:  "🌲 Jungla",
+  MID:     "✨ Mid",
+  ADC:     "🏹 ADC",
+  SUPPORT: "💚 Support",
+  FILL:    "🔄 Fill",
+};
+
+export const LOL_RANK_LABELS: Record<string, string> = {
+  IRON:        "🔩 Hierro",
+  BRONZE:      "🪵 Bronce",
+  SILVER:      "🪙 Plata",
+  GOLD:        "🥇 Oro",
+  PLATINUM:    "💎 Platino",
+  EMERALD:     "💚 Esmeralda",
+  DIAMOND:     "💠 Diamante",
+  MASTER:      "🏆 Master",
+  GRANDMASTER: "👑 Grandmaster",
+  CHALLENGER:  "⚡ Challenger",
+};
 
 export const SKILL_CRITERIA = {
   MINECRAFT: {
@@ -42,6 +72,12 @@ export const SKILL_CRITERIA = {
     INTERMEDIATE: "Sobrevives la primera semana, sabes construir una base segura, conducir y gestionar el inventario con eficiencia.",
     ADVANCED: "Runs de más de un mes, bases fortificadas con generador, dominas vehículos, loot eficiente y gestión de grupos.",
     EXPERT: "Superviviente veterano. Conoces todos los sistemas del juego, juegas con dificultad alta, mods de challenge o llevas el servidor.",
+  },
+  LEAGUE_OF_LEGENDS: {
+    BEGINNER: "Hierro, Bronce o Plata. Estás aprendiendo mecánicas básicas, campeones y objetivos del mapa.",
+    INTERMEDIATE: "Oro o Platino. Conoces los fundamentos del juego, tienes un rol principal y sabes jugar en equipo.",
+    ADVANCED: "Esmeralda o Diamante. Dominas tu rol, entiendes el macro, la visión y los teamfights complejos.",
+    EXPERT: "Master, Grandmaster o Challenger. Nivel semi-profesional o profesional.",
   },
 } as const;
 
@@ -205,6 +241,48 @@ export const DEFAULT_RULES = {
       isRequired: false,
     },
   ],
+  LEAGUE_OF_LEGENDS: [
+    {
+      category: "BEHAVIOR" as const,
+      text: "Cero toxicidad — ni chat negativo ni flaming",
+      isRequired: true,
+    },
+    {
+      category: "BEHAVIOR" as const,
+      text: "No rendirse en situaciones difíciles sin consenso del equipo",
+      isRequired: true,
+    },
+    {
+      category: "BEHAVIOR" as const,
+      text: "Tratar a todos con respeto independientemente del rendimiento",
+      isRequired: true,
+    },
+    {
+      category: "GAMEPLAY" as const,
+      text: "Jugar el rol asignado y no robar carriles sin acuerdo",
+      isRequired: false,
+    },
+    {
+      category: "GAMEPLAY" as const,
+      text: "Priorizar objetivos de equipo (dragones, barón) sobre kills individuales",
+      isRequired: false,
+    },
+    {
+      category: "GAMEPLAY" as const,
+      text: "Confirmar disponibilidad antes de entrar en cola ranked",
+      isRequired: false,
+    },
+    {
+      category: "COMMUNICATION" as const,
+      text: "Usar pings en lugar de chat para comunicación rápida",
+      isRequired: false,
+    },
+    {
+      category: "COMMUNICATION" as const,
+      text: "Avisar si tienes que salir antes de que acabe la partida",
+      isRequired: false,
+    },
+  ],
 } as const;
 
 // Etiquetas de jugador por juego
@@ -240,6 +318,20 @@ export const PLAYER_TAGS = {
     "Hardcore",
     "Casual",
     "Mods",
+  ],
+  LEAGUE_OF_LEGENDS: [
+    "Ranked",
+    "Normal",
+    "ARAM",
+    "Flex",
+    "Solo/Duo",
+    "Sin toxicidad",
+    "Con voz",
+    "Sin voz",
+    "Principiantes bienvenidos",
+    "Tryhard",
+    "Chill",
+    "Práctica de campeones",
   ],
 } as const;
 
@@ -405,5 +497,14 @@ export const GAME_MILESTONES = {
     "FORTIFIED",
     "MONTH_1",
     "LATE_GAME",
+  ],
+  LEAGUE_OF_LEGENDS: [
+    "START",
+    "PLACEMENTS",
+    "RANKED_S1",
+    "RANKED_S2",
+    "RANKED_S3",
+    "PROMOS",
+    "NEW_RANK",
   ],
 } as const;

@@ -105,6 +105,7 @@ model VerificationToken {
 enum Game {
   MINECRAFT
   PROJECT_ZOMBOID
+  LEAGUE_OF_LEGENDS
 }
 
 enum MinecraftVersion {
@@ -134,6 +135,28 @@ enum PZStyle {
   CHALLENGE
 }
 
+enum LoLRole {
+  TOP
+  JUNGLE
+  MID
+  ADC
+  SUPPORT
+  FILL
+}
+
+enum LoLRank {
+  IRON
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  EMERALD
+  DIAMOND
+  MASTER
+  GRANDMASTER
+  CHALLENGER
+}
+
 // Etiquetas de lo que busca/ofrece el jugador (JSON array de strings)
 // Ej Minecraft: ["exploración", "farms", "builds técnicas", "roleplay", "sin metas"]
 // Ej PZ: ["base building", "roleplay", "lore-friendly", "sin voz", "cooperación"]
@@ -147,6 +170,8 @@ model GameProfile {
   modsNote       String?
   minecraftStyle MinecraftStyle?
   pzStyle        PZStyle?
+  lolRole        LoLRole?
+  lolRank        LoLRank?
   tags           String[]        // Lo que busca/ofrece el jugador
   notes          String?
   createdAt      DateTime        @default(now())
@@ -182,6 +207,9 @@ model Party {
   skillLevel  SkillLevel
   language    String      @default("es")
   minecraftVersion MinecraftVersion? // Solo para juego MINECRAFT
+  lolRoles         String[]    @default([]) // Roles buscados (TOP, JUNGLE, etc.) — solo para LOL
+  lolRankMin       LoLRank?    // Rango mínimo requerido
+  lolRankMax       LoLRank?    // Rango máximo requerido
   modded           Boolean     @default(false)
   modTags          String[]    @default([]) // Tags de mods específicos (ej: "Create", "Fabric", "RLCraft")
   modsNote         String?

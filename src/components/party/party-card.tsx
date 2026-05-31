@@ -8,6 +8,8 @@ import {
   PARTY_STATUS_LABELS,
   LANGUAGE_FLAG,
   MINECRAFT_VERSION_LABELS,
+  LOL_ROLE_LABELS,
+  LOL_RANK_LABELS,
 } from "@/lib/constants";
 import { formatRelativeTime } from "@/lib/utils";
 import type { Game, SkillLevel, PartyStatus } from "@/generated/prisma/client";
@@ -23,6 +25,9 @@ interface PartyCardProps {
   maxPlayers: number;
   language: string;
   minecraftVersion?: string | null;
+  lolRoles?: string[];
+  lolRankMin?: string | null;
+  lolRankMax?: string | null;
   modded: boolean;
   creatorName: string | null;
   creatorImage?: string | null;
@@ -47,6 +52,9 @@ export function PartyCard({
   maxPlayers,
   language,
   minecraftVersion,
+  lolRoles,
+  lolRankMin,
+  lolRankMax,
   modded,
   creatorName,
   creatorImage,
@@ -81,6 +89,14 @@ export function PartyCard({
           <Badge variant="default">{GAME_LABELS[game]}</Badge>
           <Badge variant="default">{LANGUAGE_FLAG[language] ?? language.toUpperCase()}</Badge>
           {minecraftVersion && <Badge variant="default">{MINECRAFT_VERSION_LABELS[minecraftVersion]}</Badge>}
+          {lolRoles && lolRoles.length > 0 && lolRoles.map((r) => (
+            <Badge key={r} variant="default">{LOL_ROLE_LABELS[r]}</Badge>
+          ))}
+          {(lolRankMin || lolRankMax) && (
+            <Badge variant="default">
+              {lolRankMin ? LOL_RANK_LABELS[lolRankMin] : "Cualquier"} → {lolRankMax ? LOL_RANK_LABELS[lolRankMax] : "cualquier rango"}
+            </Badge>
+          )}
           {modded && <Badge variant="accent">Mods</Badge>}
         </div>
 
