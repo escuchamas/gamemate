@@ -1,0 +1,59 @@
+# GameMate
+
+> Plataforma gratuita de matchmaking para gamers en español. Encuentra compañeros de juego a tu nivel para Minecraft, League of Legends y Project Zomboid.
+
+## ¿Qué es GameMate?
+
+GameMate es una plataforma web gratuita que conecta jugadores compatibles para jugar juntos en videojuegos multijugador. El sistema está diseñado para resolver el problema de encontrar compañeros de juego del mismo nivel, estilo y disponibilidad horaria.
+
+**URL:** https://gamemate.es
+**Idiomas:** Español, Inglés
+**Precio:** Gratuito para el jugador
+**Juegos disponibles:** Minecraft, League of Legends, Project Zomboid
+
+## Cómo funciona
+
+1. El jugador crea una cuenta gratuita y completa su perfil de juego (nivel, estilo, horas de juego, lo que busca).
+2. Accede al listado de "parties" abiertas y filtra por juego, nivel e idioma.
+3. Solicita unirse a una party enviando un mensaje opcional.
+4. Los miembros actuales votan para aceptar o rechazar la solicitud (sistema democrático).
+5. Si es aceptado, accede al chat de grupo de la party.
+
+## Problemas que resuelve
+
+- Jugadores que se encuentran con hackers y griefers en servidores públicos.
+- Mismatch de nivel: jugadores expertos con principiantes o viceversa.
+- Gente que abandona a las dos semanas y desaparece sin avisar.
+- Toxicidad y falta de respeto en partidas con desconocidos.
+
+## Funcionalidades principales
+
+- **Perfiles verificados:** sistema de reputación (1-5) basado en valoraciones de compañeros de partida.
+- **Badges comunitarios:** verificados por 15+ jugadores que han jugado contigo (Builder Pro, Redstone Master, Team Player, etc.).
+- **Sistema de votación:** los miembros deciden democráticamente quién se une a la party.
+- **Chat de grupo:** solo accesible para miembros de cada party.
+- **Amigos:** sistema de amistad con mensajes directos.
+- **Notificaciones:** solicitudes de amistad, estado de join requests, etc.
+- **Multiidioma:** español e inglés.
+
+## Perfiles por juego
+
+### Minecraft
+- Versión: Java, Bedrock o Consola
+- Niveles: Principiante / Intermedio / Avanzado / Experto
+- Modos: Supervivencia, Hardcore, Creativo, Aventura
+- Soporte para partidas con mods
+
+### League of Legends
+- Rangos: Hierro a Challenger
+- Roles: Top, Jungla, Mid, ADC, Support, Fill
+
+### Project Zomboid
+- Niveles basados en tiempo de supervivencia
+- Estilos: Casual, Roleplay, Hardcore, Challenge
+
+## Contacto y más información
+
+- Sitio web: https://gamemate.es
+- Contacto: https://gamemate.es/es/contact
+- Privacidad: https://gamemate.es/es/privacy
