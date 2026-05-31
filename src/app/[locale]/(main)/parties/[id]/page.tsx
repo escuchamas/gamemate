@@ -14,6 +14,7 @@ import { formatDate } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 import { getTranslations } from "next-intl/server";
 import { JoinLeaveButtons } from "./join-leave-buttons";
+import { ShareButton } from "./share-button";
 import { PartyChat } from "./party-chat";
 import { MilestonePanel } from "./milestone-panel";
 import { JoinRequestForm } from "./join-request-form";
@@ -160,10 +161,13 @@ export default async function PartyPage({ params }: PartyPageProps) {
             </div>
           )}
 
-          <div className="mt-4 pt-4 border-t border-[var(--card-border)] flex items-center justify-between">
-            <p className="text-xs text-[var(--muted-foreground)]">
-              {formatDate(party.createdAt)}
-            </p>
+          <div className="mt-4 pt-4 border-t border-[var(--card-border)] flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <p className="text-xs text-[var(--muted-foreground)]">
+                {formatDate(party.createdAt)}
+              </p>
+              <ShareButton partyId={party.id} partyName={party.name} />
+            </div>
             <JoinLeaveButtons
               partyId={party.id}
               isMember={isMember}
