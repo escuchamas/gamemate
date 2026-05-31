@@ -39,3 +39,39 @@ export async function updateSuggestionStatusAction(id: string, status: string): 
   });
   revalidatePath("/admin");
 }
+
+export async function banUserAction(userId: string, reason: string): Promise<void> {
+  await requireAdmin();
+  await prisma.user.update({
+    where: { id: userId },
+    data: { banned: true, banReason: reason || "Moderación" },
+  });
+  revalidatePath("/admin/users");
+}
+
+export async function unbanUserAction(userId: string): Promise<void> {
+  await requireAdmin();
+  await prisma.user.update({
+    where: { id: userId },
+    data: { banned: false, banReason: null },
+  });
+  revalidatePath("/admin/users");
+}
+
+export async function resolveReportAction(id: string, status: "REVIEWED" | "RESOLVED_ACTION" | "RESOLVED_NO_ACTION"): Promise<void> {
+  await requireAdmin();
+  await prisma.report.update({ where: { id }, data: { status } });
+  revalidatePath("/admin/reports");
+}
+
+export async function deleteMessageAction(id: string): Promise<void> {
+  await requireAdmin();
+  await prisma.message.delete({ where: { id } });
+  revalidatePath("/admin/reports");
+}
+
+export async function deleteDirectMessageAction(id: string): Promise<void> {
+  await requireAdmin();
+  await prisma.directMessage.delete({ where: { id } });
+  revalidatePath("/admin/reports");
+}

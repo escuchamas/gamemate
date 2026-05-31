@@ -20,19 +20,21 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </Link>
             <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider">Admin</span>
           </div>
-          <nav className="flex items-center gap-1">
-            <Link
-              href="/admin"
-              className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-            >
-              Mensajes
-            </Link>
-            <Link
-              href="/admin/suggestions"
-              className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-            >
-              Peticiones
-            </Link>
+          <nav className="flex items-center gap-1 flex-wrap">
+            {[
+              { href: "/admin", label: "Mensajes" },
+              { href: "/admin/suggestions", label: "Peticiones" },
+              { href: "/admin/users", label: "Usuarios" },
+              { href: "/admin/reports", label: "Reportes" },
+            ].map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href as any}
+                className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
             <Link
               href="/"
               className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
