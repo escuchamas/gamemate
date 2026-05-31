@@ -58,13 +58,14 @@ export default async function FriendsPage({ searchParams }: Props) {
   const pendingSentIds = new Set(pendingSent.map((p) => p.receiverId));
   const pendingReceivedIds = new Set(pendingReceived.map((p) => p.senderId));
 
-  // Search results
+  // Search results — excludes existing friends, shows pending + strangers
   let searchResults: { id: string; name: string | null; username: string | null; image: string | null; reputation: number }[] = [];
   if (q && q.trim().length >= 2) {
     searchResults = await prisma.user.findMany({
       where: {
         AND: [
           { id: { not: session.user.id } },
+          { id: { notIn: Array.from(friendIds) } }, // exclude existing friends
           {
             OR: [
               { name: { contains: q.trim(), mode: "insensitive" } },
@@ -84,12 +85,13 @@ export default async function FriendsPage({ searchParams }: Props) {
 
       {/* Search */}
       <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
-        <h2 className="font-semibold text-white mb-3">Buscar jugadores</h2>
+        <h2 className="font-semibold text-white mb-1">Buscar jugadores</h2>
+        <p className="text-xs text-[var(--muted-foreground)] mb-3">Encuentra a cualquier jugador de GameMate por nombre o usuario.</p>
         <form method="GET" className="flex gap-2">
           <input
             name="q"
             defaultValue={q ?? ""}
-            placeholder="Buscar por nombre o @usuario..."
+            placeholder="Nombre o @usuario..."
             autoComplete="off"
             className="flex-1 px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-1 focus:ring-orange-500"
           />
