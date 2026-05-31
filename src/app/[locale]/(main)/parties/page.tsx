@@ -139,6 +139,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
               memberCount={party._count.members}
               maxPlayers={party.maxPlayers}
               language={party.language}
+              minecraftVersion={party.minecraftVersion}
               modded={party.modded}
               creatorName={party.creator.name}
               creatorImage={party.creator.image}

@@ -371,6 +371,12 @@ export const LANGUAGES = [
   { value: "de", label: "🇩🇪 Deutsch" },
 ] as const;
 
+export const MINECRAFT_VERSION_LABELS: Record<string, string> = {
+  JAVA:    "☕ Java",
+  BEDROCK: "🪨 Bedrock",
+  CONSOLE: "🎮 Consola",
+};
+
 export const LANGUAGE_FLAG: Record<string, string> = {
   es: "🇪🇸",
   en: "🇬🇧",

@@ -7,6 +7,7 @@ import {
   SKILL_LABELS,
   PARTY_STATUS_LABELS,
   LANGUAGE_FLAG,
+  MINECRAFT_VERSION_LABELS,
 } from "@/lib/constants";
 import { formatRelativeTime } from "@/lib/utils";
 import type { Game, SkillLevel, PartyStatus } from "@/generated/prisma/client";
@@ -21,6 +22,7 @@ interface PartyCardProps {
   memberCount: number;
   maxPlayers: number;
   language: string;
+  minecraftVersion?: string | null;
   modded: boolean;
   creatorName: string | null;
   creatorImage?: string | null;
@@ -44,6 +46,7 @@ export function PartyCard({
   memberCount,
   maxPlayers,
   language,
+  minecraftVersion,
   modded,
   creatorName,
   creatorImage,
@@ -77,6 +80,7 @@ export function PartyCard({
           <Badge variant="primary">{SKILL_LABELS[skillLevel]}</Badge>
           <Badge variant="default">{GAME_LABELS[game]}</Badge>
           <Badge variant="default">{LANGUAGE_FLAG[language] ?? language.toUpperCase()}</Badge>
+          {minecraftVersion && <Badge variant="default">{MINECRAFT_VERSION_LABELS[minecraftVersion]}</Badge>}
           {modded && <Badge variant="accent">Mods</Badge>}
         </div>
 

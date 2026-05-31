@@ -13,6 +13,7 @@ import {
   LANGUAGES,
   SKILL_CRITERIA,
   POPULAR_MODPACKS,
+  MINECRAFT_VERSION_LABELS,
 } from "@/lib/constants";
 import type { Game } from "@/generated/prisma/client";
 
@@ -145,6 +146,16 @@ export function CreatePartyForm() {
           placeholder={t("selectGameFirst")}
           required
         />
+
+        {selectedGame === "MINECRAFT" && (
+          <Select
+            name="minecraftVersion"
+            label="Versión de Minecraft"
+            options={Object.entries(MINECRAFT_VERSION_LABELS).map(([value, label]) => ({ value, label }))}
+            placeholder="Selecciona versión"
+            required
+          />
+        )}
 
         {/* Skill level selector + criteria guide */}
         <div className="flex flex-col gap-1.5">

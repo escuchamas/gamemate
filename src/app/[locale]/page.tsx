@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { BADGE_INFO } from "@/lib/constants";
 import { Footer } from "@/components/layout/footer";
+import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 
 export default async function LandingPage() {
   const session = await auth();
@@ -19,6 +20,7 @@ export default async function LandingPage() {
           <img src="/logo.png" alt="GameMate" className="h-8" />
         </Link>
         <div className="flex items-center gap-3">
+          <LocaleSwitcher />
           <Link
             href="/login"
             className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors"

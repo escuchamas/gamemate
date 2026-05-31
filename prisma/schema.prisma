@@ -107,6 +107,12 @@ enum Game {
   PROJECT_ZOMBOID
 }
 
+enum MinecraftVersion {
+  JAVA
+  BEDROCK
+  CONSOLE
+}
+
 enum SkillLevel {
   BEGINNER
   INTERMEDIATE
@@ -175,6 +181,7 @@ model Party {
   maxPlayers  Int         @default(4)
   skillLevel  SkillLevel
   language    String      @default("es")
+  minecraftVersion MinecraftVersion? // Solo para juego MINECRAFT
   modded           Boolean     @default(false)
   modTags          String[]    @default([]) // Tags de mods específicos (ej: "Create", "Fabric", "RLCraft")
   modsNote         String?
