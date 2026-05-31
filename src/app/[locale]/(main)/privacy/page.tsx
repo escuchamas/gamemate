@@ -9,8 +9,8 @@ export default function PrivacyPage() {
       <Section title="1. Responsable del tratamiento">
         <p>El responsable del tratamiento de los datos personales recogidos en GameMate es:</p>
         <ul>
-          <li><strong>Nombre:</strong> Fernando [APELLIDOS] — actualiza este campo</li>
-          <li><strong>Email de contacto:</strong> fernandomcq123@gmail.com</li>
+          <li><strong>Nombre:</strong> Fernando Zaragoza</li>
+          <li><strong>Email de contacto:</strong> hola@gamemate.es</li>
           <li><strong>Dominio:</strong> gamemate.es</li>
         </ul>
         <p className="text-[var(--muted-foreground)] text-xs">

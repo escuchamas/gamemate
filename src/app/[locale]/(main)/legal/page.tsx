@@ -9,15 +9,11 @@ export default function LegalPage() {
       <Section title="1. Datos identificativos">
         <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa:</p>
         <ul>
-          <li><strong>Titular:</strong> Fernando [APELLIDOS] — actualiza este campo</li>
-          <li><strong>NIF/DNI:</strong> [TU DNI] — actualiza este campo</li>
-          <li><strong>Domicilio:</strong> [TU DIRECCIÓN] — actualiza este campo (no es obligatorio hacerla pública si eres particular; puedes usar solo la ciudad)</li>
-          <li><strong>Email:</strong> fernandomcq123@gmail.com</li>
+          <li><strong>Titular:</strong> Fernando Zaragoza</li>
+          <li><strong>NIF:</strong> 77197293R</li>
+          <li><strong>Email:</strong> hola@gamemate.es</li>
           <li><strong>Dominio:</strong> gamemate.es</li>
         </ul>
-        <p className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">
-          ⚠ Debes completar los campos marcados para cumplir con la LSSI. Mientras seas un proyecto personal/hobbie sin actividad económica, el nivel de exigencia es menor, pero si monetizas (donaciones, patrocinio) conviene tenerlo completo.
-        </p>
       </Section>
 
       <Section title="2. Objeto y ámbito de aplicación">
