@@ -9,7 +9,7 @@ import {
   SKILL_LABELS,
 } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
-import { GameProfileForm } from "./game-profile-form";
+import { GameProfileWizard } from "./game-profile-wizard";
 import { ProfileImageUpload } from "./profile-image-upload";
 import { Link } from "@/i18n/navigation";
 
@@ -224,21 +224,21 @@ export default async function ProfilePage() {
           </div>
         ))}
 
-        {(["MINECRAFT", "PROJECT_ZOMBOID"] as const).map((game) => {
+        {(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS"] as const).map((game) => {
           const existing = u.gameProfiles.find((p) => p.game === game);
           return (
             <div
               key={game}
               className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5"
             >
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-6">
                 <span className="text-xl">{GAME_ICONS[game]}</span>
                 <h3 className="font-medium text-white">
                   {existing ? t("editProfile") : t("createProfile")}{" "}
                   {GAME_LABELS[game]}
                 </h3>
               </div>
-              <GameProfileForm game={game} existing={existing ?? null} />
+              <GameProfileWizard game={game} existing={existing ?? null} />
             </div>
           );
         })}

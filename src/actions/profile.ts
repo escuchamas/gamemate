@@ -55,6 +55,8 @@ export async function updateGameProfileAction(
     modsNote: formData.get("modsNote") || undefined,
     minecraftStyle: formData.get("minecraftStyle") || undefined,
     pzStyle: formData.get("pzStyle") || undefined,
+    lolRank: formData.get("lolRank") || undefined,
+    lolRole: formData.get("lolRole") || undefined,
     notes: formData.get("notes") || undefined,
   };
 
