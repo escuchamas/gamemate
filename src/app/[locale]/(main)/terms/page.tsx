@@ -1,4 +1,4 @@
-export default function TermsPage() {
+﻿export default function TermsPage() {
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-8">
       <div>
@@ -139,7 +139,7 @@ export default function TermsPage() {
       <Section title="13. Contacto">
         <p>
           Para cualquier consulta sobre estos Términos, puedes escribirnos a{" "}
-          <a href="mailto:hola@gamemate.es" className="text-orange-400 hover:underline">hola@gamemate.es</a>{" "}
+          <a href="mailto:soporte@gamemate.es" className="text-orange-400 hover:underline">soporte@gamemate.es</a>{" "}
           o usar el{" "}
           <a href="/contact" className="text-orange-400 hover:underline">formulario de contacto</a>.
         </p>

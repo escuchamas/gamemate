@@ -1,4 +1,4 @@
-export default function LegalPage() {
+﻿export default function LegalPage() {
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-8">
       <div>
@@ -11,7 +11,7 @@ export default function LegalPage() {
         <ul>
           <li><strong>Titular:</strong> Fernando Zaragoza</li>
           <li><strong>NIF:</strong> 77197293R</li>
-          <li><strong>Email:</strong> hola@gamemate.es</li>
+          <li><strong>Email:</strong> soporte@gamemate.es</li>
           <li><strong>Dominio:</strong> gamemate.es</li>
         </ul>
       </Section>

@@ -1,4 +1,4 @@
-export default function PrivacyPage() {
+﻿export default function PrivacyPage() {
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-8 prose-sm">
       <div>
@@ -10,7 +10,7 @@ export default function PrivacyPage() {
         <p>El responsable del tratamiento de los datos personales recogidos en GameMate es:</p>
         <ul>
           <li><strong>Nombre:</strong> Fernando Zaragoza</li>
-          <li><strong>Email de contacto:</strong> hola@gamemate.es</li>
+          <li><strong>Email de contacto:</strong> soporte@gamemate.es</li>
           <li><strong>Dominio:</strong> gamemate.es</li>
         </ul>
         <p className="text-[var(--muted-foreground)] text-xs">
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
           <li><strong>Retirar el consentimiento:</strong> en cualquier momento, sin que afecte al tratamiento previo.</li>
         </ul>
         <p>
-          Para ejercer estos derechos, escríbenos a <a href="mailto:fernandomcq123@gmail.com" className="text-orange-400 hover:underline">fernandomcq123@gmail.com</a> o usa el{" "}
+          Para ejercer estos derechos, escríbenos a <a href="mailto:soporte@gamemate.es" className="text-orange-400 hover:underline">soporte@gamemate.es</a> o usa el{" "}
           <a href="/contact" className="text-orange-400 hover:underline">formulario de contacto</a>.
           Tienes derecho a presentar reclamación ante la Agencia Española de Protección de Datos (aepd.es).
         </p>

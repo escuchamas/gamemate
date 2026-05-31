@@ -1,4 +1,4 @@
-export default function CookiesPage() {
+﻿export default function CookiesPage() {
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-8">
       <div>
@@ -88,7 +88,7 @@ export default function CookiesPage() {
       <Section title="Contacto">
         <p>
           Si tienes preguntas sobre el uso de cookies en GameMate, puedes escribirnos a{" "}
-          <a href="mailto:fernandomcq123@gmail.com" className="text-orange-400 hover:underline">fernandomcq123@gmail.com</a>{" "}
+          <a href="mailto:soporte@gamemate.es" className="text-orange-400 hover:underline">soporte@gamemate.es</a>{" "}
           o usar el{" "}
           <a href="/contact" className="text-orange-400 hover:underline">formulario de contacto</a>.
         </p>
