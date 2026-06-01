@@ -75,3 +75,15 @@ export async function deleteDirectMessageAction(id: string): Promise<void> {
   await prisma.directMessage.delete({ where: { id } });
   revalidatePath("/admin/reports");
 }
+
+export async function closePartyAdminAction(partyId: string): Promise<void> {
+  await requireAdmin();
+  await prisma.party.update({ where: { id: partyId }, data: { status: "CLOSED" } });
+  revalidatePath("/admin/parties");
+}
+
+export async function deletePartyAdminAction(partyId: string): Promise<void> {
+  await requireAdmin();
+  await prisma.party.delete({ where: { id: partyId } });
+  revalidatePath("/admin/parties");
+}
