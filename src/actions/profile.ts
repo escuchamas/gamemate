@@ -20,6 +20,25 @@ const ratingSchema = z.object({
   comment: z.string().max(300).optional(),
 });
 
+export async function updateDisplayNameAction(
+  name: string
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+
+  const trimmed = name.trim();
+  if (!trimmed || trimmed.length < 2) return { error: "El nombre debe tener al menos 2 caracteres" };
+  if (trimmed.length > 32) return { error: "Máximo 32 caracteres" };
+
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { name: trimmed },
+  });
+
+  updateTag(`profile-${session.user.id}`);
+  return { success: "Nombre actualizado" };
+}
+
 export async function updateProfileImageAction(
   imageUrl: string
 ): Promise<ActionResult> {

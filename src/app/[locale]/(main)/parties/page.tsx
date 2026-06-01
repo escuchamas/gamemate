@@ -44,7 +44,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
 
   const where: Record<string, unknown> = isMine
     ? { members: { some: { userId: session.user.id } }, status: { in: ["OPEN", "FULL", "IN_GAME"] } }
-    : { status: "OPEN" };
+    : { status: { in: ["OPEN", "FULL", "IN_GAME"] } };
 
   if (!isMine) {
     if (params.game && ["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"].includes(params.game)) {

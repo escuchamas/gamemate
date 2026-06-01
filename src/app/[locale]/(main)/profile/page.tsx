@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { GameProfileAccordion } from "./game-profile-accordion";
 import { ProfileImageUpload } from "./profile-image-upload";
 import { ProfileTabs } from "./profile-tabs";
+import { NameEditor } from "./name-editor";
 import { Link } from "@/i18n/navigation";
 
 export default async function ProfilePage({
@@ -84,7 +85,7 @@ export default async function ProfilePage({
         <div className="flex items-center gap-4">
           <ProfileImageUpload currentImage={u.image} name={u.name} />
           <div className="flex-1">
-            <h1 className="text-xl font-bold text-white">{u.name}</h1>
+            <NameEditor currentName={u.name} />
             <p className="text-sm text-[var(--muted-foreground)]">@{u.username ?? "—"}</p>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-yellow-400">⭐</span>
