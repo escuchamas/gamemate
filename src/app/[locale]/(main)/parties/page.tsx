@@ -16,11 +16,21 @@ export const metadata: Metadata = {
     "Encuentra parties de Minecraft, League of Legends y Project Zomboid a tu nivel. Filtra por juego, nivel y idioma. Únete a jugadores verificados.",
 };
 
+const PARTY_SELECT = {
+  id: true, name: true, description: true, game: true, gameLabel: true,
+  skillLevel: true, status: true, maxPlayers: true, language: true,
+  minecraftVersion: true, lolRoles: true, lolRankMin: true, lolRankMax: true,
+  modded: true, createdAt: true,
+  creator: { select: { name: true, image: true } },
+  _count: { select: { members: true } },
+} as const;
+
 interface PartiesPageProps {
   searchParams: Promise<{
     game?: string;
     skill?: string;
     lang?: string;
+    tab?: string;
   }>;
 }
 
@@ -30,83 +40,81 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
   if (!session) redirect("/login");
   const t = await getTranslations("parties");
 
-  const where: Record<string, unknown> = { status: "OPEN" };
-  if (params.game && ["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"].includes(params.game)) {
-    where.game = params.game;
-  }
-  if (
-    params.skill &&
-    ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"].includes(params.skill)
-  ) {
-    where.skillLevel = params.skill;
-  }
-  if (params.lang) {
-    where.language = params.lang;
+  const isMine = params.tab === "mine";
+
+  const where: Record<string, unknown> = isMine
+    ? { members: { some: { userId: session.user.id } }, status: { in: ["OPEN", "FULL", "IN_GAME"] } }
+    : { status: "OPEN" };
+
+  if (!isMine) {
+    if (params.game && ["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"].includes(params.game)) {
+      where.game = params.game;
+    }
+    if (params.skill && ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"].includes(params.skill)) {
+      where.skillLevel = params.skill;
+    }
+    if (params.lang) where.language = params.lang;
   }
 
   const parties = await prisma.party.findMany({
     where,
     orderBy: { createdAt: "desc" },
     take: 50,
-    select: {
-      id: true, name: true, description: true, game: true, gameLabel: true,
-      skillLevel: true, status: true, maxPlayers: true, language: true,
-      minecraftVersion: true, lolRoles: true, lolRankMin: true, lolRankMax: true,
-      modded: true, createdAt: true,
-      creator: { select: { name: true, image: true } },
-      _count: { select: { members: true } },
-    },
+    select: PARTY_SELECT,
   });
 
-  const games: { value: Game; label: string }[] = [
-    { value: "MINECRAFT", label: "⛏️ Minecraft" },
-    { value: "PROJECT_ZOMBOID", label: "🧟 Project Zomboid" },
-    { value: "LEAGUE_OF_LEGENDS", label: "⚔️ League of Legends" },
-    { value: "OTHER", label: "🎮 Otro juego" },
-  ];
-  const skills: SkillLevel[] = ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"];
-
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-white">{t("title")}</h1>
-            <p className="text-sm text-[var(--muted-foreground)]">
-              {t("waiting", { count: parties.length })}
-            </p>
-          </div>
-          {session ? (
-            <Link href="/parties/new">
-              <Button size="sm">{t("createButton")}</Button>
-            </Link>
-          ) : (
-            <Link
-              href="/register"
-              className="px-4 py-2 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
-            >
-              {t("joinToCreate")}
-            </Link>
-          )}
-        </div>
-
-        <PartiesFilter game={params.game} skill={params.skill} />
+    <div className="flex flex-col gap-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-bold text-white">{t("title")}</h1>
+        <Link href="/parties/new">
+          <Button size="sm">{t("createButton")}</Button>
+        </Link>
       </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 bg-[var(--muted)] rounded-xl p-1 w-fit">
+        <Link
+          href="/parties"
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            !isMine ? "bg-[var(--card)] text-white shadow-sm" : "text-[var(--muted-foreground)] hover:text-white"
+          }`}
+        >
+          Todas las parties
+        </Link>
+        <Link
+          href="/parties?tab=mine"
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            isMine ? "bg-[var(--card)] text-white shadow-sm" : "text-[var(--muted-foreground)] hover:text-white"
+          }`}
+        >
+          Mis parties
+        </Link>
+      </div>
+
+      {/* Filters — only on "all" tab */}
+      {!isMine && <PartiesFilter game={params.game} skill={params.skill} />}
+
+      {/* Count */}
+      <p className="text-sm text-[var(--muted-foreground)] -mt-2">
+        {isMine
+          ? `${parties.length} partie${parties.length !== 1 ? "s" : ""} activa${parties.length !== 1 ? "s" : ""}`
+          : t("waiting", { count: parties.length })}
+      </p>
 
       {parties.length === 0 ? (
         <div className="text-center py-16 text-[var(--muted-foreground)]">
-          <p className="text-4xl mb-3">😴</p>
-          <p className="font-medium text-white mb-1">{t("empty.title")}</p>
-          <p className="text-sm mb-4">{t("empty.subtitle")}</p>
-          {session ? (
-            <Link href="/parties/new">
-              <Button>{t("empty.cta")}</Button>
-            </Link>
-          ) : (
-            <Link href="/register">
-              <Button>{t("empty.ctaGuest")}</Button>
-            </Link>
-          )}
+          <p className="text-4xl mb-3">{isMine ? "🎮" : "😴"}</p>
+          <p className="font-medium text-white mb-1">
+            {isMine ? "Aún no estás en ninguna party activa" : t("empty.title")}
+          </p>
+          <p className="text-sm mb-4">
+            {isMine ? "Únete a una party o crea la tuya propia." : t("empty.subtitle")}
+          </p>
+          <Link href={isMine ? "/parties" : "/parties/new"}>
+            <Button>{isMine ? "Ver parties disponibles" : t("empty.cta")}</Button>
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
