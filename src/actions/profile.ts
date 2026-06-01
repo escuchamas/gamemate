@@ -45,9 +45,20 @@ export async function updateGameProfileAction(
   if (!session?.user?.id) return { error: "Debes iniciar sesión" };
 
   const tagsRaw = formData.get("tags");
+  const game = formData.get("game") as string;
+  const lolRank = formData.get("lolRank") as string | null;
+
+  // For LoL, derive skillLevel from lolRank since they don't have a separate skill step
+  const derivedSkillLevel = game === "LEAGUE_OF_LEGENDS" && lolRank
+    ? (["IRON", "BRONZE", "SILVER"].includes(lolRank) ? "BEGINNER"
+      : ["GOLD", "PLATINUM"].includes(lolRank) ? "INTERMEDIATE"
+      : ["EMERALD", "DIAMOND"].includes(lolRank) ? "ADVANCED"
+      : "EXPERT")
+    : formData.get("skillLevel");
+
   const raw = {
-    game: formData.get("game"),
-    skillLevel: formData.get("skillLevel"),
+    game,
+    skillLevel: derivedSkillLevel,
     playtimeHours: formData.get("playtimeHours")
       ? Number(formData.get("playtimeHours"))
       : undefined,
@@ -55,7 +66,7 @@ export async function updateGameProfileAction(
     modsNote: formData.get("modsNote") || undefined,
     minecraftStyle: formData.get("minecraftStyle") || undefined,
     pzStyle: formData.get("pzStyle") || undefined,
-    lolRank: formData.get("lolRank") || undefined,
+    lolRank: lolRank || undefined,
     lolRole: formData.get("lolRole") || undefined,
     notes: formData.get("notes") || undefined,
   };
