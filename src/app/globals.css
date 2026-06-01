@@ -48,6 +48,12 @@ body {
   border-right: 1px solid #2a2a3a;
 }
 
+/* Carousel auto-scroll */
+@keyframes carousel-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
 /* Scrollbar custom */
 ::-webkit-scrollbar {
   width: 6px;

@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { BADGE_INFO } from "@/lib/constants";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { PartiesCarouselSection } from "@/components/landing/parties-carousel-section";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -152,6 +153,7 @@ export default async function LandingPage({
 
       </main>
 
+      <PartiesCarouselSection />
       <Footer />
     </div>
   );

@@ -10,10 +10,7 @@ export default async function RegisterPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="text-center">
-        <Link href="/" className="text-3xl">
-          🎮
-        </Link>
-        <h1 className="mt-3 text-2xl font-bold text-white">{t("title")}</h1>
+        <h1 className="text-2xl font-bold text-white">{t("title")}</h1>
         <p className="mt-1 text-sm text-[var(--muted-foreground)]">
           {t("subtitle")}
         </p>
