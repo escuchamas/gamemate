@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { CreatePartyForm } from "./create-party-form";
+import { CreatePartyWizard } from "./create-party-wizard";
 
 export default async function NewPartyPage() {
   const session = await auth();
@@ -17,7 +17,7 @@ export default async function NewPartyPage() {
           {t("subtitle")}
         </p>
       </div>
-      <CreatePartyForm />
+      <CreatePartyWizard />
     </div>
   );
 }
