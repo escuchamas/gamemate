@@ -69,10 +69,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           select: { username: true, banned: true },
         });
         if (dbUser?.banned) return false;
+        const updates: Record<string, unknown> = {};
         if (!dbUser?.username) {
           const base = user.name ?? user.email?.split("@")[0] ?? "user";
-          const username = await generateUniqueUsername(base);
-          await prisma.user.update({ where: { id: user.id }, data: { username } });
+          updates.username = await generateUniqueUsername(base);
+        }
+        // Google verifies emails — mark as verified if not already
+        if (!dbUser?.emailVerified) {
+          updates.emailVerified = new Date();
+        }
+        if (Object.keys(updates).length > 0) {
+          await prisma.user.update({ where: { id: user.id }, data: updates });
         }
       }
       return true;
