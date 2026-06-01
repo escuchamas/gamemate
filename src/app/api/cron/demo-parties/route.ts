@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { DEFAULT_RULES } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -266,6 +267,18 @@ export async function GET(req: NextRequest) {
     // Las parties nuevas empiezan con solo 1-2 miembros (más realista)
     const initialMembers = randInt(1, Math.min(2, (tpl.max ?? 4) - 1));
 
+    // Normas: todas las obligatorias + 2-3 opcionales al azar
+    const gameKey = tpl.game as keyof typeof DEFAULT_RULES;
+    const rulePool = DEFAULT_RULES[gameKey] ?? DEFAULT_RULES.OTHER;
+    const requiredRules = rulePool.filter(r => r.isRequired);
+    const optionalRules = shuffle(rulePool.filter(r => !r.isRequired)).slice(0, randInt(2, 3));
+    const rulesToCreate = [...requiredRules, ...optionalRules].map(r => ({
+      category: r.category,
+      text: r.text,
+      isDefault: true,
+      isRequired: r.isRequired,
+    }));
+
     const party = await prisma.party.create({
       data: {
         name: tpl.name,
@@ -281,6 +294,7 @@ export async function GET(req: NextRequest) {
         lolRankMin: tpl.game === "LEAGUE_OF_LEGENDS" ? ((tpl as any).rankMin as any) : undefined,
         lolRankMax: tpl.game === "LEAGUE_OF_LEGENDS" ? ((tpl as any).rankMax as any) : undefined,
         creatorId: creator.id,
+        rules: { create: rulesToCreate },
         members: {
           create: [
             { userId: creator.id, role: "LEADER" },
