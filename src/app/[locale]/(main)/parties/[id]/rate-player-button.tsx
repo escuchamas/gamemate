@@ -31,7 +31,6 @@ interface Props {
 export function RatePlayerButton({ ratedId, ratedName, partyId, existingRating }: Props) {
   const [open, setOpen] = useState(false);
   const [stars, setStars] = useState(existingRating?.overallRating ?? 5);
-  const [hoverStar, setHoverStar] = useState(0);
   const [endorsed, setEndorsed] = useState<Set<TraitKey>>(
     () => new Set(
       (Object.entries(existingRating ?? {}) as [TraitKey, number][])
@@ -96,25 +95,22 @@ export function RatePlayerButton({ ratedId, ratedName, partyId, existingRating }
       </div>
 
       {/* Star rating */}
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         <p className="text-xs text-[var(--muted-foreground)]">Valoración general</p>
-        <div className="flex gap-1">
+        <div className="flex items-center gap-2">
           {[1, 2, 3, 4, 5].map((n) => (
             <button
               key={n}
               type="button"
               onClick={() => setStars(n)}
-              onMouseEnter={() => setHoverStar(n)}
-              onMouseLeave={() => setHoverStar(0)}
-              className="text-2xl leading-none transition-transform hover:scale-110"
+              className="text-3xl leading-none active:scale-90 transition-transform"
+              style={{ WebkitTapHighlightColor: "transparent" }}
             >
-              <span className={(hoverStar || stars) >= n ? "text-yellow-400" : "text-[var(--card-border)]"}>
-                ★
-              </span>
+              <span style={{ color: stars >= n ? "#facc15" : "#374151" }}>★</span>
             </button>
           ))}
-          <span className="text-sm text-[var(--muted-foreground)] self-center ml-1">
-            {["", "Mal rollo", "Flojo", "Normal", "Bien", "¡Genial!"][hoverStar || stars]}
+          <span className="text-sm text-[var(--muted-foreground)] ml-1">
+            {["", "Mal rollo", "Flojo", "Normal", "Bien", "¡Genial!"][stars]}
           </span>
         </div>
       </div>

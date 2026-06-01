@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 import { signOutAction } from "@/actions/auth";
 import { Avatar } from "@/components/ui/avatar";
+import { LocaleSwitcher } from "./locale-switcher";
 
 interface Props {
   isLoggedIn: boolean;
@@ -55,24 +56,29 @@ export function MobileMenu({
       {/* Backdrop */}
       {open && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm sm:hidden"
+          className="fixed inset-0 z-40 sm:hidden"
+          style={{ background: "rgba(0,0,0,0.7)" }}
           onClick={close}
         />
       )}
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-72 bg-[var(--background)] border-l border-[var(--card-border)] flex flex-col shadow-2xl transition-transform duration-300 ease-in-out sm:hidden ${
-          open ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 left-0 z-50 h-full w-72 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out sm:hidden ${
+          open ? "translate-x-0" : "-translate-x-full"
         }`}
+        style={{ background: "#0f0f13", borderRight: "1px solid #1e1e2e" }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 h-14 border-b border-[var(--card-border)]">
-          <span className="font-bold text-white text-base">Menú</span>
+        <div className="flex items-center justify-between px-5 h-14" style={{ borderBottom: "1px solid #1e1e2e" }}>
+          <div className="flex items-center gap-2">
+            <img src="/apple-icon.png" alt="GameMate" className="h-7 w-7 rounded-full" />
+            <span className="font-bold text-white text-base">GameMate</span>
+          </div>
           <button
             type="button"
             onClick={close}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--muted)] transition-colors text-lg"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white transition-colors text-lg"
             aria-label="Cerrar menú"
           >
             ✕
@@ -106,14 +112,19 @@ export function MobileMenu({
           )}
         </nav>
 
-        {/* Bottom: profile / auth */}
-        <div className="px-3 py-4 border-t border-[var(--card-border)] flex flex-col gap-2">
+        {/* Bottom: locale + profile / auth */}
+        <div className="px-3 py-4 flex flex-col gap-2" style={{ borderTop: "1px solid #1e1e2e" }}>
+          <div className="px-1 pb-1">
+            <LocaleSwitcher />
+          </div>
+
           {isLoggedIn ? (
             <>
               <Link
                 href="/profile"
                 onClick={close}
-                className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-[var(--muted)] transition-colors"
+                className="flex items-center gap-3 px-3 py-3 rounded-xl transition-colors"
+                style={{ background: "#1c1c2e" }}
               >
                 <Avatar image={userImage} name={userName} size="sm" />
                 <span className="text-sm font-medium text-white">{userName}</span>
@@ -121,7 +132,8 @@ export function MobileMenu({
               <form action={signOutAction}>
                 <button
                   type="submit"
-                  className="w-full px-3 py-2.5 text-sm rounded-xl border border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-white hover:border-orange-500/50 transition-colors text-left"
+                  className="w-full px-3 py-2.5 text-sm rounded-xl text-gray-400 hover:text-white transition-colors text-left"
+                  style={{ border: "1px solid #1e1e2e" }}
                 >
                   Cerrar sesión
                 </button>
@@ -132,7 +144,8 @@ export function MobileMenu({
               <Link
                 href="/login"
                 onClick={close}
-                className="w-full px-3 py-2.5 text-sm rounded-xl text-center text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--muted)] transition-colors border border-[var(--card-border)]"
+                className="w-full px-3 py-2.5 text-sm rounded-xl text-center text-gray-400 hover:text-white transition-colors"
+                style={{ border: "1px solid #1e1e2e" }}
               >
                 Iniciar sesión
               </Link>
@@ -166,7 +179,10 @@ function NavLink({
     <Link
       href={href}
       onClick={onClick}
-      className="relative flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-[var(--muted-foreground)] hover:text-white hover:bg-[var(--muted)] transition-colors font-medium"
+      className="relative flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-gray-400 hover:text-white transition-colors font-medium"
+      style={{ ["--hover-bg" as string]: "#1c1c2e" }}
+      onMouseEnter={(e) => (e.currentTarget.style.background = "#1c1c2e")}
+      onMouseLeave={(e) => (e.currentTarget.style.background = "")}
     >
       {children}
       {badge != null && badge > 0 && (
