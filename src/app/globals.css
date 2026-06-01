@@ -42,6 +42,12 @@ body {
   box-sizing: border-box;
 }
 
+/* Mobile drawer — explicit class because Tailwind arbitrary values don't always compile */
+.mobile-drawer {
+  background-color: #0f0f13 !important;
+  border-right: 1px solid #2a2a3a;
+}
+
 /* Scrollbar custom */
 ::-webkit-scrollbar {
   width: 6px;

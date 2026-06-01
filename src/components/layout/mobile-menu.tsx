@@ -56,15 +56,15 @@ export function MobileMenu({
       {/* Backdrop */}
       {open && (
         <div
-          className="fixed inset-0 z-40 sm:hidden"
-          style={{ background: "rgba(0,0,0,0.7)" }}
+          className="fixed inset-0 z-[9998] sm:hidden"
+          style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
           onClick={close}
         />
       )}
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 left-0 z-50 h-full w-72 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out sm:hidden bg-[#0f0f13] border-r border-[#1e1e2e] ${
+        className={`mobile-drawer fixed top-0 left-0 z-[9999] h-full w-72 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out sm:hidden ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
