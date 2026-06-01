@@ -7,6 +7,7 @@ import { DEFAULT_RULES } from "@/lib/constants";
 import { redirect } from "next/navigation";
 import { updateTag } from "next/cache";
 import { createNotification } from "@/lib/notifications";
+import { Resend } from "resend";
 
 type ActionResult = { error?: string; success?: string; partyId?: string };
 
@@ -195,6 +196,7 @@ export async function voteJoinRequestAction(
     include: {
       party: { include: { members: true } },
       votes: true,
+      user: { select: { email: true, name: true } },
     },
   });
 
@@ -266,6 +268,38 @@ export async function voteJoinRequestAction(
       body: `Te han aceptado en "${request.party.name}"`,
       link: `/parties/${request.partyId}`,
     });
+
+    // Send acceptance email
+    try {
+      const base = process.env.AUTH_URL ?? "https://gamemate.es";
+      const partyUrl = `${base}/es/parties/${request.partyId}`;
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      await resend.emails.send({
+        from: process.env.EMAIL_FROM ?? "GameMate <noreply@gamemate.es>",
+        to: request.user.email,
+        subject: `¡Te han aceptado en "${request.party.name}"! 🎮`,
+        html: `
+          <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0f0f13;color:#e8e8f0;border-radius:12px">
+            <div style="text-align:center;margin-bottom:24px">
+              <img src="https://gamemate.es/apple-icon.png" alt="GameMate" style="width:64px;height:64px;border-radius:50%"/>
+            </div>
+            <h1 style="font-size:22px;font-weight:700;color:#ffffff;margin:0 0 8px">¡Estás dentro, ${request.user.name ?? "gamer"}! 🎉</h1>
+            <p style="color:#a0a0b8;margin:0 0 24px;line-height:1.6">
+              Tu solicitud para unirte a <strong style="color:#ffffff">${request.party.name}</strong> ha sido aceptada por todos los miembros.
+            </p>
+            <a href="${partyUrl}" style="display:inline-block;background:#ea580c;color:#ffffff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px">
+              Ir a la party →
+            </a>
+            <p style="color:#6b7280;font-size:12px;margin-top:32px">
+              Si no esperabas este email, puedes ignorarlo.
+            </p>
+          </div>
+        `,
+      });
+    } catch {
+      // No bloquear el flujo si el email falla
+    }
+
     updateTag(`party-${request.partyId}`);
     updateTag(`parties`);
     return { success: "¡Solicitud aprobada! El jugador se ha unido." };
