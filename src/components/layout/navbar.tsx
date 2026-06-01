@@ -33,10 +33,21 @@ export async function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--card-border)] bg-[var(--background)]/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-          <img src="/icon.png" alt="GameMate" className="h-8 w-8 rounded-full" />
-        </Link>
+        {/* Left: hamburger (mobile) + logo */}
+        <div className="flex items-center gap-2">
+          <MobileMenu
+            isLoggedIn={!!session}
+            userName={session?.user?.name ?? null}
+            userImage={userImage ?? null}
+            isAdmin={isAdmin}
+            pendingFriendRequests={pendingFriendRequests}
+            unreadNotifications={unreadNotifications}
+            locale={locale}
+          />
+          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <img src="/icon.png" alt="GameMate" className="h-8 w-8 rounded-full" />
+          </Link>
+        </div>
 
         {/* Nav links */}
         <nav className="hidden sm:flex items-center gap-1">
@@ -89,15 +100,6 @@ export async function Navbar() {
 
         {/* Auth + Locale switcher */}
         <div className="flex items-center gap-2">
-          <MobileMenu
-            isLoggedIn={!!session}
-            userName={session?.user?.name ?? null}
-            userImage={userImage ?? null}
-            isAdmin={isAdmin}
-            pendingFriendRequests={pendingFriendRequests}
-            unreadNotifications={unreadNotifications}
-            locale={locale}
-          />
           {session && (
             <Link href="/notifications" className="relative p-1.5 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
