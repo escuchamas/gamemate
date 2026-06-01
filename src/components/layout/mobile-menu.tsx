@@ -64,13 +64,12 @@ export function MobileMenu({
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 left-0 z-50 h-full w-72 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out sm:hidden ${
+        className={`fixed top-0 left-0 z-50 h-full w-72 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out sm:hidden bg-[#0f0f13] border-r border-[#1e1e2e] ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
-        style={{ background: "#0f0f13", borderRight: "1px solid #1e1e2e" }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 h-14" style={{ borderBottom: "1px solid #1e1e2e" }}>
+        <div className="flex items-center justify-between px-5 h-14 border-b border-[#1e1e2e]">
           <div className="flex items-center gap-2">
             <img src="/apple-icon.png" alt="GameMate" className="h-7 w-7 rounded-full" />
             <span className="font-bold text-white text-base">GameMate</span>
@@ -113,7 +112,7 @@ export function MobileMenu({
         </nav>
 
         {/* Bottom: locale + profile / auth */}
-        <div className="px-3 py-4 flex flex-col gap-2" style={{ borderTop: "1px solid #1e1e2e" }}>
+        <div className="px-3 py-4 flex flex-col gap-2 border-t border-[#1e1e2e]">
           <div className="px-1 pb-1">
             <LocaleSwitcher />
           </div>
@@ -123,8 +122,7 @@ export function MobileMenu({
               <Link
                 href="/profile"
                 onClick={close}
-                className="flex items-center gap-3 px-3 py-3 rounded-xl transition-colors"
-                style={{ background: "#1c1c2e" }}
+                className="flex items-center gap-3 px-3 py-3 rounded-xl transition-colors bg-[#1c1c2e]"
               >
                 <Avatar image={userImage} name={userName} size="sm" />
                 <span className="text-sm font-medium text-white">{userName}</span>
@@ -132,8 +130,7 @@ export function MobileMenu({
               <form action={signOutAction}>
                 <button
                   type="submit"
-                  className="w-full px-3 py-2.5 text-sm rounded-xl text-gray-400 hover:text-white transition-colors text-left"
-                  style={{ border: "1px solid #1e1e2e" }}
+                  className="w-full px-3 py-2.5 text-sm rounded-xl text-gray-400 hover:text-white transition-colors text-left border border-[#1e1e2e]"
                 >
                   Cerrar sesión
                 </button>
@@ -144,8 +141,7 @@ export function MobileMenu({
               <Link
                 href="/login"
                 onClick={close}
-                className="w-full px-3 py-2.5 text-sm rounded-xl text-center text-gray-400 hover:text-white transition-colors"
-                style={{ border: "1px solid #1e1e2e" }}
+                className="w-full px-3 py-2.5 text-sm rounded-xl text-center text-gray-400 hover:text-white transition-colors border border-[#1e1e2e]"
               >
                 Iniciar sesión
               </Link>
@@ -180,9 +176,6 @@ function NavLink({
       href={href}
       onClick={onClick}
       className="relative flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-gray-400 hover:text-white transition-colors font-medium"
-      style={{ ["--hover-bg" as string]: "#1c1c2e" }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = "#1c1c2e")}
-      onMouseLeave={(e) => (e.currentTarget.style.background = "")}
     >
       {children}
       {badge != null && badge > 0 && (
