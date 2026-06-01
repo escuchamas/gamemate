@@ -283,7 +283,7 @@ export async function voteJoinRequestAction(
             <div style="text-align:center;margin-bottom:24px">
               <img src="https://gamemate.es/apple-icon.png" alt="GameMate" style="width:64px;height:64px;border-radius:50%"/>
             </div>
-            <h1 style="font-size:22px;font-weight:700;color:#ffffff;margin:0 0 8px">¡Estás dentro, ${request.user.name ?? "gamer"}! 🎉</h1>
+            <h1 style="font-size:22px;font-weight:700;color:#ffffff;margin:0 0 8px">¡Estás dentro, ${request.user.name?.split(" ")[0] ?? "gamer"}! 🎉</h1>
             <p style="color:#a0a0b8;margin:0 0 24px;line-height:1.6">
               Tu solicitud para unirte a <strong style="color:#ffffff">${request.party.name}</strong> ha sido aceptada por todos los miembros.
             </p>

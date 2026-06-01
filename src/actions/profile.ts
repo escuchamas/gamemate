@@ -219,15 +219,15 @@ export async function ratePlayerAction(
       await resend.emails.send({
         from: process.env.EMAIL_FROM ?? "GameMate <noreply@gamemate.es>",
         to: ratedUser.email,
-        subject: `${raterUser?.name ?? "Alguien"} te ha valorado en GameMate ⭐`,
+        subject: `${raterUser?.name?.split(" ")[0] ?? "Alguien"} te ha valorado en GameMate ⭐`,
         html: `
           <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0f0f13;color:#e8e8f0;border-radius:12px">
             <div style="text-align:center;margin-bottom:24px">
               <img src="https://gamemate.es/apple-icon.png" alt="GameMate" style="width:64px;height:64px;border-radius:50%"/>
             </div>
-            <h1 style="font-size:22px;font-weight:700;color:#ffffff;margin:0 0 8px">¡Te han valorado, ${ratedUser.name ?? "gamer"}! ⭐</h1>
+            <h1 style="font-size:22px;font-weight:700;color:#ffffff;margin:0 0 8px">¡Te han valorado, ${ratedUser.name?.split(" ")[0] ?? "gamer"}! ⭐</h1>
             <p style="color:#a0a0b8;margin:0 0 20px;line-height:1.6">
-              <strong style="color:#ffffff">${raterUser?.name ?? "Un compañero"}</strong> ha dejado una valoración sobre ti.
+              <strong style="color:#ffffff">${raterUser?.name?.split(" ")[0] ?? "Un compañero"}</strong> ha dejado una valoración sobre ti.
             </p>
             ${endorsedHtml ? `
             <div style="margin:0 0 20px">
