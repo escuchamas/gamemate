@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
-
-export default function MainLayout() {
-  redirect("/es");
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
 }

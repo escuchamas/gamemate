@@ -42,9 +42,14 @@ const jsonLd = {
   inLanguage: ["es", "en"],
 };
 
-export default async function LandingPage() {
+export default async function LandingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const session = await auth();
-  if (session) redirect("/parties");
+  if (session) redirect(`/${locale}/parties`);
 
   const t = await getTranslations("landing");
   const tNav = await getTranslations("nav");

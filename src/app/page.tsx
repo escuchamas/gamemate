@@ -5,7 +5,7 @@ import { GAME_ICONS, GAME_LABELS, BADGE_INFO } from "@/lib/constants";
 
 export default async function LandingPage() {
   const session = await auth();
-  if (session) redirect("/parties");
+  if (session) redirect("/es/parties");
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
