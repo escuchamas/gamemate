@@ -84,6 +84,16 @@ export async function closePartyAdminAction(partyId: string): Promise<void> {
 
 export async function deletePartyAdminAction(partyId: string): Promise<void> {
   await requireAdmin();
-  await prisma.party.delete({ where: { id: partyId } });
+  // Delete kick proposals and their votes first
+  const proposals = await prisma.partyKickProposal.findMany({ where: { partyId }, select: { id: true } });
+  await prisma.$transaction([
+    prisma.kickVoteRecord.deleteMany({ where: { proposalId: { in: proposals.map(p => p.id) } } }),
+    prisma.partyKickProposal.deleteMany({ where: { partyId } }),
+    prisma.partyJoinRequest.deleteMany({ where: { partyId } }),
+    prisma.message.deleteMany({ where: { partyId } }),
+    prisma.partyRule.deleteMany({ where: { partyId } }),
+    prisma.partyMember.deleteMany({ where: { partyId } }),
+    prisma.party.delete({ where: { id: partyId } }),
+  ]);
   revalidatePath("/admin/parties");
 }
