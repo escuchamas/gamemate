@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
-import { closePartyAdminAction, deletePartyAdminAction } from "@/actions/admin";
+import { closePartyAdminAction } from "@/actions/admin";
 import { GAME_ICONS, GAME_LABELS } from "@/lib/constants";
+import { DeletePartyButton } from "./delete-party-button";
 
 export default async function AdminPartiesPage({
   searchParams,
@@ -132,18 +133,7 @@ export default async function AdminPartiesPage({
                     </button>
                   </form>
                 )}
-                <form
-                  action={deletePartyAdminAction.bind(null, party.id)}
-                  onSubmit={(e) => {
-                    if (!confirm(`¿Eliminar "${party.name}"? Esta acción no se puede deshacer.`)) {
-                      e.preventDefault();
-                    }
-                  }}
-                >
-                  <button type="submit" className="text-xs text-red-400 hover:text-red-300 transition-colors">
-                    Eliminar
-                  </button>
-                </form>
+                <DeletePartyButton partyId={party.id} partyName={party.name} />
               </div>
             </div>
           ))}
