@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { GameProfileAccordion } from "./game-profile-accordion";
 import { ProfileImageUpload } from "./profile-image-upload";
+import { ProfileTabs } from "./profile-tabs";
 import { Link } from "@/i18n/navigation";
 
 export default async function ProfilePage({
@@ -62,6 +63,8 @@ export default async function ProfilePage({
         }, {})
       : null;
 
+  const defaultTab = gameParam ? "games" : "profile";
+
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-6">
       {!u.emailVerified && (
@@ -75,175 +78,120 @@ export default async function ProfilePage({
           </Link>
         </div>
       )}
+
       {/* Profile header */}
       <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-6">
         <div className="flex items-center gap-4">
           <ProfileImageUpload currentImage={u.image} name={u.name} />
           <div className="flex-1">
             <h1 className="text-xl font-bold text-white">{u.name}</h1>
-            <p className="text-sm text-[var(--muted-foreground)]">
-              @{u.username ?? "—"}
-            </p>
+            <p className="text-sm text-[var(--muted-foreground)]">@{u.username ?? "—"}</p>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-yellow-400">⭐</span>
-              <span className="text-white font-semibold">
-                {u.reputation.toFixed(1)}
-              </span>
+              <span className="text-white font-semibold">{u.reputation.toFixed(1)}</span>
               <span className="text-xs text-[var(--muted-foreground)]">
                 ({t("ratings", { count: u.reputationCount })})
               </span>
-              {u.phoneVerified && (
-                <Badge variant="success">{t("phoneVerified")}</Badge>
-              )}
-              {u.emailVerified && (
-                <Badge variant="success">{t("emailVerified")}</Badge>
-              )}
+              {u.phoneVerified && <Badge variant="success">{t("phoneVerified")}</Badge>}
+              {u.emailVerified && <Badge variant="success">{t("emailVerified")}</Badge>}
             </div>
           </div>
         </div>
-        {u.bio && (
-          <p className="mt-4 text-sm text-[var(--muted-foreground)]">
-            {u.bio}
-          </p>
-        )}
+        {u.bio && <p className="mt-4 text-sm text-[var(--muted-foreground)]">{u.bio}</p>}
       </div>
 
-      {/* Reputation breakdown */}
-      {avgByCriteria && (
-        <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
-          <h2 className="font-semibold text-white mb-4">
-            {t("reputationBreakdown")}
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            {ratingCriteria.map((key) => (
-              <div key={key} className="flex flex-col gap-1">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-[var(--muted-foreground)]">
-                    {t(`criteria.${key}`)}
-                  </span>
-                  <span className="text-sm font-semibold text-white">
-                    {(avgByCriteria[key] ?? 0).toFixed(1)}/5
-                  </span>
-                </div>
-                <div className="h-2 rounded-full bg-[var(--muted)]">
-                  <div
-                    className="h-2 rounded-full bg-orange-500 transition-all"
-                    style={{
-                      width: `${((avgByCriteria[key] ?? 0) / 5) * 100}%`,
-                    }}
-                  />
-                </div>
-                <p className="text-xs text-[var(--muted-foreground)]">
-                  {t(`criteria.${key}Desc`)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Recent reviews */}
-      {u.ratingsReceived.length > 0 && (
-        <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
-          <h2 className="font-semibold text-white mb-4">{t("reviews")}</h2>
-          <div className="flex flex-col gap-3">
-            {u.ratingsReceived.map((rating) => {
-              const avg =
-                (rating.levelMatch +
-                  rating.friendliness +
-                  rating.funFactor +
-                  rating.reliability) /
-                4;
-              return (
-                <div
-                  key={rating.id}
-                  className="rounded-lg bg-[var(--muted)] p-3"
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-white">
-                      {rating.rater.name ?? "Anónimo"}
-                    </span>
-                    <div className="flex gap-0.5">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <span
-                          key={i}
-                          className={
-                            i < Math.round(avg)
-                              ? "text-yellow-400"
-                              : "text-[var(--card-border)]"
-                          }
-                        >
-                          ★
-                        </span>
+      {/* Tabs */}
+      <ProfileTabs
+        tabs={[
+          { id: "profile", label: "Mi perfil" },
+          { id: "games", label: `Perfiles de juego ${u.gameProfiles.length > 0 ? `(${u.gameProfiles.length})` : ""}` },
+        ]}
+        defaultTab={defaultTab}
+      >
+        {(activeTab) => (
+          <>
+            {activeTab === "profile" && (
+              <div className="flex flex-col gap-4">
+                {/* Reputation breakdown */}
+                {avgByCriteria && (
+                  <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
+                    <h2 className="font-semibold text-white mb-4">{t("reputationBreakdown")}</h2>
+                    <div className="grid grid-cols-2 gap-4">
+                      {ratingCriteria.map((key) => (
+                        <div key={key} className="flex flex-col gap-1">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs text-[var(--muted-foreground)]">{t(`criteria.${key}`)}</span>
+                            <span className="text-sm font-semibold text-white">{(avgByCriteria[key] ?? 0).toFixed(1)}/5</span>
+                          </div>
+                          <div className="h-2 rounded-full bg-[var(--muted)]">
+                            <div className="h-2 rounded-full bg-orange-500 transition-all" style={{ width: `${((avgByCriteria[key] ?? 0) / 5) * 100}%` }} />
+                          </div>
+                          <p className="text-xs text-[var(--muted-foreground)]">{t(`criteria.${key}Desc`)}</p>
+                        </div>
                       ))}
                     </div>
                   </div>
-                  {rating.comment && (
-                    <p className="text-xs text-[var(--muted-foreground)]">
-                      &ldquo;{rating.comment}&rdquo;
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+                )}
 
-      {/* Game profiles */}
-      <div className="flex flex-col gap-4">
-        <h2 className="font-semibold text-white">{t("gameProfiles")}</h2>
+                {/* Reviews */}
+                {u.ratingsReceived.length > 0 && (
+                  <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
+                    <h2 className="font-semibold text-white mb-4">{t("reviews")}</h2>
+                    <div className="flex flex-col gap-3">
+                      {u.ratingsReceived.map((rating) => {
+                        const avg = (rating.levelMatch + rating.friendliness + rating.funFactor + rating.reliability) / 4;
+                        return (
+                          <div key={rating.id} className="rounded-lg bg-[var(--muted)] p-3">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-sm font-medium text-white">{rating.rater.name ?? "Anónimo"}</span>
+                              <div className="flex gap-0.5">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                  <span key={i} className={i < Math.round(avg) ? "text-yellow-400" : "text-[var(--card-border)]"}>★</span>
+                                ))}
+                              </div>
+                            </div>
+                            {rating.comment && (
+                              <p className="text-xs text-[var(--muted-foreground)]">&ldquo;{rating.comment}&rdquo;</p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
-        {u.gameProfiles.map((profile) => (
-          <div
-            key={profile.id}
-            className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5"
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-2xl">{GAME_ICONS[profile.game]}</span>
-              <h3 className="font-semibold text-white">
-                {GAME_LABELS[profile.game]}
-              </h3>
-              <Badge variant="primary">{SKILL_LABELS[profile.skillLevel]}</Badge>
-              {profile.modded && <Badge variant="accent">Mods</Badge>}
-            </div>
-
-            {profile.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mb-3">
-                {profile.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-0.5 rounded-full text-xs bg-orange-600/20 text-orange-300 border border-orange-600/30"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {!avgByCriteria && u.ratingsReceived.length === 0 && (
+                  <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-8 text-center">
+                    <p className="text-3xl mb-2">⭐</p>
+                    <p className="text-sm text-[var(--muted-foreground)]">Aún no tienes valoraciones. Se mostrarán aquí cuando otros jugadores te valoren.</p>
+                  </div>
+                )}
               </div>
             )}
 
-            {profile.notes && (
-              <p className="text-sm text-[var(--muted-foreground)]">
-                {profile.notes}
-              </p>
+            {activeTab === "games" && (
+              <div className="flex flex-col gap-3">
+                <p className="text-xs text-[var(--muted-foreground)]">
+                  Solo necesitas completar el perfil de un juego cuando intentes unirte a una party de ese juego.
+                </p>
+                {(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS"] as const).map((game) => {
+                  const existing = u.gameProfiles.find((p) => p.game === game);
+                  return (
+                    <GameProfileAccordion
+                      key={game}
+                      game={game}
+                      existing={existing ?? null}
+                      initialOpen={gameParam === game}
+                      editLabel={t("editProfile")}
+                      createLabel={t("createProfile")}
+                    />
+                  );
+                })}
+              </div>
             )}
-          </div>
-        ))}
-
-        {(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS"] as const).map((game) => {
-          const existing = u.gameProfiles.find((p) => p.game === game);
-          const highlighted = gameParam === game;
-          return (
-            <GameProfileAccordion
-              key={game}
-              game={game}
-              existing={existing ?? null}
-              initialOpen={highlighted || !!existing}
-              editLabel={t("editProfile")}
-              createLabel={t("createProfile")}
-            />
-          );
-        })}
-      </div>
+          </>
+        )}
+      </ProfileTabs>
     </div>
   );
 }
