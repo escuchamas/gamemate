@@ -5,6 +5,8 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./locale-switcher";
 import { Avatar } from "@/components/ui/avatar";
+import { MobileMenu } from "./mobile-menu";
+import { getLocale } from "next-intl/server";
 
 const ADMIN_EMAILS = ["fernandomcq123@gmail.com", "fernando_mcq@hotmail.com"];
 
@@ -25,6 +27,8 @@ export async function Navbar() {
   const unreadNotifications = session?.user?.id
     ? await prisma.notification.count({ where: { userId: session.user.id, read: false } })
     : 0;
+
+  const locale = await getLocale();
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--card-border)] bg-[var(--background)]/80 backdrop-blur-md">
@@ -85,6 +89,15 @@ export async function Navbar() {
 
         {/* Auth + Locale switcher */}
         <div className="flex items-center gap-2">
+          <MobileMenu
+            isLoggedIn={!!session}
+            userName={session?.user?.name ?? null}
+            userImage={userImage ?? null}
+            isAdmin={isAdmin}
+            pendingFriendRequests={pendingFriendRequests}
+            unreadNotifications={unreadNotifications}
+            locale={locale}
+          />
           {session && (
             <Link href="/notifications" className="relative p-1.5 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -110,14 +123,14 @@ export async function Navbar() {
               )}
               <Link
                 href="/profile"
-                className="flex items-center gap-2 text-sm hover:opacity-80 transition-opacity"
+                className="hidden sm:flex items-center gap-2 text-sm hover:opacity-80 transition-opacity"
               >
                 <Avatar image={userImage} name={session.user.name} size="sm" />
-                <span className="hidden sm:block text-[var(--foreground)] text-sm">
+                <span className="text-[var(--foreground)] text-sm">
                   {session.user.name?.split(" ")[0]}
                 </span>
               </Link>
-              <form action={signOutAction}>
+              <form action={signOutAction} className="hidden sm:block">
                 <button
                   type="submit"
                   className="px-3 py-1.5 text-xs rounded-lg border border-[var(--card-border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:border-orange-500/50 transition-colors"
