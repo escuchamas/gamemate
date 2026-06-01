@@ -36,17 +36,14 @@ export function NameEditor({ currentName }: Props) {
 
   if (!editing) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3 flex-wrap">
         <h1 className="text-xl font-bold text-white">{currentName}</h1>
         <button
           type="button"
           onClick={() => setEditing(true)}
-          className="text-[var(--muted-foreground)] hover:text-white transition-colors"
-          aria-label="Editar nombre"
+          className="text-xs text-orange-400 hover:text-orange-300 transition-colors font-medium"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-          </svg>
+          ✏️ Editar nombre
         </button>
       </div>
     );
