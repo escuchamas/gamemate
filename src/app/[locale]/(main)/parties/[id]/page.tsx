@@ -21,6 +21,7 @@ import { JoinRequestForm } from "./join-request-form";
 import { JoinRequestsPanel } from "./join-requests-panel";
 import { KickVotePanel } from "./kick-vote-panel";
 import { resolveExpiredKickProposalsAction } from "@/actions/party";
+import { RatePlayerButton } from "./rate-player-button";
 import type { PartyStatus } from "@/generated/prisma/client";
 
 interface PartyPageProps {
@@ -88,6 +89,15 @@ export default async function PartyPage({ params }: PartyPageProps) {
   const isMember = session
     ? party.members.some((m) => m.userId === session.user.id)
     : false;
+
+  // Ratings already given by the current user in this party
+  const myRatings = session && isMember
+    ? await prisma.rating.findMany({
+        where: { raterId: session.user.id, partyId: id },
+        select: { ratedId: true },
+      })
+    : [];
+  const ratedIds = new Set(myRatings.map((r) => r.ratedId));
   const isLeader = session ? party.creatorId === session.user.id : false;
   const hasPendingRequest = session
     ? joinRequests.some((r) => r.userId === session.user.id)
@@ -300,20 +310,32 @@ export default async function PartyPage({ params }: PartyPageProps) {
           </h2>
           <div className="flex flex-col gap-3">
             {party.members.map((member) => (
-              <div key={member.id} className="flex items-center gap-3">
-                <Avatar image={member.user.image} name={member.user.name} size="md" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-white truncate">
-                    {member.user.name}
-                  </p>
-                  <p className="text-xs text-[var(--muted-foreground)]">
-                    @{member.user.username ?? "—"} · ⭐{" "}
-                    {member.user.reputation.toFixed(1)}
-                  </p>
+              <div key={member.id} className="flex flex-col">
+                <div className="flex items-center gap-3">
+                  <Avatar image={member.user.image} name={member.user.name} size="md" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-white truncate">
+                      {member.user.name}
+                    </p>
+                    <p className="text-xs text-[var(--muted-foreground)]">
+                      @{member.user.username ?? "—"} · ⭐{" "}
+                      {member.user.reputation.toFixed(1)}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {member.role === "LEADER" && (
+                      <Badge variant="warning">Líder</Badge>
+                    )}
+                    {isMember && session && member.user.id !== session.user.id && (
+                      <RatePlayerButton
+                        ratedId={member.user.id}
+                        ratedName={member.user.name ?? "este jugador"}
+                        partyId={party.id}
+                        alreadyRated={ratedIds.has(member.user.id)}
+                      />
+                    )}
+                  </div>
                 </div>
-                {member.role === "LEADER" && (
-                  <Badge variant="warning">Líder</Badge>
-                )}
               </div>
             ))}
           </div>
