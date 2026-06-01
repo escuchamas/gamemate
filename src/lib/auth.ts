@@ -66,7 +66,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Auto-generate username for new Google users
         const dbUser = await prisma.user.findUnique({
           where: { id: user.id },
-          select: { username: true, banned: true },
+          select: { username: true, banned: true, emailVerified: true },
         });
         if (dbUser?.banned) return false;
         const updates: Record<string, unknown> = {};
