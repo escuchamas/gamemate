@@ -48,9 +48,9 @@ export async function generateMetadata({
       description,
       images: [
         {
-          url: `${BASE}/logo.png`,
-          width: 800,
-          height: 200,
+          url: `${BASE}/logo%20redondo.png`,
+          width: 512,
+          height: 512,
           alt: "GameMate – Encuentra tu equipo de juego",
         },
       ],
@@ -59,7 +59,19 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [`${BASE}/logo.png`],
+      images: [`${BASE}/logo%20redondo.png`],
+    },
+    icons: {
+      icon: [
+        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      ],
+      apple: [
+        { url: "/apple-icon.png" },
+        { url: "/apple-icon-180x180.png", sizes: "180x180", type: "image/png" },
+      ],
+      shortcut: "/favicon-32x32.png",
     },
     manifest: "/manifest.json",
     other: {
@@ -83,8 +95,35 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "GameMate",
+    url: BASE,
+    description: locale === "es"
+      ? "Encuentra compañeros de juego a tu nivel en Minecraft, League of Legends y Project Zomboid. Sin tóxicos, gratis."
+      : "Find gaming partners at your skill level for Minecraft, League of Legends and Project Zomboid. Free forever.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: { "@type": "EntryPoint", urlTemplate: `${BASE}/${locale}/parties?search={search_term_string}` },
+      "query-input": "required name=search_term_string",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "GameMate",
+      logo: { "@type": "ImageObject", url: `${BASE}/logo redondo.png` },
+      url: BASE,
+    },
+  };
+
   return (
     <html lang={locale} className="h-full" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           {children}
