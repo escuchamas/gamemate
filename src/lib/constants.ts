@@ -303,6 +303,19 @@ export const DEFAULT_RULES = {
 
 // Etiquetas de jugador por juego
 export const PLAYER_TAGS = {
+  OTHER: [
+    "Cooperativo",
+    "Competitivo",
+    "Casual",
+    "Rol / narrativo",
+    "Con voz",
+    "Sin voz",
+    "Principiantes bienvenidos",
+    "Partidas largas",
+    "Partidas cortas",
+    "Fines de semana",
+    "Entre semana",
+  ],
   MINECRAFT: [
     "Exploración",
     "Construcción",
