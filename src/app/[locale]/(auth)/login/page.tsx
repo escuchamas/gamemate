@@ -31,7 +31,9 @@ export default async function LoginPage({
       )}
       {params.error && (
         <div className="rounded-lg bg-red-600/20 border border-red-600/30 px-4 py-3 text-sm text-red-400">
-          {t("error")}
+          {params.error === "OAuthAccountNotLinked"
+            ? "Este email ya está registrado con contraseña. Usa el formulario de email."
+            : t("error")}
         </div>
       )}
 
