@@ -34,6 +34,7 @@ export default async function AdminUsersPage({
       reputation: true,
       reputationCount: true,
       createdAt: true,
+      gameProfiles: { select: { game: true } },
       _count: {
         select: {
           partiesCreated: true,
@@ -104,6 +105,16 @@ export default async function AdminUsersPage({
                 <Stat label="Mensajes" value={user._count.messages} />
                 <Stat label="Reportes recibidos" value={user._count.reportsReceived} emoji={user._count.reportsReceived > 0 ? "⚠" : undefined} />
                 <Stat label="Reputación" value={`${user.reputation.toFixed(1)} (${user.reputationCount})`} />
+                <div className="flex items-center gap-1 text-xs">
+                  <span className="text-[var(--muted-foreground)]">Perfil:</span>
+                  {user.gameProfiles.length === 0 ? (
+                    <span className="text-amber-400">⚠ Sin completar</span>
+                  ) : (
+                    <span className="text-green-400">
+                      ✓ {user.gameProfiles.map((p) => ({ MINECRAFT: "MC", PROJECT_ZOMBOID: "PZ", LEAGUE_OF_LEGENDS: "LoL" }[p.game])).join(", ")}
+                    </span>
+                  )}
+                </div>
                 <Stat
                   label="Registro"
                   value={new Date(user.createdAt).toLocaleDateString("es", { day: "numeric", month: "short", year: "numeric" })}
