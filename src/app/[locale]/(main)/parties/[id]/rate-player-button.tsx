@@ -12,25 +12,46 @@ const TRAITS = [
 
 type TraitKey = (typeof TRAITS)[number]["key"];
 
+interface ExistingRating {
+  levelMatch: number;
+  friendliness: number;
+  funFactor: number;
+  reliability: number;
+  comment: string | null;
+}
+
 interface Props {
   ratedId: string;
   ratedName: string;
   partyId: string;
-  alreadyRated: boolean;
+  existingRating: ExistingRating | null;
 }
 
-export function RatePlayerButton({ ratedId, ratedName, partyId, alreadyRated }: Props) {
+export function RatePlayerButton({ ratedId, ratedName, partyId, existingRating }: Props) {
   const [open, setOpen] = useState(false);
-  const [endorsed, setEndorsed] = useState<Set<TraitKey>>(new Set());
-  const [comment, setComment] = useState("");
+  const [endorsed, setEndorsed] = useState<Set<TraitKey>>(
+    () => new Set(
+      (Object.entries(existingRating ?? {}) as [TraitKey, number][])
+        .filter(([k, v]) => TRAITS.some(t => t.key === k) && v >= 5)
+        .map(([k]) => k)
+    )
+  );
+  const [comment, setComment] = useState(existingRating?.comment ?? "");
+  const [saved, setSaved] = useState(false);
 
   const [state, action, isPending] = useActionState(ratePlayerAction, {});
 
-  if (alreadyRated || state.success) {
+  const alreadyRated = !!existingRating;
+
+  if (saved || (state.success && !open)) {
     return (
-      <span className="text-xs text-green-400 flex items-center gap-1">
-        ✓ Valorado
-      </span>
+      <button
+        type="button"
+        onClick={() => { setSaved(false); setOpen(true); }}
+        className="text-xs text-green-400 hover:text-orange-400 transition-colors flex items-center gap-1"
+      >
+        ✓ Valorado · Editar
+      </button>
     );
   }
 
@@ -53,7 +74,7 @@ export function RatePlayerButton({ ratedId, ratedName, partyId, alreadyRated }: 
         onClick={() => setOpen(true)}
         className="text-xs text-[var(--muted-foreground)] hover:text-orange-400 transition-colors flex items-center gap-1"
       >
-        ⭐ Valorar
+        {alreadyRated ? "✓ Valorado · Editar" : "⭐ Valorar"}
       </button>
     );
   }
@@ -108,7 +129,7 @@ export function RatePlayerButton({ ratedId, ratedName, partyId, alreadyRated }: 
         <p className="text-xs text-red-400">{state.error}</p>
       )}
 
-      <form action={action}>
+      <form action={action} onSubmit={() => { setOpen(false); setSaved(true); }}>
         <input type="hidden" name="ratedId" value={ratedId} />
         <input type="hidden" name="partyId" value={partyId} />
         <input type="hidden" name="levelMatch" value={score("levelMatch")} />
@@ -121,7 +142,7 @@ export function RatePlayerButton({ ratedId, ratedName, partyId, alreadyRated }: 
           disabled={isPending || endorsed.size === 0}
           className="w-full py-2 rounded-xl bg-orange-600 text-white text-sm font-semibold hover:bg-orange-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {isPending ? "Enviando..." : endorsed.size === 0 ? "Selecciona al menos un punto positivo" : "Enviar valoración ✓"}
+          {isPending ? "Guardando..." : endorsed.size === 0 ? "Selecciona al menos un punto positivo" : alreadyRated ? "Guardar cambios ✓" : "Enviar valoración ✓"}
         </button>
       </form>
     </div>

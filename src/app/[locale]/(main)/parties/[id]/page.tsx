@@ -94,10 +94,10 @@ export default async function PartyPage({ params }: PartyPageProps) {
   const myRatings = session && isMember
     ? await prisma.rating.findMany({
         where: { raterId: session.user.id, partyId: id },
-        select: { ratedId: true },
+        select: { ratedId: true, levelMatch: true, friendliness: true, funFactor: true, reliability: true, comment: true },
       })
     : [];
-  const ratedIds = new Set(myRatings.map((r) => r.ratedId));
+  const ratingByUser = Object.fromEntries(myRatings.map((r) => [r.ratedId, r]));
   const isLeader = session ? party.creatorId === session.user.id : false;
   const hasPendingRequest = session
     ? joinRequests.some((r) => r.userId === session.user.id)
@@ -332,7 +332,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
                         ratedId={member.user.id}
                         ratedName={member.user.name ?? "este jugador"}
                         partyId={party.id}
-                        alreadyRated={ratedIds.has(member.user.id)}
+                        existingRating={ratingByUser[member.user.id] ?? null}
                       />
                     )}
                   </div>

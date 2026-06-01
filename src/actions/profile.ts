@@ -117,6 +117,17 @@ export async function ratePlayerAction(
     return { error: "No puedes valorarte a ti mismo" };
   }
 
+  const isNew = !(await prisma.rating.findUnique({
+    where: {
+      raterId_ratedId_partyId: {
+        raterId: session.user.id,
+        ratedId: parsed.data.ratedId,
+        partyId: parsed.data.partyId ?? "",
+      },
+    },
+    select: { id: true },
+  }));
+
   const avg =
     (parsed.data.levelMatch +
       parsed.data.friendliness +
@@ -176,7 +187,9 @@ export async function ratePlayerAction(
 
   updateTag(`profile-${parsed.data.ratedId}`);
 
-  // Send email to rated user
+  // Send email only on first rating, not edits
+  if (!isNew) return { success: "Valoración actualizada" };
+
   try {
     const [ratedUser, raterUser] = await Promise.all([
       prisma.user.findUnique({
