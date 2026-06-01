@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { LoginForm } from "./login-form";
 import { GoogleButton } from "@/components/auth/google-button";
+import { EmailFormToggle } from "@/components/auth/email-form-toggle";
 
 export default async function LoginPage({
   searchParams,
@@ -34,14 +35,11 @@ export default async function LoginPage({
         </div>
       )}
 
-      <div className="rounded-2xl bg-[var(--card)] border border-[var(--card-border)] p-6 flex flex-col gap-4">
+      <div className="rounded-2xl bg-[var(--card)] border border-[var(--card-border)] p-6 flex flex-col gap-3">
         <GoogleButton label="Continuar con Google" />
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-px bg-[var(--card-border)]" />
-          <span className="text-xs text-[var(--muted-foreground)]">o con email</span>
-          <div className="flex-1 h-px bg-[var(--card-border)]" />
-        </div>
-        <LoginForm />
+        <EmailFormToggle>
+          <LoginForm />
+        </EmailFormToggle>
       </div>
 
       <p className="text-center text-sm text-[var(--muted-foreground)]">

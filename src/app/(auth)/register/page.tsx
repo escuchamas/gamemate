@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { RegisterForm } from "./register-form";
+import { GoogleButton } from "@/components/auth/google-button";
+import { EmailFormToggle } from "@/components/auth/email-form-toggle";
 
 export default function RegisterPage() {
   return (
@@ -14,8 +16,11 @@ export default function RegisterPage() {
         </p>
       </div>
 
-      <div className="rounded-2xl bg-[var(--card)] border border-[var(--card-border)] p-6">
-        <RegisterForm />
+      <div className="rounded-2xl bg-[var(--card)] border border-[var(--card-border)] p-6 flex flex-col gap-3">
+        <GoogleButton label="Registrarse con Google" />
+        <EmailFormToggle>
+          <RegisterForm />
+        </EmailFormToggle>
       </div>
 
       <p className="text-center text-sm text-[var(--muted-foreground)]">

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { LoginForm } from "./login-form";
+import { GoogleButton } from "@/components/auth/google-button";
+import { EmailFormToggle } from "@/components/auth/email-form-toggle";
 
 export default async function LoginPage({
   searchParams,
@@ -34,8 +36,11 @@ export default async function LoginPage({
       )}
 
       {/* Form card */}
-      <div className="rounded-2xl bg-[var(--card)] border border-[var(--card-border)] p-6">
-        <LoginForm />
+      <div className="rounded-2xl bg-[var(--card)] border border-[var(--card-border)] p-6 flex flex-col gap-3">
+        <GoogleButton label="Continuar con Google" />
+        <EmailFormToggle>
+          <LoginForm />
+        </EmailFormToggle>
       </div>
 
       <p className="text-center text-sm text-[var(--muted-foreground)]">
