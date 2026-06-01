@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Rating" ADD COLUMN     "overallRating" INTEGER NOT NULL DEFAULT 5,
+ALTER COLUMN "levelMatch" SET DEFAULT 3,
+ALTER COLUMN "friendliness" SET DEFAULT 3,
+ALTER COLUMN "funFactor" SET DEFAULT 3,
+ALTER COLUMN "reliability" SET DEFAULT 3;

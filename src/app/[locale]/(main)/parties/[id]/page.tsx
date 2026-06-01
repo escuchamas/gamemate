@@ -94,7 +94,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
   const myRatings = session && isMember
     ? await prisma.rating.findMany({
         where: { raterId: session.user.id, partyId: id },
-        select: { ratedId: true, levelMatch: true, friendliness: true, funFactor: true, reliability: true, comment: true },
+        select: { ratedId: true, overallRating: true, levelMatch: true, friendliness: true, funFactor: true, reliability: true, comment: true },
       })
     : [];
   const ratingByUser = Object.fromEntries(myRatings.map((r) => [r.ratedId, r]));

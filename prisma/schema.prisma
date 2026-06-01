@@ -406,17 +406,18 @@ model Report {
 
 // score = average of the 4 criteria (1–5 each)
 model Rating {
-  id           String   @id @default(cuid())
-  raterId      String
-  ratedId      String
-  partyId      String?
-  // Criterios específicos (1-5)
-  levelMatch   Int      // ¿Su nivel coincidía con lo declarado?
-  friendliness Int      // ¿Era amable y respetuoso?
-  funFactor    Int      // ¿Fue divertido jugar con él/ella?
-  reliability  Int      // ¿Fue responsable y constante?
-  comment      String?
-  createdAt    DateTime @default(now())
+  id            String   @id @default(cuid())
+  raterId       String
+  ratedId       String
+  partyId       String?
+  overallRating Int      @default(5) // Valoración global (1–5 estrellas)
+  // Endorsements positivos (5 = endorsado, 3 = neutral)
+  levelMatch    Int      @default(3)
+  friendliness  Int      @default(3)
+  funFactor     Int      @default(3)
+  reliability   Int      @default(3)
+  comment       String?
+  createdAt     DateTime @default(now())
 
   rater User @relation("Rater", fields: [raterId], references: [id])
   rated User @relation("Rated", fields: [ratedId], references: [id])

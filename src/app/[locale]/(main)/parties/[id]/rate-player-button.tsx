@@ -13,6 +13,7 @@ const TRAITS = [
 type TraitKey = (typeof TRAITS)[number]["key"];
 
 interface ExistingRating {
+  overallRating?: number;
   levelMatch: number;
   friendliness: number;
   funFactor: number;
@@ -29,6 +30,8 @@ interface Props {
 
 export function RatePlayerButton({ ratedId, ratedName, partyId, existingRating }: Props) {
   const [open, setOpen] = useState(false);
+  const [stars, setStars] = useState(existingRating?.overallRating ?? 5);
+  const [hoverStar, setHoverStar] = useState(0);
   const [endorsed, setEndorsed] = useState<Set<TraitKey>>(
     () => new Set(
       (Object.entries(existingRating ?? {}) as [TraitKey, number][])
@@ -92,6 +95,33 @@ export function RatePlayerButton({ ratedId, ratedName, partyId, existingRating }
         </button>
       </div>
 
+      {/* Star rating */}
+      <div className="flex flex-col gap-1.5">
+        <p className="text-xs text-[var(--muted-foreground)]">Valoración general</p>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button
+              key={n}
+              type="button"
+              onClick={() => setStars(n)}
+              onMouseEnter={() => setHoverStar(n)}
+              onMouseLeave={() => setHoverStar(0)}
+              className="text-2xl leading-none transition-transform hover:scale-110"
+            >
+              <span className={(hoverStar || stars) >= n ? "text-yellow-400" : "text-[var(--card-border)]"}>
+                ★
+              </span>
+            </button>
+          ))}
+          <span className="text-sm text-[var(--muted-foreground)] self-center ml-1">
+            {["", "Mal rollo", "Flojo", "Normal", "Bien", "¡Genial!"][hoverStar || stars]}
+          </span>
+        </div>
+      </div>
+
+      <div className="border-t border-[var(--card-border)]" />
+
+      <p className="text-xs text-[var(--muted-foreground)]">¿Qué destacarías?</p>
       <div className="grid grid-cols-2 gap-2">
         {TRAITS.map((t) => {
           const active = endorsed.has(t.key);
@@ -132,6 +162,7 @@ export function RatePlayerButton({ ratedId, ratedName, partyId, existingRating }
       <form action={action} onSubmit={() => { setOpen(false); setSaved(true); }}>
         <input type="hidden" name="ratedId" value={ratedId} />
         <input type="hidden" name="partyId" value={partyId} />
+        <input type="hidden" name="overallRating" value={stars} />
         <input type="hidden" name="levelMatch" value={score("levelMatch")} />
         <input type="hidden" name="friendliness" value={score("friendliness")} />
         <input type="hidden" name="funFactor" value={score("funFactor")} />
@@ -139,10 +170,10 @@ export function RatePlayerButton({ ratedId, ratedName, partyId, existingRating }
         <input type="hidden" name="comment" value={comment} />
         <button
           type="submit"
-          disabled={isPending || endorsed.size === 0}
+          disabled={isPending}
           className="w-full py-2 rounded-xl bg-orange-600 text-white text-sm font-semibold hover:bg-orange-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {isPending ? "Guardando..." : endorsed.size === 0 ? "Selecciona al menos un punto positivo" : alreadyRated ? "Guardar cambios ✓" : "Enviar valoración ✓"}
+          {isPending ? "Guardando..." : alreadyRated ? "Guardar cambios ✓" : "Enviar valoración ✓"}
         </button>
       </form>
     </div>

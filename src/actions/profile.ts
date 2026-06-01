@@ -12,6 +12,7 @@ type ActionResult = { error?: string; success?: string };
 const ratingSchema = z.object({
   ratedId: z.string().cuid(),
   partyId: z.string().cuid().optional(),
+  overallRating: z.number().int().min(1).max(5),
   levelMatch: z.number().int().min(1).max(5),
   friendliness: z.number().int().min(1).max(5),
   funFactor: z.number().int().min(1).max(5),
@@ -101,6 +102,7 @@ export async function ratePlayerAction(
   const raw = {
     ratedId: formData.get("ratedId"),
     partyId: formData.get("partyId") || undefined,
+    overallRating: Number(formData.get("overallRating")),
     levelMatch: Number(formData.get("levelMatch")),
     friendliness: Number(formData.get("friendliness")),
     funFactor: Number(formData.get("funFactor")),
@@ -145,6 +147,7 @@ export async function ratePlayerAction(
         },
       },
       update: {
+        overallRating: parsed.data.overallRating,
         levelMatch: parsed.data.levelMatch,
         friendliness: parsed.data.friendliness,
         funFactor: parsed.data.funFactor,
@@ -155,6 +158,7 @@ export async function ratePlayerAction(
         raterId: session.user.id,
         ratedId: parsed.data.ratedId,
         partyId: parsed.data.partyId ?? null,
+        overallRating: parsed.data.overallRating,
         levelMatch: parsed.data.levelMatch,
         friendliness: parsed.data.friendliness,
         funFactor: parsed.data.funFactor,
@@ -163,18 +167,14 @@ export async function ratePlayerAction(
       },
     });
 
-    // Recalculate user reputation
+    // Recalculate reputation from overallRating only
     const allRatings = await tx.rating.findMany({
       where: { ratedId: parsed.data.ratedId },
-      select: { levelMatch: true, friendliness: true, funFactor: true, reliability: true },
+      select: { overallRating: true },
     });
 
     const newAvg =
-      allRatings.reduce(
-        (sum, r) =>
-          sum + (r.levelMatch + r.friendliness + r.funFactor + r.reliability) / 4,
-        0
-      ) / allRatings.length;
+      allRatings.reduce((sum, r) => sum + r.overallRating, 0) / allRatings.length;
 
     await tx.user.update({
       where: { id: parsed.data.ratedId },
