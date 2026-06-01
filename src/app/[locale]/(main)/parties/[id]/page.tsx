@@ -252,6 +252,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
             partyId={party.id}
             hasPendingRequest={hasPendingRequest}
             isInGame={party.status === "IN_GAME"}
+            game={party.game}
           />
         )}
 
