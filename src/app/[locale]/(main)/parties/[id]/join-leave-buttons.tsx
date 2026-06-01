@@ -11,6 +11,7 @@ const GAME_LABELS: Record<string, string> = {
   MINECRAFT: "Minecraft",
   PROJECT_ZOMBOID: "Project Zomboid",
   LEAGUE_OF_LEGENDS: "League of Legends",
+  OTHER: "este juego",
 };
 
 interface Props {
@@ -95,10 +96,10 @@ export function JoinLeaveButtons({
             Los miembros de la party ven tu perfil antes de aceptarte — nivel, estilo de juego y lo que buscas. Sin esa información no pueden valorar si encajas con el grupo.
           </p>
           <Link
-            href="/profile"
+            href={`/profile?game=${incompleteProfileGame}`}
             className="text-xs text-orange-400 hover:text-orange-300 underline transition-colors mt-0.5 w-fit"
           >
-            Completar perfil ahora →
+            Completar perfil de {GAME_LABELS[incompleteProfileGame] ?? incompleteProfileGame} →
           </Link>
         </div>
       )}

@@ -13,7 +13,12 @@ import { GameProfileWizard } from "./game-profile-wizard";
 import { ProfileImageUpload } from "./profile-image-upload";
 import { Link } from "@/i18n/navigation";
 
-export default async function ProfilePage() {
+export default async function ProfilePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ game?: string }>;
+}) {
+  const { game: gameParam } = await searchParams;
   const session = await auth();
   if (!session) redirect("/login");
 
@@ -224,24 +229,35 @@ export default async function ProfilePage() {
           </div>
         ))}
 
-        {(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS"] as const).map((game) => {
-          const existing = u.gameProfiles.find((p) => p.game === game);
-          return (
-            <div
-              key={game}
-              className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5"
-            >
-              <div className="flex items-center gap-2 mb-6">
-                <span className="text-xl">{GAME_ICONS[game]}</span>
-                <h3 className="font-medium text-white">
-                  {existing ? t("editProfile") : t("createProfile")}{" "}
-                  {GAME_LABELS[game]}
-                </h3>
+        {(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS"] as const)
+          .filter((game) => !gameParam || gameParam === game || u.gameProfiles.some((p) => p.game === game))
+          .map((game) => {
+            const existing = u.gameProfiles.find((p) => p.game === game);
+            const highlighted = gameParam === game;
+            return (
+              <div
+                key={game}
+                id={`profile-${game}`}
+                className={`rounded-xl border p-5 ${
+                  highlighted
+                    ? "bg-orange-600/10 border-orange-500/50"
+                    : "bg-[var(--card)] border-[var(--card-border)]"
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-6">
+                  <span className="text-xl">{GAME_ICONS[game]}</span>
+                  <h3 className="font-medium text-white">
+                    {highlighted && !existing && (
+                      <span className="text-orange-400 text-xs mr-2">⚠ Necesitas esto para unirte</span>
+                    )}
+                    {existing ? t("editProfile") : t("createProfile")}{" "}
+                    {GAME_LABELS[game]}
+                  </h3>
+                </div>
+                <GameProfileWizard game={game} existing={existing ?? null} />
               </div>
-              <GameProfileWizard game={game} existing={existing ?? null} />
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );
