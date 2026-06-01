@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter, Link } from "@/i18n/navigation";
 import {
   requestJoinPartyAction,
   cancelJoinRequestAction,
@@ -31,8 +31,17 @@ export function JoinRequestForm({ partyId, hasPendingRequest, isInGame, game }: 
   const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [incompleteGame, setIncompleteGame] = useState<Game | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
+  // Cuando la party demo "acaba de empezar", espera 4s y sugiere crear la suya
+  useEffect(() => {
+    if (error?.includes("acaba de empezar")) {
+      const t = setTimeout(() => setShowCreateModal(true), 4000);
+      return () => clearTimeout(t);
+    }
+  }, [error]);
 
   if (hasPendingRequest) {
     return (
@@ -87,6 +96,45 @@ export function JoinRequestForm({ partyId, hasPendingRequest, isInGame, game }: 
 
   return (
     <>
+      {/* Modal: sugiere crear party propia tras intentar unirse a una demo */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-[9990] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm bg-[var(--card)] border border-[var(--card-border)] rounded-2xl p-6 flex flex-col gap-4 shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+            <button
+              type="button"
+              onClick={() => setShowCreateModal(false)}
+              className="absolute top-4 right-4 text-[var(--muted-foreground)] hover:text-white transition-colors text-lg leading-none"
+              aria-label="Cerrar"
+            >
+              ✕
+            </button>
+            <div className="text-3xl text-center">🎮</div>
+            <div className="text-center">
+              <p className="text-base font-bold text-white mb-1">¿Y si creas la tuya?</p>
+              <p className="text-sm text-[var(--muted-foreground)]">
+                Las parties que encajan de verdad las creas tú. Tarda menos de 2 minutos.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Link
+                href="/parties/new"
+                className="w-full px-4 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-sm font-semibold text-center transition-colors"
+                onClick={() => setShowCreateModal(false)}
+              >
+                Crear mi party →
+              </Link>
+              <button
+                type="button"
+                onClick={() => setShowCreateModal(false)}
+                className="w-full px-4 py-2 rounded-xl text-sm text-[var(--muted-foreground)] hover:text-white transition-colors"
+              >
+                Seguir buscando
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Modal with game profile wizard */}
       {incompleteGame && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
