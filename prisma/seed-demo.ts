@@ -15,21 +15,21 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter } as any);
 
 const demoUsers = [
-  { name: "Alejandro Ruiz",    email: "demo_alejandro@gamemate-demo.fake",  image: null, reputation: 4.8, country: "es" },
-  { name: "Nerea García",      email: "demo_nerea@gamemate-demo.fake",       image: null, reputation: 4.9, country: "es" },
-  { name: "Sergio Molina",     email: "demo_sergio@gamemate-demo.fake",      image: null, reputation: 4.5, country: "es" },
-  { name: "Lucía Fernández",   email: "demo_lucia@gamemate-demo.fake",       image: null, reputation: 5.0, country: "es" },
-  { name: "Carlos Vega",       email: "demo_carlos@gamemate-demo.fake",      image: null, reputation: 4.7, country: "es" },
-  { name: "Marta Jiménez",     email: "demo_marta@gamemate-demo.fake",       image: null, reputation: 4.6, country: "es" },
-  { name: "Pablo Torres",      email: "demo_pablo@gamemate-demo.fake",       image: null, reputation: 4.4, country: "es" },
-  { name: "Ana Navarro",       email: "demo_ana@gamemate-demo.fake",         image: null, reputation: 4.8, country: "es" },
-  { name: "Luis Herrera",      email: "demo_luis@gamemate-demo.fake",        image: null, reputation: 4.3, country: "es" },
-  { name: "Sofía Castillo",    email: "demo_sofia@gamemate-demo.fake",       image: null, reputation: 4.9, country: "es" },
-  { name: "Diego Moreno",      email: "demo_diego@gamemate-demo.fake",       image: null, reputation: 4.6, country: "es" },
-  { name: "Elena Romero",      email: "demo_elena@gamemate-demo.fake",       image: null, reputation: 5.0, country: "es" },
-  { name: "Iván Ortega",       email: "demo_ivan@gamemate-demo.fake",        image: null, reputation: 4.7, country: "es" },
-  { name: "Laura Blanco",      email: "demo_laura@gamemate-demo.fake",       image: null, reputation: 4.5, country: "es" },
-  { name: "Rubén Soto",        email: "demo_ruben@gamemate-demo.fake",       image: null, reputation: 4.2, country: "es" },
+  { name: "Nocturnox99",    email: "demo_alejandro@gamemate-demo.fake",  image: null, reputation: 4.8, country: "es" },
+  { name: "CraftMaster_",  email: "demo_nerea@gamemate-demo.fake",       image: null, reputation: 4.9, country: "es" },
+  { name: "ZombieKiller3", email: "demo_sergio@gamemate-demo.fake",      image: null, reputation: 4.5, country: "es" },
+  { name: "DarkWolf04",    email: "demo_lucia@gamemate-demo.fake",       image: null, reputation: 5.0, country: "es" },
+  { name: "LoboGamer_",    email: "demo_carlos@gamemate-demo.fake",      image: null, reputation: 4.7, country: "es" },
+  { name: "ShadowBlade_",  email: "demo_marta@gamemate-demo.fake",       image: null, reputation: 4.6, country: "es" },
+  { name: "NightReaper",   email: "demo_pablo@gamemate-demo.fake",       image: null, reputation: 4.4, country: "es" },
+  { name: "xFenixGamer",   email: "demo_ana@gamemate-demo.fake",         image: null, reputation: 4.8, country: "es" },
+  { name: "CreeperHunter", email: "demo_luis@gamemate-demo.fake",        image: null, reputation: 4.3, country: "es" },
+  { name: "SpeedRunner_ES",email: "demo_sofia@gamemate-demo.fake",       image: null, reputation: 4.9, country: "es" },
+  { name: "DragonCraft_",  email: "demo_diego@gamemate-demo.fake",       image: null, reputation: 4.6, country: "es" },
+  { name: "ElViking99",    email: "demo_elena@gamemate-demo.fake",       image: null, reputation: 5.0, country: "es" },
+  { name: "ToxicFree99",   email: "demo_ivan@gamemate-demo.fake",        image: null, reputation: 4.7, country: "es" },
+  { name: "LordCraft_",    email: "demo_laura@gamemate-demo.fake",       image: null, reputation: 4.5, country: "es" },
+  { name: "xXRubenXx",     email: "demo_ruben@gamemate-demo.fake",       image: null, reputation: 4.2, country: "es" },
 ];
 
 const now = new Date();

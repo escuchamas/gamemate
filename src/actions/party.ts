@@ -127,12 +127,22 @@ export async function requestJoinPartyAction(
 
   const party = await prisma.party.findUnique({
     where: { id: partyId },
-    include: { members: true },
+    include: {
+      members: true,
+      creator: { select: { email: true } },
+    },
   });
 
   if (!party) return { error: "La party no existe" };
   if (party.status !== "OPEN" && party.status !== "IN_GAME")
     return { error: "Esta party no está disponible" };
+
+  // Si es una party de demo, simular que acaban de empezar
+  if (party.creator.email?.endsWith("@gamemate-demo.fake")) {
+    await prisma.party.update({ where: { id: partyId }, data: { status: "IN_GAME" } });
+    updateTag(`party-${partyId}`);
+    return { error: "Esta party acaba de empezar a jugar, ya no acepta nuevos miembros 🎮" };
+  }
 
   const alreadyMember = party.members.some((m) => m.userId === session.user.id);
   if (alreadyMember) return { error: "Ya eres miembro de esta party" };
