@@ -593,7 +593,7 @@ export function CreatePartyWizard() {
       </div>
 
       {/* Hidden form for submission */}
-      <form ref={formRef} action={createPartyAction} className="hidden">
+      <form ref={formRef} action={createPartyAction.bind(null, {})} className="hidden">
         <input name="name" value={data.name} readOnly />
         <input name="description" value={data.description} readOnly />
         <input name="game" value={data.game} readOnly />
