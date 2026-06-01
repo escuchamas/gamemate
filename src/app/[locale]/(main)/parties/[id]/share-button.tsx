@@ -12,10 +12,11 @@ export function ShareButton({ partyId, partyName }: Props) {
 
   const share = async () => {
     const url = `${window.location.origin}/parties/${partyId}`;
+    const text = `¡Únete a mi partida de "${partyName}" en GameMate!`;
 
     if (navigator.share) {
       try {
-        await navigator.share({ title: partyName, url });
+        await navigator.share({ title: partyName, text, url });
         return;
       } catch {
         // usuario canceló — no hacer nada
@@ -23,7 +24,7 @@ export function ShareButton({ partyId, partyName }: Props) {
       }
     }
 
-    await navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(`${text}\n${url}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
