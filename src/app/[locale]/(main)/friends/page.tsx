@@ -7,8 +7,8 @@ import {
   acceptFriendRequestAction,
   rejectFriendRequestAction,
   removeFriendAction,
-  sendFriendRequestAction,
 } from "@/actions/friends";
+import { AddFriendForm } from "./add-friend-form";
 
 interface Props {
   searchParams: Promise<{ q?: string }>;
@@ -34,7 +34,9 @@ export default async function FriendsPage({ searchParams }: Props) {
     }),
     prisma.friendship.findMany({
       where: { receiverId: session.user.id, status: "PENDING" },
-      include: {
+      select: {
+        id: true,
+        note: true,
         sender: { select: { id: true, name: true, username: true, image: true, reputation: true } },
       },
       orderBy: { createdAt: "desc" },
@@ -56,7 +58,7 @@ export default async function FriendsPage({ searchParams }: Props) {
     friendships.map((f) => f.senderId === session.user.id ? f.receiverId : f.senderId)
   );
   const pendingSentIds = new Set(pendingSent.map((p) => p.receiverId));
-  const pendingReceivedIds = new Set(pendingReceived.map((p) => p.senderId));
+  const pendingReceivedIds = new Set(pendingReceived.map((p) => p.sender.id));
 
   // Search results — excludes existing friends, shows pending + strangers
   let searchResults: { id: string; name: string | null; username: string | null; image: string | null; reputation: number }[] = [];
@@ -143,14 +145,7 @@ export default async function FriendsPage({ searchParams }: Props) {
                             <Link href="/friends" className="underline">ver</Link>
                           </span>
                         ) : (
-                          <form action={sendFriendRequestAction.bind(null, user.id)}>
-                            <button
-                              type="submit"
-                              className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
-                            >
-                              + Añadir amigo
-                            </button>
-                          </form>
+                          <AddFriendForm targetId={user.id} />
                         )}
                       </div>
                     </div>
@@ -183,6 +178,9 @@ export default async function FriendsPage({ searchParams }: Props) {
                   <div>
                     <p className="text-sm font-medium text-white">{f.sender.name}</p>
                     <p className="text-xs text-[var(--muted-foreground)]">@{f.sender.username ?? "—"}</p>
+                    {f.note && (
+                      <p className="text-xs text-[var(--muted-foreground)] mt-0.5 italic">"{f.note}"</p>
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-2">

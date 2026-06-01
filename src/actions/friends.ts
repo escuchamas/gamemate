@@ -7,7 +7,7 @@ import { createNotification } from "@/lib/notifications";
 
 type ActionResult = { error?: string; success?: string };
 
-export async function sendFriendRequestAction(targetId: string, _formData: FormData): Promise<void> {
+export async function sendFriendRequestAction(targetId: string, formData: FormData): Promise<void> {
   const session = await auth();
   if (!session?.user?.id) return;
   if (targetId === session.user.id) return;
@@ -23,8 +23,10 @@ export async function sendFriendRequestAction(targetId: string, _formData: FormD
 
   if (existing) return;
 
+  const note = (formData.get("note") as string | null)?.trim().slice(0, 200) || null;
+
   await prisma.friendship.create({
-    data: { senderId: session.user.id, receiverId: targetId },
+    data: { senderId: session.user.id, receiverId: targetId, note },
   });
 
   const sender = await prisma.user.findUnique({ where: { id: session.user.id }, select: { name: true } });
@@ -32,7 +34,9 @@ export async function sendFriendRequestAction(targetId: string, _formData: FormD
     userId: targetId,
     type: "FRIEND_REQUEST",
     title: "Nueva solicitud de amistad",
-    body: `${sender?.name ?? "Alguien"} quiere ser tu amigo`,
+    body: note
+      ? `${sender?.name ?? "Alguien"} quiere ser tu amigo: "${note}"`
+      : `${sender?.name ?? "Alguien"} quiere ser tu amigo`,
     link: "/friends",
   });
 
