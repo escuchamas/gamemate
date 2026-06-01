@@ -12,7 +12,7 @@ export function GoogleButton({ label = "Continuar con Google" }: { label?: strin
       disabled={loading}
       onClick={async () => {
         setLoading(true);
-        await signIn("google", { callbackUrl: "/parties" });
+        await signIn("google", { callbackUrl: "/es/parties" });
       }}
       className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border border-[var(--card-border)] bg-[var(--muted)] text-white text-sm font-medium hover:bg-[var(--card-border)] transition-colors disabled:opacity-60"
     >
