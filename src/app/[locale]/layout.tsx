@@ -84,8 +84,8 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="h-full">
-      <body className="min-h-full flex flex-col">
+    <html lang={locale} className="h-full" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           {children}
           <CookieBanner />
