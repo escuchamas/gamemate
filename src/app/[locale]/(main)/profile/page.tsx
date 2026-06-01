@@ -104,94 +104,90 @@ export default async function ProfilePage({
       <ProfileTabs
         tabs={[
           { id: "profile", label: "Mi perfil" },
-          { id: "games", label: `Perfiles de juego ${u.gameProfiles.length > 0 ? `(${u.gameProfiles.length})` : ""}` },
+          { id: "games", label: `Perfiles de juego${u.gameProfiles.length > 0 ? ` (${u.gameProfiles.length})` : ""}` },
         ]}
         defaultTab={defaultTab}
-      >
-        {(activeTab) => (
-          <>
-            {activeTab === "profile" && (
-              <div className="flex flex-col gap-4">
-                {/* Reputation breakdown */}
-                {avgByCriteria && (
-                  <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
-                    <h2 className="font-semibold text-white mb-4">{t("reputationBreakdown")}</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                      {ratingCriteria.map((key) => (
-                        <div key={key} className="flex flex-col gap-1">
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs text-[var(--muted-foreground)]">{t(`criteria.${key}`)}</span>
-                            <span className="text-sm font-semibold text-white">{(avgByCriteria[key] ?? 0).toFixed(1)}/5</span>
-                          </div>
-                          <div className="h-2 rounded-full bg-[var(--muted)]">
-                            <div className="h-2 rounded-full bg-orange-500 transition-all" style={{ width: `${((avgByCriteria[key] ?? 0) / 5) * 100}%` }} />
-                          </div>
-                          <p className="text-xs text-[var(--muted-foreground)]">{t(`criteria.${key}Desc`)}</p>
+        slots={{
+          profile: (
+            <div className="flex flex-col gap-4">
+              {/* Reputation breakdown */}
+              {avgByCriteria && (
+                <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
+                  <h2 className="font-semibold text-white mb-4">{t("reputationBreakdown")}</h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    {ratingCriteria.map((key) => (
+                      <div key={key} className="flex flex-col gap-1">
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs text-[var(--muted-foreground)]">{t(`criteria.${key}`)}</span>
+                          <span className="text-sm font-semibold text-white">{(avgByCriteria[key] ?? 0).toFixed(1)}/5</span>
                         </div>
-                      ))}
-                    </div>
+                        <div className="h-2 rounded-full bg-[var(--muted)]">
+                          <div className="h-2 rounded-full bg-orange-500 transition-all" style={{ width: `${((avgByCriteria[key] ?? 0) / 5) * 100}%` }} />
+                        </div>
+                        <p className="text-xs text-[var(--muted-foreground)]">{t(`criteria.${key}Desc`)}</p>
+                      </div>
+                    ))}
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* Reviews */}
-                {u.ratingsReceived.length > 0 && (
-                  <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
-                    <h2 className="font-semibold text-white mb-4">{t("reviews")}</h2>
-                    <div className="flex flex-col gap-3">
-                      {u.ratingsReceived.map((rating) => {
-                        const avg = (rating.levelMatch + rating.friendliness + rating.funFactor + rating.reliability) / 4;
-                        return (
-                          <div key={rating.id} className="rounded-lg bg-[var(--muted)] p-3">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-sm font-medium text-white">{rating.rater.name ?? "Anónimo"}</span>
-                              <div className="flex gap-0.5">
-                                {Array.from({ length: 5 }).map((_, i) => (
-                                  <span key={i} className={i < Math.round(avg) ? "text-yellow-400" : "text-[var(--card-border)]"}>★</span>
-                                ))}
-                              </div>
+              {/* Reviews */}
+              {u.ratingsReceived.length > 0 && (
+                <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5">
+                  <h2 className="font-semibold text-white mb-4">{t("reviews")}</h2>
+                  <div className="flex flex-col gap-3">
+                    {u.ratingsReceived.map((rating) => {
+                      const avg = (rating.levelMatch + rating.friendliness + rating.funFactor + rating.reliability) / 4;
+                      return (
+                        <div key={rating.id} className="rounded-lg bg-[var(--muted)] p-3">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm font-medium text-white">{rating.rater.name ?? "Anónimo"}</span>
+                            <div className="flex gap-0.5">
+                              {Array.from({ length: 5 }).map((_, i) => (
+                                <span key={i} className={i < Math.round(avg) ? "text-yellow-400" : "text-[var(--card-border)]"}>★</span>
+                              ))}
                             </div>
-                            {rating.comment && (
-                              <p className="text-xs text-[var(--muted-foreground)]">&ldquo;{rating.comment}&rdquo;</p>
-                            )}
                           </div>
-                        );
-                      })}
-                    </div>
+                          {rating.comment && (
+                            <p className="text-xs text-[var(--muted-foreground)]">&ldquo;{rating.comment}&rdquo;</p>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                )}
+                </div>
+              )}
 
-                {!avgByCriteria && u.ratingsReceived.length === 0 && (
-                  <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-8 text-center">
-                    <p className="text-3xl mb-2">⭐</p>
-                    <p className="text-sm text-[var(--muted-foreground)]">Aún no tienes valoraciones. Se mostrarán aquí cuando otros jugadores te valoren.</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeTab === "games" && (
-              <div className="flex flex-col gap-3">
-                <p className="text-xs text-[var(--muted-foreground)]">
-                  Solo necesitas completar el perfil de un juego cuando intentes unirte a una party de ese juego.
-                </p>
-                {(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS"] as const).map((game) => {
-                  const existing = u.gameProfiles.find((p) => p.game === game);
-                  return (
-                    <GameProfileAccordion
-                      key={game}
-                      game={game}
-                      existing={existing ?? null}
-                      initialOpen={gameParam === game}
-                      editLabel={t("editProfile")}
-                      createLabel={t("createProfile")}
-                    />
-                  );
-                })}
-              </div>
-            )}
-          </>
-        )}
-      </ProfileTabs>
+              {!avgByCriteria && u.ratingsReceived.length === 0 && (
+                <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-8 text-center">
+                  <p className="text-3xl mb-2">⭐</p>
+                  <p className="text-sm text-[var(--muted-foreground)]">Aún no tienes valoraciones. Se mostrarán aquí cuando otros jugadores te valoren.</p>
+                </div>
+              )}
+            </div>
+          ),
+          games: (
+            <div className="flex flex-col gap-3">
+              <p className="text-xs text-[var(--muted-foreground)]">
+                Solo necesitas completar el perfil de un juego cuando intentes unirte a una party de ese juego.
+              </p>
+              {(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS"] as const).map((game) => {
+                const existing = u.gameProfiles.find((p) => p.game === game);
+                return (
+                  <GameProfileAccordion
+                    key={game}
+                    game={game}
+                    existing={existing ?? null}
+                    initialOpen={gameParam === game}
+                    editLabel={t("editProfile")}
+                    createLabel={t("createProfile")}
+                  />
+                );
+              })}
+            </div>
+          ),
+        }}
+      />
     </div>
   );
 }

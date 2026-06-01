@@ -10,11 +10,11 @@ interface Tab {
 interface Props {
   tabs: Tab[];
   defaultTab?: string;
-  children: (activeTab: string) => React.ReactNode;
+  slots: Record<string, React.ReactNode>;
 }
 
-export function ProfileTabs({ tabs, defaultTab, children }: Props) {
-  const [active, setActive] = useState(defaultTab ?? tabs[0]?.id);
+export function ProfileTabs({ tabs, defaultTab, slots }: Props) {
+  const [active, setActive] = useState(defaultTab ?? tabs[0]?.id ?? "");
 
   return (
     <div className="flex flex-col gap-6">
@@ -34,7 +34,7 @@ export function ProfileTabs({ tabs, defaultTab, children }: Props) {
           </button>
         ))}
       </div>
-      {children(active)}
+      {slots[active]}
     </div>
   );
 }
