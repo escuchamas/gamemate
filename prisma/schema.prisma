@@ -54,6 +54,7 @@ model User {
   friendsReceived       Friendship[]         @relation("FriendshipReceiver")
   directMessagesSent    DirectMessage[]      @relation("DMSender")
   directMessagesReceived DirectMessage[]     @relation("DMReceiver")
+  gamerProfile          GamerProfile?
   suggestions           Suggestion[]
   suggestionVotes       SuggestionVote[]
   joinRequestVotes      JoinRequestVote[]
@@ -98,6 +99,22 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// ─── PERFIL GAMER ─────────────────────────────────────────────────────────────
+
+model GamerProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  gamesPlaying    String[] // Juegos que juega actualmente
+  gamesWanted     String[] // Juegos que quiere probar
+  weeklyHours     Int?     // Horas semanales de juego
+  schedule        String[] // morning, afternoon, evening, night, weekends
+  gameCategories  String[] // FPS, RPG, Survival, etc.
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // ─── JUEGOS ───────────────────────────────────────────────────────────────────
