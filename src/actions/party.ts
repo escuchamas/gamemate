@@ -36,6 +36,7 @@ export async function createPartyAction(
     modTags: (() => { try { return JSON.parse(formData.get("modTags") as string || "[]"); } catch { return []; } })(),
     modsNote: formData.get("modsNote") || undefined,
     serverInfo: formData.get("serverInfo") || undefined,
+    gameLabel: formData.get("gameLabel") as string || undefined,
     selectedRules: selectedRulesRaw ? JSON.parse(selectedRulesRaw as string) : [],
     customRules: customRulesRaw ? JSON.parse(customRulesRaw as string) : [],
   };
@@ -52,7 +53,7 @@ export async function createPartyAction(
     return { error: "El mínimo no puede ser mayor que el máximo" };
   }
 
-  const gameRules = DEFAULT_RULES[data.game];
+  const gameRules = DEFAULT_RULES[data.game as keyof typeof DEFAULT_RULES] ?? [];
   const requiredRules = gameRules.filter((r) => r.isRequired);
   const optionalDefaultRules = gameRules.filter(
     (r) => !r.isRequired && data.selectedRules.includes(r.text)
@@ -75,6 +76,7 @@ export async function createPartyAction(
       modTags: data.modTags ?? [],
       modsNote: data.modsNote,
       serverInfo: data.serverInfo,
+      gameLabel: (raw as any).gameLabel ?? null,
       creatorId: session.user.id,
       members: {
         create: {

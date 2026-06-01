@@ -106,6 +106,7 @@ enum Game {
   MINECRAFT
   PROJECT_ZOMBOID
   LEAGUE_OF_LEGENDS
+  OTHER
 }
 
 enum MinecraftVersion {
@@ -215,6 +216,7 @@ model Party {
   modsNote         String?
   serverInfo       String?
   currentMilestone String?     // ID del hito de progreso (ej: "IRON_AGE", "WEEK_1")
+  gameLabel        String?     // Solo cuando game = OTHER
   creatorId        String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt

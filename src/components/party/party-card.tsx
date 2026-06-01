@@ -37,6 +37,7 @@ interface PartyCardProps {
   lolRankMin?: string | null;
   lolRankMax?: string | null;
   modded: boolean;
+  gameLabel?: string | null;
   creatorName: string | null;
   creatorImage?: string | null;
   createdAt: Date;
@@ -64,6 +65,7 @@ export function PartyCard({
   lolRankMin,
   lolRankMax,
   modded,
+  gameLabel,
   creatorName,
   creatorImage,
   createdAt,
@@ -121,7 +123,7 @@ export function PartyCard({
           {/* Tags */}
           <div className="flex flex-wrap gap-1.5">
             <Badge variant="primary">{SKILL_LABELS[skillLevel]}</Badge>
-            <Badge variant="default">{GAME_LABELS[game]}</Badge>
+            <Badge variant="default">{game === "OTHER" && gameLabel ? gameLabel : GAME_LABELS[game]}</Badge>
             <Badge variant="default">{LANGUAGE_FLAG[language] ?? language.toUpperCase()}</Badge>
             {minecraftVersion && <Badge variant="default">{MINECRAFT_VERSION_LABELS[minecraftVersion]}</Badge>}
             {lolRoles && lolRoles.length > 0 && lolRoles.map((r) => (

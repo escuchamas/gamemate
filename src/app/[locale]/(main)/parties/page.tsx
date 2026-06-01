@@ -2,7 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { PartyCard } from "@/components/party/party-card";
 import { Button } from "@/components/ui/button";
-import { GAME_ICONS, GAME_LABELS, SKILL_LABELS } from "@/lib/constants";
+import { GAME_LABELS, SKILL_LABELS } from "@/lib/constants";
+import { PartiesFilter } from "./parties-filter";
 import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
@@ -30,7 +31,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
   const t = await getTranslations("parties");
 
   const where: Record<string, unknown> = { status: "OPEN" };
-  if (params.game && ["MINECRAFT", "PROJECT_ZOMBOID"].includes(params.game)) {
+  if (params.game && ["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"].includes(params.game)) {
     where.game = params.game;
   }
   if (
@@ -47,13 +48,22 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
     where,
     orderBy: { createdAt: "desc" },
     take: 50,
-    include: {
+    select: {
+      id: true, name: true, description: true, game: true, gameLabel: true,
+      skillLevel: true, status: true, maxPlayers: true, language: true,
+      minecraftVersion: true, lolRoles: true, lolRankMin: true, lolRankMax: true,
+      modded: true, createdAt: true,
       creator: { select: { name: true, image: true } },
       _count: { select: { members: true } },
     },
   });
 
-  const games: Game[] = ["MINECRAFT", "PROJECT_ZOMBOID"];
+  const games: { value: Game; label: string }[] = [
+    { value: "MINECRAFT", label: "⛏️ Minecraft" },
+    { value: "PROJECT_ZOMBOID", label: "🧟 Project Zomboid" },
+    { value: "LEAGUE_OF_LEGENDS", label: "⚔️ League of Legends" },
+    { value: "OTHER", label: "🎮 Otro juego" },
+  ];
   const skills: SkillLevel[] = ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"];
 
   return (
@@ -80,41 +90,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <FilterLink
-            label={t("allGames")}
-            href="/parties"
-            active={!params.game}
-          />
-          {games.map((g) => (
-            <FilterLink
-              key={g}
-              label={`${GAME_ICONS[g]} ${GAME_LABELS[g]}`}
-              href={`/parties?game=${g}`}
-              active={params.game === g}
-            />
-          ))}
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          <FilterLink
-            label={t("allLevels")}
-            href={params.game ? `/parties?game=${params.game}` : "/parties"}
-            active={!params.skill}
-          />
-          {skills.map((s) => (
-            <FilterLink
-              key={s}
-              label={SKILL_LABELS[s]}
-              href={
-                params.game
-                  ? `/parties?game=${params.game}&skill=${s}`
-                  : `/parties?skill=${s}`
-              }
-              active={params.skill === s}
-            />
-          ))}
-        </div>
+        <PartiesFilter game={params.game} skill={params.skill} />
       </div>
 
       {parties.length === 0 ? (
@@ -151,6 +127,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
               lolRankMin={party.lolRankMin}
               lolRankMax={party.lolRankMax}
               modded={party.modded}
+              gameLabel={party.gameLabel}
               creatorName={party.creator.name}
               creatorImage={party.creator.image}
               createdAt={party.createdAt}

@@ -13,11 +13,12 @@ import {
   LANGUAGES,
 } from "@/lib/constants";
 
-type Game = "MINECRAFT" | "PROJECT_ZOMBOID" | "LEAGUE_OF_LEGENDS";
+type Game = "MINECRAFT" | "PROJECT_ZOMBOID" | "LEAGUE_OF_LEGENDS" | "OTHER";
 type SkillLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT";
 
 interface WizardData {
   game: Game | "";
+  gameLabel: string;
   name: string;
   description: string;
   skillLevel: SkillLevel | "";
@@ -39,6 +40,7 @@ const GAME_OPTIONS = [
   { value: "MINECRAFT" as Game, label: "Minecraft", emoji: "⛏️", desc: "Survival, creativo, modpacks..." },
   { value: "PROJECT_ZOMBOID" as Game, label: "Project Zomboid", emoji: "🧟", desc: "Supervivencia cooperativa" },
   { value: "LEAGUE_OF_LEGENDS" as Game, label: "League of Legends", emoji: "⚔️", desc: "Ranked, normal, ARAM..." },
+  { value: "OTHER" as Game, label: "Otro juego", emoji: "🎮", desc: "Valheim, Deep Rock, Phasmophobia..." },
 ];
 
 const SKILL_OPTIONS: { value: SkillLevel; label: string; sub: string }[] = [
@@ -49,17 +51,17 @@ const SKILL_OPTIONS: { value: SkillLevel; label: string; sub: string }[] = [
 ];
 
 function buildSteps(game: Game | ""): string[] {
-  const base = ["game", "name", "description", "skill", "players", "language"];
   if (!game) return ["game"];
   if (game === "MINECRAFT") return ["game", "name", "description", "mc_version", "skill", "players", "language", "mods", "rules", "summary"];
   if (game === "PROJECT_ZOMBOID") return ["game", "name", "description", "skill", "players", "language", "mods", "rules", "summary"];
   if (game === "LEAGUE_OF_LEGENDS") return ["game", "name", "description", "lol_roles", "lol_ranks", "skill", "players", "language", "rules", "summary"];
-  return base;
+  if (game === "OTHER") return ["game", "game_label", "name", "description", "skill", "players", "language", "rules", "summary"];
+  return ["game"];
 }
 
 export function CreatePartyWizard() {
   const [data, setData] = useState<WizardData>({
-    game: "", name: "", description: "", skillLevel: "",
+    game: "", gameLabel: "", name: "", description: "", skillLevel: "",
     minPlayers: 2, maxPlayers: 4, language: "es",
     minecraftVersion: "", lolRoles: [], lolRankMin: "", lolRankMax: "",
     modded: false, modTags: [], modsNote: "", serverInfo: "",
@@ -89,6 +91,7 @@ export function CreatePartyWizard() {
     setError("");
     // Validation per step
     if (currentStep === "game" && !data.game) { setError("Selecciona un juego para continuar."); return; }
+    if (currentStep === "game_label" && !data.gameLabel.trim()) { setError("Escribe el nombre del juego."); return; }
     if (currentStep === "name" && !data.name.trim()) { setError("El nombre es obligatorio."); return; }
     if (currentStep === "skill" && !data.skillLevel) { setError("Selecciona un nivel."); return; }
     if (currentStep === "mc_version" && !data.minecraftVersion) { setError("Selecciona la versión."); return; }
@@ -159,7 +162,14 @@ export function CreatePartyWizard() {
                 <button
                   key={g.value}
                   type="button"
-                  onClick={() => { set("game", g.value); set("selectedRules", []); go("forward"); }}
+                  onClick={() => {
+                    set("game", g.value);
+                    set("selectedRules", []);
+                    // LoL: default 5 players (full team)
+                    if (g.value === "LEAGUE_OF_LEGENDS") { set("minPlayers", 2); set("maxPlayers", 5); }
+                    else { set("maxPlayers", 4); }
+                    go("forward");
+                  }}
                   className={`flex items-center gap-4 p-4 rounded-xl border text-left transition-all ${
                     data.game === g.value
                       ? "bg-orange-600/15 border-orange-500 text-white"
@@ -174,6 +184,26 @@ export function CreatePartyWizard() {
                 </button>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* GAME LABEL */}
+        {currentStep === "game_label" && (
+          <div className="flex flex-col gap-5">
+            <div>
+              <h2 className="text-2xl font-bold text-white">¿Cuál es el juego?</h2>
+              <p className="text-sm text-[var(--muted-foreground)] mt-1">Escribe el nombre para que los demás sepan de qué va.</p>
+            </div>
+            <input
+              type="text"
+              value={data.gameLabel}
+              onChange={(e) => set("gameLabel", e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && next()}
+              placeholder="Ej: Valheim, Deep Rock Galactic, Phasmophobia..."
+              autoFocus
+              maxLength={60}
+              className="w-full px-4 py-3 rounded-xl bg-[var(--muted)] border border-[var(--card-border)] text-white placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500 text-base"
+            />
           </div>
         )}
 
@@ -522,7 +552,12 @@ export function CreatePartyWizard() {
             <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] p-5 flex flex-col gap-3 text-sm">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">{GAME_OPTIONS.find((g) => g.value === data.game)?.emoji}</span>
-                <span className="font-bold text-white text-lg">{data.name}</span>
+                <div>
+                  <span className="font-bold text-white text-lg">{data.name}</span>
+                  {data.game === "OTHER" && data.gameLabel && (
+                    <p className="text-xs text-[var(--muted-foreground)]">{data.gameLabel}</p>
+                  )}
+                </div>
               </div>
               {data.description && <p className="text-[var(--muted-foreground)] text-xs">{data.description}</p>}
               <div className="flex flex-wrap gap-2 text-xs">
@@ -595,6 +630,7 @@ export function CreatePartyWizard() {
       {/* Hidden form for submission */}
       <form ref={formRef} action={createPartyWizardAction} className="hidden">
         <input name="name" value={data.name} readOnly />
+        <input name="gameLabel" value={data.gameLabel} readOnly />
         <input name="description" value={data.description} readOnly />
         <input name="game" value={data.game} readOnly />
         <input name="skillLevel" value={data.skillLevel} readOnly />

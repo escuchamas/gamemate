@@ -2,12 +2,14 @@ export const GAME_LABELS = {
   MINECRAFT: "Minecraft",
   PROJECT_ZOMBOID: "Project Zomboid",
   LEAGUE_OF_LEGENDS: "League of Legends",
+  OTHER: "Otro juego",
 } as const;
 
 export const GAME_ICONS = {
   MINECRAFT: "⛏️",
   PROJECT_ZOMBOID: "🧟",
   LEAGUE_OF_LEGENDS: "⚔️",
+  OTHER: "🎮",
 } as const;
 
 export const SKILL_LABELS = {
@@ -61,6 +63,12 @@ export const LOL_RANK_LABELS: Record<string, string> = {
 };
 
 export const SKILL_CRITERIA = {
+  OTHER: {
+    BEGINNER: "Llevo poco tiempo, aún aprendo las mecánicas básicas del juego",
+    INTERMEDIATE: "Conozco lo fundamental y me defiendo con soltura",
+    ADVANCED: "Tengo bastante experiencia y domino la mayoría de mecánicas",
+    EXPERT: "Domino el juego a fondo, busco gente al mismo nivel",
+  },
   MINECRAFT: {
     BEGINNER: "Acabas de empezar. Aún aprendes a craftear y a sobrevivir la primera noche. No has conseguido herramientas de hierro.",
     INTERMEDIATE: "Sabes craftear herramientas y armadura de hierro, conoces los mobs principales y te manejas con soltura en cuevas y superficie.",
@@ -142,6 +150,14 @@ export const RULE_CATEGORY_LABELS = {
 
 // Reglas predeterminadas por juego y categoría
 export const DEFAULT_RULES = {
+  OTHER: [
+    { category: "BEHAVIOR" as const, text: "Tratar a todos los jugadores con respeto", isRequired: true },
+    { category: "BEHAVIOR" as const, text: "Cero toxicidad — ni insultos ni actitudes negativas", isRequired: true },
+    { category: "COMMUNICATION" as const, text: "Avisar si no puedes conectarte o vas a dejar el grupo", isRequired: false },
+    { category: "COMMUNICATION" as const, text: "Estar disponible en el canal de comunicación acordado", isRequired: false },
+    { category: "GAMEPLAY" as const, text: "Respetar el nivel y ritmo de juego acordado al entrar", isRequired: false },
+    { category: "GAMEPLAY" as const, text: "No hacer spoilers ni arruinar la experiencia a otros", isRequired: false },
+  ],
   MINECRAFT: [
     {
       category: "BEHAVIOR" as const,
