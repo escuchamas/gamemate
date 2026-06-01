@@ -50,7 +50,7 @@ export const createPartySchema = z.object({
     .string()
     .max(300, { error: "La descripción no puede superar 300 caracteres" })
     .optional(),
-  game: z.enum(["MINECRAFT", "PROJECT_ZOMBOID"], {
+  game: z.enum(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"], {
     error: "Selecciona un juego",
   }),
   skillLevel: z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"], {
@@ -73,7 +73,7 @@ export const createPartySchema = z.object({
 });
 
 export const gameProfileSchema = z.object({
-  game: z.enum(["MINECRAFT", "PROJECT_ZOMBOID"]),
+  game: z.enum(["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS"]),
   skillLevel: z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"]),
   playtimeHours: z.number().int().min(0).max(99999).optional(),
   modded: z.boolean(),
