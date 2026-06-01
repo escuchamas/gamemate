@@ -111,7 +111,7 @@ export default async function AdminUsersPage({
                     <span className="text-amber-400">⚠ Sin completar</span>
                   ) : (
                     <span className="text-green-400">
-                      ✓ {user.gameProfiles.map((p) => ({ MINECRAFT: "MC", PROJECT_ZOMBOID: "PZ", LEAGUE_OF_LEGENDS: "LoL" }[p.game])).join(", ")}
+                      ✓ {user.gameProfiles.map((p) => ({ MINECRAFT: "MC", PROJECT_ZOMBOID: "PZ", LEAGUE_OF_LEGENDS: "LoL", OTHER: "Otro" } as Record<string, string>)[p.game]).join(", ")}
                     </span>
                   )}
                 </div>
