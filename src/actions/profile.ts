@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { gameProfileSchema } from "@/lib/validations";
 import { z } from "zod";
 import { updateTag } from "next/cache";
+import { Resend } from "resend";
 
 type ActionResult = { error?: string; success?: string };
 
@@ -174,6 +175,70 @@ export async function ratePlayerAction(
   });
 
   updateTag(`profile-${parsed.data.ratedId}`);
+
+  // Send email to rated user
+  try {
+    const [ratedUser, raterUser] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: parsed.data.ratedId },
+        select: { email: true, name: true },
+      }),
+      prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { name: true },
+      }),
+    ]);
+
+    if (ratedUser) {
+      const TRAITS: { key: keyof typeof parsed.data; emoji: string; label: string }[] = [
+        { key: "levelMatch",   emoji: "🎯", label: "Nivel como prometió" },
+        { key: "friendliness", emoji: "😊", label: "Buen rollo" },
+        { key: "funFactor",    emoji: "🔥", label: "Muy divertido" },
+        { key: "reliability",  emoji: "✅", label: "Responsable" },
+      ];
+      const endorsed = TRAITS.filter((t) => (parsed.data[t.key] as number) >= 5);
+      const endorsedHtml = endorsed.length > 0
+        ? endorsed.map((t) => `<span style="display:inline-block;background:#1c1c2e;border:1px solid #374151;border-radius:8px;padding:6px 12px;margin:4px;font-size:13px">${t.emoji} ${t.label}</span>`).join("")
+        : "";
+
+      const base = process.env.AUTH_URL ?? "https://gamemate.es";
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      await resend.emails.send({
+        from: process.env.EMAIL_FROM ?? "GameMate <noreply@gamemate.es>",
+        to: ratedUser.email,
+        subject: `${raterUser?.name ?? "Alguien"} te ha valorado en GameMate ⭐`,
+        html: `
+          <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0f0f13;color:#e8e8f0;border-radius:12px">
+            <div style="text-align:center;margin-bottom:24px">
+              <img src="https://gamemate.es/apple-icon.png" alt="GameMate" style="width:64px;height:64px;border-radius:50%"/>
+            </div>
+            <h1 style="font-size:22px;font-weight:700;color:#ffffff;margin:0 0 8px">¡Te han valorado, ${ratedUser.name ?? "gamer"}! ⭐</h1>
+            <p style="color:#a0a0b8;margin:0 0 20px;line-height:1.6">
+              <strong style="color:#ffffff">${raterUser?.name ?? "Un compañero"}</strong> ha dejado una valoración sobre ti.
+            </p>
+            ${endorsedHtml ? `
+            <div style="margin:0 0 20px">
+              <p style="color:#6b7280;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 10px">Lo que destacó</p>
+              <div>${endorsedHtml}</div>
+            </div>` : ""}
+            ${parsed.data.comment ? `
+            <div style="background:#1c1c2e;border-left:3px solid #ea580c;border-radius:4px;padding:12px 16px;margin:0 0 24px">
+              <p style="color:#e8e8f0;font-size:14px;margin:0;font-style:italic">"${parsed.data.comment}"</p>
+            </div>` : ""}
+            <a href="${base}/es/profile" style="display:inline-block;background:#ea580c;color:#ffffff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px">
+              Ver mi reputación →
+            </a>
+            <p style="color:#6b7280;font-size:12px;margin-top:32px">
+              Si no esperabas este email, puedes ignorarlo.
+            </p>
+          </div>
+        `,
+      });
+    }
+  } catch {
+    // No bloquear el flujo si el email falla
+  }
+
   return { success: "Valoración enviada" };
 }
 
