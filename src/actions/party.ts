@@ -551,3 +551,7 @@ export async function closePartyAction(partyId: string): Promise<ActionResult> {
 
   return { success: "Party cerrada" };
 }
+
+export async function createPartyWizardAction(formData: FormData): Promise<void> {
+  await createPartyAction({}, formData);
+}

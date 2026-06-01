@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { createPartyAction } from "@/actions/party";
+import { createPartyWizardAction } from "@/actions/party";
 import {
   SKILL_CRITERIA,
   POPULAR_MODPACKS,
@@ -593,7 +593,7 @@ export function CreatePartyWizard() {
       </div>
 
       {/* Hidden form for submission */}
-      <form ref={formRef} action={async (fd) => { await createPartyAction({}, fd); }} className="hidden">
+      <form ref={formRef} action={createPartyWizardAction} className="hidden">
         <input name="name" value={data.name} readOnly />
         <input name="description" value={data.description} readOnly />
         <input name="game" value={data.game} readOnly />
