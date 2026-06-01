@@ -90,6 +90,7 @@ export const SKILL_CRITERIA = {
 } as const;
 
 export const POPULAR_MODPACKS = {
+  OTHER: [] as string[],
   MINECRAFT: [
     "RLCraft",
     "All the Mods 9",
@@ -508,6 +509,7 @@ export const LANGUAGE_FLAG: Record<string, string> = {
 
 // IDs de hitos de progreso por juego (las labels están en i18n)
 export const GAME_MILESTONES = {
+  OTHER: [] as string[],
   MINECRAFT: [
     "START",
     "STONE_AGE",
