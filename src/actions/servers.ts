@@ -27,7 +27,7 @@ export async function createServerAction(
   const description = (formData.get("description") as string)?.trim();
   const game = formData.get("game") as string;
   const ip = (formData.get("ip") as string)?.trim() || null;
-  const discordUrl = (formData.get("discordUrl") as string)?.trim();
+  const discordUrl = (formData.get("discordUrl") as string)?.trim() || null;
   const websiteUrl = (formData.get("websiteUrl") as string)?.trim() || null;
   const modded = formData.get("modded") === "true";
   const modsNote = (formData.get("modsNote") as string)?.trim() || null;
@@ -39,8 +39,11 @@ export async function createServerAction(
   if (!game || !["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"].includes(game)) {
     return { error: "Selecciona un juego válido" };
   }
-  if (!discordUrl || !discordUrl.startsWith("https://discord")) {
+  if (discordUrl && !discordUrl.startsWith("https://discord")) {
     return { error: "El enlace de Discord debe empezar por https://discord" };
+  }
+  if (!discordUrl && !websiteUrl) {
+    return { error: "Añade al menos un enlace de contacto (Discord o web)" };
   }
   if (websiteUrl && !websiteUrl.startsWith("http")) {
     return { error: "La URL de la web debe empezar por http" };

@@ -760,7 +760,7 @@ model GameServer {
   name        String   @db.VarChar(100)
   description String   @db.VarChar(2000)
   ip          String?  @db.VarChar(200)
-  discordUrl  String   @db.VarChar(300)
+  discordUrl  String?  @db.VarChar(300)
   websiteUrl  String?  @db.VarChar(300)
   modded      Boolean  @default(false)
   modsNote    String?  @db.VarChar(300)

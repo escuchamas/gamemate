@@ -129,14 +129,16 @@ export default async function ServerDetailPage({ params }: Props) {
 
       {/* Links */}
       <div className="flex flex-wrap gap-3">
-        <a
-          href={server.discordUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#5865F2]/20 border border-[#5865F2]/40 text-[#7289DA] hover:bg-[#5865F2]/30 transition-colors text-sm font-medium"
-        >
-          <span>💬</span> Unirse al Discord
-        </a>
+        {server.discordUrl && (
+          <a
+            href={server.discordUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#5865F2]/20 border border-[#5865F2]/40 text-[#7289DA] hover:bg-[#5865F2]/30 transition-colors text-sm font-medium"
+          >
+            <span>💬</span> Unirse al Discord
+          </a>
+        )}
         {server.websiteUrl && (
           <a
             href={server.websiteUrl}

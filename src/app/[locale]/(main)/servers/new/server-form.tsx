@@ -70,11 +70,10 @@ export function ServerForm() {
       </Field>
 
       {/* Discord */}
-      <Field label="Enlace de Discord *" hint="https://discord.gg/...">
+      <Field label="Enlace de Discord" hint="Recomendado. Al menos Discord o web es obligatorio.">
         <input
           type="url"
           name="discordUrl"
-          required
           placeholder="https://discord.gg/tu-server"
           className="w-full px-3 py-2.5 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
