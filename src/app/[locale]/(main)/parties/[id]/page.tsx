@@ -1,6 +1,46 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import type { Metadata } from "next";
+import { GAME_LABELS as GL, SKILL_LABELS as SL } from "@/lib/constants";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string; locale: string }>;
+}): Promise<Metadata> {
+  const { id, locale } = await params;
+  const party = await prisma.party.findUnique({
+    where: { id },
+    select: { name: true, description: true, game: true, skillLevel: true, maxPlayers: true },
+  });
+  if (!party) return { title: "Party no encontrada" };
+
+  const isEs = locale === "es";
+  const gameLabel = GL[party.game as keyof typeof GL] ?? party.game;
+  const skillLabel = SL[party.skillLevel as keyof typeof SL] ?? party.skillLevel;
+  const title = isEs
+    ? `${party.name} – Party de ${gameLabel} | GameMate`
+    : `${party.name} – ${gameLabel} Party | GameMate`;
+  const description = party.description?.slice(0, 155) ?? (
+    isEs
+      ? `Party de ${gameLabel} nivel ${skillLabel}. Hasta ${party.maxPlayers} jugadores. Únete en GameMate.`
+      : `${gameLabel} party, ${skillLabel} level. Up to ${party.maxPlayers} players. Join on GameMate.`
+  );
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://gamemate.es/${locale}/parties/${id}`,
+      siteName: "GameMate",
+      type: "website",
+    },
+    twitter: { card: "summary", title, description },
+  };
+}
 import { Badge } from "@/components/ui/badge";
 import {
   GAME_ICONS,

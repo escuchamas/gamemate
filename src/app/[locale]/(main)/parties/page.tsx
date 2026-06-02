@@ -14,6 +14,15 @@ export const metadata: Metadata = {
   title: "Parties activas – Busca equipo para Minecraft, LoL y Project Zomboid",
   description:
     "Encuentra parties de Minecraft, League of Legends y Project Zomboid a tu nivel. Filtra por juego, nivel y idioma. Únete a jugadores verificados.",
+  openGraph: {
+    title: "Parties activas – Busca equipo para Minecraft, LoL y Project Zomboid",
+    description: "Encuentra parties de Minecraft, League of Legends y Project Zomboid a tu nivel. Filtra por juego, nivel y idioma. Únete a jugadores verificados.",
+    url: "https://gamemate.es/es/parties",
+    siteName: "GameMate",
+    type: "website",
+    images: [{ url: "https://gamemate.es/games/biome-minecraft.webp", width: 800, height: 400 }],
+  },
+  twitter: { card: "summary_large_image", title: "Parties activas | GameMate", description: "Encuentra tu equipo para Minecraft, LoL y Project Zomboid." },
 };
 
 const PARTY_SELECT = {
