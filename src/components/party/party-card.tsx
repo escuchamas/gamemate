@@ -20,7 +20,7 @@ const GAME_COVERS: Partial<Record<Game, string>> = {
 };
 
 const GAME_LOGOS: Partial<Record<Game, string>> = {
-  LEAGUE_OF_LEGENDS: "/games/logo lol.png",
+  LEAGUE_OF_LEGENDS: "/games/lol.png",
   PROJECT_ZOMBOID: "/games/pz.png",
 };
 
