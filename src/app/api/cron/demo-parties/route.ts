@@ -174,6 +174,34 @@ export async function GET(req: NextRequest) {
 
   const log: string[] = [];
 
+  // ── 0. Cerrar parties reales con más de 10 días ───────────────────────────────
+  const tenDaysAgo = new Date(Date.now() - 10 * 24 * 3_600_000);
+  const expiredReal = await prisma.party.findMany({
+    where: {
+      status: { in: ["OPEN", "FULL"] },
+      createdAt: { lt: tenDaysAgo },
+      creator: { email: { not: { endsWith: DEMO_EMAIL_DOMAIN } } },
+    },
+    select: { id: true, name: true, creatorId: true },
+  });
+  if (expiredReal.length) {
+    await prisma.party.updateMany({
+      where: { id: { in: expiredReal.map(p => p.id) } },
+      data: { status: "CLOSED" },
+    });
+    await prisma.notification.createMany({
+      data: expiredReal.map(p => ({
+        userId: p.creatorId,
+        type: "PARTY_EXPIRED",
+        title: "Party cerrada automáticamente",
+        body: `Tu party "${p.name}" ha sido cerrada tras 10 días sin completarse.`,
+        link: `/parties/${p.id}`,
+      })),
+      skipDuplicates: true,
+    });
+    log.push(`Closed ${expiredReal.length} expired real parties (>10 days)`);
+  }
+
   // ── 1. Avanzar ciclo de vida de parties existentes ───────────────────────────
 
   const allDemoParties = await prisma.party.findMany({
