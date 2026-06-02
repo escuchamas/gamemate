@@ -54,7 +54,7 @@ export default async function DonationsPage({ params }: Props) {
           {en ? "What is the money used for?" : "¿En qué se usa el dinero?"}
         </h2>
         <ul className="flex flex-col gap-2">
-          {en ? [
+          {(en ? [
             { emoji: "🖥️", text: "Servers and database (Neon, Vercel)" },
             { emoji: "🌐", text: "Domain — gamemate.es" },
             { emoji: "📧", text: "Transactional email service (Resend)" },
@@ -66,7 +66,7 @@ export default async function DonationsPage({ params }: Props) {
             { emoji: "📧", text: "Servicio de emails transaccionales (Resend)" },
             { emoji: "🛠️", text: "Desarrollo de nuevas funcionalidades" },
             { emoji: "🚀", text: "Infraestructura para escalar cuando llegue más gente" },
-          ].map((item) => (
+          ]).map((item) => (
             <li key={item.text} className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
               <span>{item.emoji}</span>
               <span>{item.text}</span>
