@@ -182,7 +182,7 @@ export async function GET(req: NextRequest) {
       createdAt: { lt: tenDaysAgo },
       creator: { email: { not: { endsWith: DEMO_EMAIL_DOMAIN } } },
     },
-    select: { id: true, name: true, creatorId: true },
+    select: { id: true, name: true, creatorId: true, status: true },
   });
   if (expiredReal.length) {
     await prisma.party.updateMany({
