@@ -13,13 +13,10 @@ export const metadata: Metadata = {
     "Encuentra los mejores servidores de Minecraft y Project Zomboid en español. Supervivencia, roleplay, hardcore y más. Comunidad verificada y activa.",
 };
 
-const GAME_LOGOS: Partial<Record<Game, string>> = {
-  LEAGUE_OF_LEGENDS: "/games/lol.png",
-  PROJECT_ZOMBOID: "/games/pz.png",
-};
-
 const GAME_COVERS: Partial<Record<Game, string>> = {
   MINECRAFT: "/games/biome-minecraft.webp",
+  LEAGUE_OF_LEGENDS: "/games/lol.jpg",
+  PROJECT_ZOMBOID: "/games/PZ.jpg",
 };
 
 const GAME_FILTER_VALUES = [

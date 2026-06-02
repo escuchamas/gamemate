@@ -8,9 +8,10 @@ import { VoteButton } from "./vote-button";
 import type { Game } from "@/generated/prisma/client";
 import type { Metadata } from "next";
 
-const GAME_LOGOS: Partial<Record<Game, string>> = {
-  LEAGUE_OF_LEGENDS: "/games/lol.png",
-  PROJECT_ZOMBOID: "/games/pz.png",
+const GAME_COVERS: Partial<Record<Game, string>> = {
+  MINECRAFT: "/games/biome-minecraft.webp",
+  LEAGUE_OF_LEGENDS: "/games/lol.jpg",
+  PROJECT_ZOMBOID: "/games/PZ.jpg",
 };
 
 interface Props {
@@ -61,7 +62,7 @@ export default async function ServerDetailPage({ params }: Props) {
       }))
     : false;
 
-  const logo = GAME_LOGOS[server.game as Game];
+  const cover = GAME_COVERS[server.game as Game];
 
   return (
     <div className="max-w-2xl mx-auto flex flex-col gap-6">
@@ -74,8 +75,8 @@ export default async function ServerDetailPage({ params }: Props) {
         <div className="flex items-start gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
-              {logo ? (
-                <img src={logo} alt={GAME_LABELS[server.game as Game]} className="h-7 w-7 object-contain flex-shrink-0" />
+              {cover ? (
+                <img src={cover} alt={GAME_LABELS[server.game as Game]} className="h-8 w-14 object-cover rounded flex-shrink-0" />
               ) : (
                 <span className="text-2xl">{GAME_ICONS[server.game as Game]}</span>
               )}
