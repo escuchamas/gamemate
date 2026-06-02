@@ -293,5 +293,20 @@
     "PROJECT_ZOMBOID": "Project Zomboid",
     "LEAGUE_OF_LEGENDS": "League of Legends",
     "OTHER": "Otro juego"
+  },
+  "footer": {
+    "tagline": "Encuentra tu equipo de juego ideal. Gratis para siempre para el jugador.",
+    "platform": "Plataforma",
+    "contact": "Contacto",
+    "sponsorship": "Patrocinio",
+    "donations": "Donaciones",
+    "suggestions": "Peticiones",
+    "legal": "Legal",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de privacidad",
+    "cookies": "Política de cookies",
+    "legalNotice": "Aviso legal",
+    "rights": "© {year} GameMate. Todos los derechos reservados.",
+    "madeWith": "Hecho con ❤️ para gamers de verdad"
   }
 }

@@ -293,5 +293,20 @@
     "PROJECT_ZOMBOID": "Project Zomboid",
     "LEAGUE_OF_LEGENDS": "League of Legends",
     "OTHER": "Other"
+  },
+  "footer": {
+    "tagline": "Find your ideal gaming crew. Free forever for players.",
+    "platform": "Platform",
+    "contact": "Contact",
+    "sponsorship": "Sponsorship",
+    "donations": "Donations",
+    "suggestions": "Suggestions",
+    "legal": "Legal",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy policy",
+    "cookies": "Cookie policy",
+    "legalNotice": "Legal notice",
+    "rights": "© {year} GameMate. All rights reserved.",
+    "madeWith": "Made with ❤️ for real gamers"
   }
 }

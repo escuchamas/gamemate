@@ -75,13 +75,13 @@ export async function Navbar() {
                 href="/history"
                 className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
-                Historial
+                {t("history")}
               </Link>
               <Link
                 href="/friends"
                 className="relative px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
-                Amigos
+                {t("friends")}
                 {pendingFriendRequests > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-orange-500 text-white text-[10px] rounded-full flex items-center justify-center font-bold">
                     {pendingFriendRequests}
@@ -94,13 +94,13 @@ export async function Navbar() {
             href="/suggestions"
             className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
           >
-            Peticiones
+            {t("suggestions")}
           </Link>
           <Link
             href="/contact"
             className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
           >
-            Contacto
+            {t("contact")}
           </Link>
         </nav>
 

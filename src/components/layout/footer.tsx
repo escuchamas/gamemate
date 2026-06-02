@@ -1,6 +1,10 @@
 import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 
-export function Footer() {
+export async function Footer() {
+  const t = await getTranslations("footer");
+  const year = new Date().getFullYear();
+
   return (
     <footer className="border-t border-[var(--card-border)] bg-[var(--background)] mt-auto">
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -11,57 +15,51 @@ export function Footer() {
               <img src="/icon.png" alt="GameMate" className="h-7 w-7 rounded-full" />
               <span className="font-semibold text-white">GameMate</span>
             </div>
-            <p className="text-xs text-[var(--muted-foreground)]">
-              Encuentra tu equipo de juego ideal. Gratis para siempre para el jugador.
-            </p>
+            <p className="text-xs text-[var(--muted-foreground)]">{t("tagline")}</p>
           </div>
 
           {/* Links principales */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold text-[var(--foreground)] uppercase tracking-wider mb-1">
-              Plataforma
+              {t("platform")}
             </p>
             <Link href="/contact" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
-              Contacto
+              {t("contact")}
             </Link>
             <Link href="/sponsorship" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
-              Patrocinio
+              {t("sponsorship")}
             </Link>
             <Link href="/donations" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
-              Donaciones
+              {t("donations")}
             </Link>
             <Link href="/suggestions" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
-              Peticiones
+              {t("suggestions")}
             </Link>
           </div>
 
           {/* Legal */}
           <div className="flex flex-col gap-2">
             <p className="text-xs font-semibold text-[var(--foreground)] uppercase tracking-wider mb-1">
-              Legal
+              {t("legal")}
             </p>
             <Link href="/terms" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
-              Términos y condiciones
+              {t("terms")}
             </Link>
             <Link href="/privacy" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
-              Política de privacidad
+              {t("privacy")}
             </Link>
             <Link href="/cookies" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
-              Política de cookies
+              {t("cookies")}
             </Link>
             <Link href="/legal" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
-              Aviso legal
+              {t("legalNotice")}
             </Link>
           </div>
         </div>
 
         <div className="border-t border-[var(--card-border)] mt-6 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-[var(--muted-foreground)]">
-            © {new Date().getFullYear()} GameMate. Todos los derechos reservados.
-          </p>
-          <p className="text-xs text-[var(--muted-foreground)]">
-            Hecho con ❤️ para gamers de verdad
-          </p>
+          <p className="text-xs text-[var(--muted-foreground)]">{t("rights", { year })}</p>
+          <p className="text-xs text-[var(--muted-foreground)]">{t("madeWith")}</p>
         </div>
       </div>
     </footer>
