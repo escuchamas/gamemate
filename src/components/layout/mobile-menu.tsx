@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { signOutAction } from "@/actions/auth";
 import { Avatar } from "@/components/ui/avatar";
 import { LocaleSwitcher } from "./locale-switcher";
+import { useTranslations } from "next-intl";
 
 interface Props {
   isLoggedIn: boolean;
@@ -26,6 +27,7 @@ export function MobileMenu({
   unreadNotifications,
   locale,
 }: Props) {
+  const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -103,23 +105,23 @@ export function MobileMenu({
 
             {/* Nav links */}
             <nav className="flex flex-col gap-1 px-3 py-4 flex-1 overflow-y-auto">
-              <NavLink href="/parties" onClick={close}>🎮 Parties</NavLink>
+              <NavLink href="/parties" onClick={close}>🎮 {t("parties")}</NavLink>
 
               {isLoggedIn && (
                 <>
-                  <NavLink href="/parties/new" onClick={close}>✨ Crear party</NavLink>
-                  <NavLink href="/history" onClick={close}>📋 Historial</NavLink>
+                  <NavLink href="/parties/new" onClick={close}>✨ {t("createParty")}</NavLink>
+                  <NavLink href="/history" onClick={close}>📋 {t("history")}</NavLink>
                   <NavLink href="/friends" onClick={close} badge={pendingFriendRequests}>
-                    👥 Amigos
+                    👥 {t("friends")}
                   </NavLink>
                   <NavLink href="/notifications" onClick={close} badge={unreadNotifications}>
-                    🔔 Notificaciones
+                    🔔 {t("notifications")}
                   </NavLink>
                 </>
               )}
 
-              <NavLink href="/suggestions" onClick={close}>💡 Peticiones</NavLink>
-              <NavLink href="/contact" onClick={close}>✉️ Contacto</NavLink>
+              <NavLink href="/suggestions" onClick={close}>💡 {t("suggestions")}</NavLink>
+              <NavLink href="/contact" onClick={close}>✉️ {t("contact")}</NavLink>
 
               {isAdmin && (
                 <NavLink href="/admin" onClick={close}>
@@ -149,7 +151,7 @@ export function MobileMenu({
                       type="submit"
                       className="w-full px-3 py-2.5 text-sm rounded-xl text-gray-400 hover:text-white transition-colors text-left border border-[#1e1e2e]"
                     >
-                      Cerrar sesión
+                      {t("logout")}
                     </button>
                   </form>
                 </>
@@ -160,14 +162,14 @@ export function MobileMenu({
                     onClick={close}
                     className="w-full px-3 py-2.5 text-sm rounded-xl text-center text-gray-400 hover:text-white transition-colors border border-[#1e1e2e]"
                   >
-                    Iniciar sesión
+                    {t("login")}
                   </Link>
                   <Link
                     href="/register"
                     onClick={close}
                     className="w-full px-3 py-2.5 text-sm rounded-xl text-center bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium"
                   >
-                    Registrarse
+                    {t("register")}
                   </Link>
                 </>
               )}

@@ -81,7 +81,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
             !isMine ? "bg-[var(--card)] text-white shadow-sm" : "text-[var(--muted-foreground)] hover:text-white"
           }`}
         >
-          Todas las parties
+          {t("allParties")}
         </Link>
         <Link
           href="/parties?tab=mine"
@@ -89,7 +89,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
             isMine ? "bg-[var(--card)] text-white shadow-sm" : "text-[var(--muted-foreground)] hover:text-white"
           }`}
         >
-          Mis parties
+          {t("myParties")}
         </Link>
       </div>
 
@@ -99,7 +99,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
       {/* Count */}
       <p className="text-sm text-[var(--muted-foreground)] -mt-2">
         {isMine
-          ? `${parties.length} partie${parties.length !== 1 ? "s" : ""} activa${parties.length !== 1 ? "s" : ""}`
+          ? t("myActive", { count: parties.length })
           : t("waiting", { count: parties.length })}
       </p>
 
@@ -107,13 +107,13 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
         <div className="text-center py-16 text-[var(--muted-foreground)]">
           <p className="text-4xl mb-3">{isMine ? "🎮" : "😴"}</p>
           <p className="font-medium text-white mb-1">
-            {isMine ? "Aún no estás en ninguna party activa" : t("empty.title")}
+            {isMine ? t("empty.myTitle") : t("empty.title")}
           </p>
           <p className="text-sm mb-4">
-            {isMine ? "Únete a una party o crea la tuya propia." : t("empty.subtitle")}
+            {isMine ? t("empty.mySubtitle") : t("empty.subtitle")}
           </p>
           <Link href={isMine ? "/parties" : "/parties/new"}>
-            <Button>{isMine ? "Ver parties disponibles" : t("empty.cta")}</Button>
+            <Button>{isMine ? t("empty.myCta") : t("empty.cta")}</Button>
           </Link>
         </div>
       ) : (

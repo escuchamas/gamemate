@@ -17,6 +17,11 @@
   "nav": {
     "parties": "Parties",
     "createParty": "Crear party",
+    "history": "Historial",
+    "friends": "Amigos",
+    "notifications": "Notificaciones",
+    "suggestions": "Peticiones",
+    "contact": "Contacto",
     "profile": "Perfil",
     "login": "Entrar",
     "register": "Registrarse",
@@ -101,16 +106,23 @@
   },
   "parties": {
     "title": "Parties abiertas",
+    "allParties": "Todas las parties",
+    "myParties": "Mis parties",
     "createButton": "+ Crear party",
     "joinToCreate": "Únete para crear una",
     "allGames": "Todos los juegos",
     "allLevels": "Todos los niveles",
+    "otherGame": "Otro juego",
     "empty": {
       "title": "Nadie ha creado una party aquí todavía",
       "subtitle": "Sé el primero. Los demás aparecerán después.",
       "cta": "Crear la primera party",
-      "ctaGuest": "Regístrate y créala"
+      "ctaGuest": "Regístrate y créala",
+      "myTitle": "Aún no estás en ninguna party activa",
+      "mySubtitle": "Únete a una party o crea la tuya propia.",
+      "myCta": "Ver parties disponibles"
     },
+    "myActive": "{count, plural, one {# party activa} other {# parties activas}}",
     "waiting": "{count, plural, one {# party} other {# parties}} esperando jugadores",
     "status": {
       "OPEN": "Abierta",
@@ -278,6 +290,8 @@
   },
   "games": {
     "MINECRAFT": "Minecraft",
-    "PROJECT_ZOMBOID": "Project Zomboid"
+    "PROJECT_ZOMBOID": "Project Zomboid",
+    "LEAGUE_OF_LEGENDS": "League of Legends",
+    "OTHER": "Otro juego"
   }
 }

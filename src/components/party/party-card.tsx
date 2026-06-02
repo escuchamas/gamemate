@@ -17,9 +17,11 @@ import type { Game, SkillLevel, PartyStatus } from "@/generated/prisma/client";
 
 const GAME_COVERS: Partial<Record<Game, string>> = {
   MINECRAFT: "/games/biome-minecraft.webp",
-  // Añade las demás cuando tengas las imágenes:
-  // LEAGUE_OF_LEGENDS: "/games/lol.webp",
-  // PROJECT_ZOMBOID: "/games/project-zomboid.webp",
+};
+
+const GAME_LOGOS: Partial<Record<Game, string>> = {
+  LEAGUE_OF_LEGENDS: "/games/logo lol.png",
+  PROJECT_ZOMBOID: "/games/pz.png",
 };
 
 interface PartyCardProps {
@@ -101,7 +103,15 @@ export function PartyCard({
         ) : (
           <div className="px-4 pt-4 flex items-start justify-between gap-2 mb-2">
             <div className="flex items-center gap-2 min-w-0">
-              <span className="text-xl flex-shrink-0">{GAME_ICONS[game]}</span>
+              {GAME_LOGOS[game] ? (
+                <img
+                  src={GAME_LOGOS[game]}
+                  alt={GAME_LABELS[game]}
+                  className="h-6 w-6 object-contain flex-shrink-0"
+                />
+              ) : (
+                <span className="text-xl flex-shrink-0">{GAME_ICONS[game]}</span>
+              )}
               <h3 className="font-semibold text-sm text-white truncate group-hover:text-orange-300 transition-colors">
                 {name}
               </h3>

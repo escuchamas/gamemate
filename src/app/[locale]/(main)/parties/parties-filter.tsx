@@ -1,19 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { SKILL_LABELS } from "@/lib/constants";
+import { useTranslations } from "next-intl";
 
-const GAMES = [
-  { value: "MINECRAFT", label: "⛏️ Minecraft" },
-  { value: "PROJECT_ZOMBOID", label: "🧟 Project Zomboid" },
-  { value: "LEAGUE_OF_LEGENDS", label: "⚔️ League of Legends" },
-  { value: "OTHER", label: "🎮 Otro juego" },
-];
+const GAME_VALUES = ["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"] as const;
+const GAME_EMOJIS: Record<string, string> = {
+  MINECRAFT: "⛏️",
+  PROJECT_ZOMBOID: "🧟",
+  LEAGUE_OF_LEGENDS: "⚔️",
+  OTHER: "🎮",
+};
 
 const SKILLS = ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"] as const;
 
 export function PartiesFilter({ game, skill }: { game?: string; skill?: string }) {
   const router = useRouter();
+  const tp = useTranslations("parties");
+  const ts = useTranslations("skill");
+  const tg = useTranslations("games");
 
   function update(newGame: string, newSkill: string) {
     const params = new URLSearchParams();
@@ -29,9 +33,9 @@ export function PartiesFilter({ game, skill }: { game?: string; skill?: string }
         onChange={(e) => update(e.target.value, skill ?? "")}
         className="px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white focus:outline-none focus:ring-1 focus:ring-orange-500 cursor-pointer"
       >
-        <option value="">🎮 Todos los juegos</option>
-        {GAMES.map((g) => (
-          <option key={g.value} value={g.value}>{g.label}</option>
+        <option value="">🎮 {tp("allGames")}</option>
+        {GAME_VALUES.map((g) => (
+          <option key={g} value={g}>{GAME_EMOJIS[g]} {tg(g)}</option>
         ))}
       </select>
 
@@ -40,9 +44,9 @@ export function PartiesFilter({ game, skill }: { game?: string; skill?: string }
         onChange={(e) => update(game ?? "", e.target.value)}
         className="px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white focus:outline-none focus:ring-1 focus:ring-orange-500 cursor-pointer"
       >
-        <option value="">⭐ Todos los niveles</option>
+        <option value="">⭐ {tp("allLevels")}</option>
         {SKILLS.map((s) => (
-          <option key={s} value={s}>{SKILL_LABELS[s]}</option>
+          <option key={s} value={s}>{ts(s)}</option>
         ))}
       </select>
     </div>
