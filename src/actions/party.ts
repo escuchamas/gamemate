@@ -18,6 +18,16 @@ export async function createPartyAction(
   const session = await auth();
   if (!session?.user?.id) return { error: "Debes iniciar sesión" };
 
+  const activeParties = await prisma.party.count({
+    where: {
+      creatorId: session.user.id,
+      status: { in: ["OPEN", "FULL", "IN_GAME"] },
+    },
+  });
+  if (activeParties >= 2) {
+    return { error: "Ya tienes 2 parties activas. Cierra una antes de crear otra." };
+  }
+
   const selectedRulesRaw = formData.get("selectedRules");
   const customRulesRaw = formData.get("customRules");
 
