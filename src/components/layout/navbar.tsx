@@ -50,16 +50,16 @@ export async function Navbar() {
         </div>
 
         {/* Nav links */}
-        <nav className="hidden sm:flex items-center gap-1">
+        <nav className="hidden sm:flex items-center gap-0.5">
           <Link
             href="/parties"
-            className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+            className="px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
           >
             {t("parties")}
           </Link>
           <Link
             href="/servers"
-            className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+            className="px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
           >
             Servidores
           </Link>
@@ -67,19 +67,19 @@ export async function Navbar() {
             <>
               <Link
                 href="/parties/new"
-                className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                className="px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
                 {t("createParty")}
               </Link>
               <Link
                 href="/history"
-                className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                className="px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
                 {t("history")}
               </Link>
               <Link
                 href="/friends"
-                className="relative px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+                className="relative px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
               >
                 {t("friends")}
                 {pendingFriendRequests > 0 && (
@@ -90,18 +90,6 @@ export async function Navbar() {
               </Link>
             </>
           )}
-          <Link
-            href="/suggestions"
-            className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-          >
-            {t("suggestions")}
-          </Link>
-          <Link
-            href="/contact"
-            className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-          >
-            {t("contact")}
-          </Link>
         </nav>
 
         {/* Auth + Locale switcher */}
