@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { Avatar } from "@/components/ui/avatar";
-import { banUserAction, unbanUserAction } from "@/actions/admin";
+import { unbanUserAction } from "@/actions/admin";
 import { Link } from "@/i18n/navigation";
+import { BanForm } from "./ban-form";
 
 export default async function AdminUsersPage({
   searchParams,
@@ -156,24 +157,3 @@ function Stat({ label, value, emoji }: { label: string; value: string | number; 
   );
 }
 
-function BanForm({ userId }: { userId: string }) {
-  return (
-    <form
-      action={async (fd) => {
-        "use server";
-        const { banUserAction: ban } = await import("@/actions/admin");
-        await ban(userId, fd.get("reason") as string ?? "");
-      }}
-      className="flex flex-col gap-1"
-    >
-      <input
-        name="reason"
-        placeholder="Razón del ban..."
-        className="px-2 py-1 rounded text-xs bg-[var(--muted)] border border-[var(--card-border)] text-white placeholder:text-[var(--muted-foreground)] focus:outline-none w-40"
-      />
-      <button type="submit" className="text-xs text-red-400 hover:text-red-300 transition-colors text-left">
-        Banear
-      </button>
-    </form>
-  );
-}
