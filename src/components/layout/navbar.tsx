@@ -57,6 +57,12 @@ export async function Navbar() {
           >
             {t("parties")}
           </Link>
+          <Link
+            href="/servers"
+            className="px-3 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
+          >
+            Servidores
+          </Link>
           {session && (
             <>
               <Link

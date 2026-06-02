@@ -106,6 +106,7 @@ export function MobileMenu({
             {/* Nav links */}
             <nav className="flex flex-col gap-1 px-3 py-4 flex-1 overflow-y-auto">
               <NavLink href="/parties" onClick={close}>🎮 {t("parties")}</NavLink>
+              <NavLink href="/servers" onClick={close}>🖥️ Servidores</NavLink>
 
               {isLoggedIn && (
                 <>
