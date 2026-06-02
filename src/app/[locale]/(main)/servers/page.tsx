@@ -131,7 +131,6 @@ export default async function ServersPage({ searchParams }: Props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {servers.map((s) => {
             const cover = GAME_COVERS[s.game as Game];
-            const logo = GAME_LOGOS[s.game as Game];
             return (
               <Link key={s.id} href={`/servers/${s.id}`} className="block group">
                 <div className="rounded-xl bg-[var(--card)] border border-[var(--card-border)] overflow-hidden hover:border-orange-500/50 transition-all hover:shadow-lg hover:shadow-orange-500/5 h-full flex flex-col">
@@ -150,11 +149,7 @@ export default async function ServersPage({ searchParams }: Props) {
                   ) : (
                     <div className="px-4 pt-4 flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2 min-w-0">
-                        {logo ? (
-                          <img src={logo} alt={GAME_LABELS[s.game as Game]} className="h-6 w-6 object-contain flex-shrink-0" />
-                        ) : (
-                          <span className="text-xl flex-shrink-0">{GAME_ICONS[s.game as Game]}</span>
-                        )}
+                        <span className="text-xl flex-shrink-0">{GAME_ICONS[s.game as Game]}</span>
                         <h3 className="font-semibold text-sm text-white truncate group-hover:text-orange-300 transition-colors">
                           {s.name}
                         </h3>
