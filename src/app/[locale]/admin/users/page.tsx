@@ -7,20 +7,30 @@ import { BanForm } from "./ban-form";
 export default async function AdminUsersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; tab?: string }>;
 }) {
-  const { q } = await searchParams;
+  const { q, tab } = await searchParams;
+  const showDemo = tab === "demo";
+
+  const baseWhere = q
+    ? {
+        OR: [
+          { name: { contains: q, mode: "insensitive" as const } },
+          { email: { contains: q, mode: "insensitive" as const } },
+          { username: { contains: q, mode: "insensitive" as const } },
+        ],
+      }
+    : {};
+
+  const where = {
+    ...baseWhere,
+    email: showDemo
+      ? { endsWith: "@gamemate-demo.fake" }
+      : { not: { endsWith: "@gamemate-demo.fake" } },
+  };
 
   const users = await prisma.user.findMany({
-    where: q
-      ? {
-          OR: [
-            { name: { contains: q, mode: "insensitive" } },
-            { email: { contains: q, mode: "insensitive" } },
-            { username: { contains: q, mode: "insensitive" } },
-          ],
-        }
-      : undefined,
+    where,
     orderBy: { createdAt: "desc" },
     take: 100,
     select: {
@@ -49,19 +59,40 @@ export default async function AdminUsersPage({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-xl font-bold text-white">Usuarios</h1>
           <p className="text-sm text-[var(--muted-foreground)] mt-0.5">{users.length} resultados</p>
         </div>
-        <form method="GET">
+        <form method="GET" className="flex gap-2 items-center">
+          {tab === "demo" && <input type="hidden" name="tab" value="demo" />}
           <input
             name="q"
             defaultValue={q ?? ""}
             placeholder="Buscar por nombre, email o usuario..."
-            className="px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-1 focus:ring-orange-500 w-72"
+            className="px-3 py-2 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-1 focus:ring-orange-500 w-64"
           />
         </form>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 bg-[var(--muted)] rounded-xl p-1 w-fit">
+        <Link
+          href="/admin/users"
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            !showDemo ? "bg-[var(--card)] text-white shadow-sm" : "text-[var(--muted-foreground)] hover:text-white"
+          }`}
+        >
+          Usuarios reales
+        </Link>
+        <Link
+          href="/admin/users?tab=demo"
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${
+            showDemo ? "bg-[var(--card)] text-white shadow-sm" : "text-[var(--muted-foreground)] hover:text-white"
+          }`}
+        >
+          <span className="text-xs opacity-60">🤖</span> Demo
+        </Link>
       </div>
 
       <div className="flex flex-col gap-2">
