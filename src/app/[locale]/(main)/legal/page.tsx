@@ -1,6 +1,14 @@
-﻿export default function LegalPage() {
+﻿interface Props { params: Promise<{ locale: string }> }
+
+export default async function LegalPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-8">
+      {locale === "en" && (
+        <div className="rounded-lg bg-[var(--muted)] border border-[var(--card-border)] px-4 py-3 text-sm text-[var(--muted-foreground)]">
+          This legal notice is published in Spanish as required by Spanish law (LSSI-CE).
+        </div>
+      )}
       <div>
         <h1 className="text-2xl font-bold text-white">Aviso Legal</h1>
         <p className="text-sm text-[var(--muted-foreground)] mt-1">Última actualización: mayo 2025</p>

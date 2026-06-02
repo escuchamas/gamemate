@@ -1,6 +1,14 @@
-﻿export default function CookiesPage() {
+﻿interface Props { params: Promise<{ locale: string }> }
+
+export default async function CookiesPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="max-w-3xl mx-auto flex flex-col gap-8">
+      {locale === "en" && (
+        <div className="rounded-lg bg-[var(--muted)] border border-[var(--card-border)] px-4 py-3 text-sm text-[var(--muted-foreground)]">
+          This cookie policy is published in Spanish as required by Spanish law.
+        </div>
+      )}
       <div>
         <h1 className="text-2xl font-bold text-white">Política de Cookies</h1>
         <p className="text-sm text-[var(--muted-foreground)] mt-1">Última actualización: mayo 2025</p>
