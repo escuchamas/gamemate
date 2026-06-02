@@ -608,6 +608,30 @@ export async function closePartyAction(partyId: string): Promise<ActionResult> {
   return { success: "Party cerrada" };
 }
 
+export async function startPartyAction(partyId: string): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+
+  const party = await prisma.party.findUnique({
+    where: { id: partyId },
+    select: { creatorId: true, status: true },
+  });
+
+  if (!party) return { error: "La party no existe" };
+  if (party.creatorId !== session.user.id) return { error: "Solo el líder puede iniciar la party" };
+  if (party.status !== "FULL") return { error: "La party debe estar llena para iniciarla" };
+
+  await prisma.party.update({
+    where: { id: partyId },
+    data: { status: "IN_GAME" },
+  });
+
+  updateTag(`party-${partyId}`);
+  updateTag(`parties`);
+
+  return { success: "¡Party iniciada! A jugar 🎮" };
+}
+
 export async function createPartyWizardAction(formData: FormData): Promise<void> {
   await createPartyAction({}, formData);
 }

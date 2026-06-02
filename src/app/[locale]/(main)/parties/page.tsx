@@ -34,12 +34,16 @@ const PARTY_SELECT = {
   _count: { select: { members: true } },
 } as const;
 
+const VALID_STATUSES = ["OPEN", "FULL", "IN_GAME"] as const;
+type ValidStatus = typeof VALID_STATUSES[number];
+
 interface PartiesPageProps {
   searchParams: Promise<{
     game?: string;
     skill?: string;
     lang?: string;
     tab?: string;
+    status?: string;
   }>;
 }
 
@@ -50,10 +54,13 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
   const t = await getTranslations("parties");
 
   const isMine = params.tab === "mine";
+  const statusFilter = VALID_STATUSES.includes(params.status as ValidStatus)
+    ? [params.status as ValidStatus]
+    : ["OPEN", "FULL", "IN_GAME"];
 
   const where: Record<string, unknown> = isMine
-    ? { members: { some: { userId: session.user.id } }, status: { in: ["OPEN", "FULL", "IN_GAME"] } }
-    : { status: { in: ["OPEN", "FULL", "IN_GAME"] } };
+    ? { members: { some: { userId: session.user.id } }, status: { in: statusFilter } }
+    : { status: { in: statusFilter } };
 
   if (!isMine) {
     if (params.game && ["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"].includes(params.game)) {
@@ -103,7 +110,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
       </div>
 
       {/* Filters — only on "all" tab */}
-      {!isMine && <PartiesFilter game={params.game} skill={params.skill} />}
+      {!isMine && <PartiesFilter game={params.game} skill={params.skill} status={params.status} />}
 
       {/* Count */}
       <p className="text-sm text-[var(--muted-foreground)] -mt-2">

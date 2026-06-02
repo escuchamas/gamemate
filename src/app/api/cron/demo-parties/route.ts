@@ -194,7 +194,9 @@ export async function GET(req: NextRequest) {
         userId: p.creatorId,
         type: "PARTY_EXPIRED",
         title: "Party cerrada automáticamente",
-        body: `Tu party "${p.name}" ha sido cerrada tras 10 días sin completarse.`,
+        body: p.status === "FULL"
+          ? `Tu party "${p.name}" llevaba 10 días en el lobby sin iniciarse y ha sido cerrada. ¡Pero conseguiste llenarla!`
+          : `Tu party "${p.name}" ha sido cerrada tras 10 días sin completarse. Puedes crear una nueva cuando quieras.`,
         link: `/parties/${p.id}`,
       })),
       skipDuplicates: true,

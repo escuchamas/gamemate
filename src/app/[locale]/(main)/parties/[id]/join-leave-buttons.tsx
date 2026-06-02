@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { joinPartyAction, leavePartyAction, closePartyAction } from "@/actions/party";
+import { joinPartyAction, leavePartyAction, closePartyAction, startPartyAction } from "@/actions/party";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 
@@ -21,6 +21,7 @@ interface Props {
   canJoin?: boolean;
   isLoggedIn: boolean;
   isInGame?: boolean;
+  isFull?: boolean;
   game: string;
 }
 
@@ -31,6 +32,7 @@ export function JoinLeaveButtons({
   canJoin,
   isLoggedIn,
   isInGame,
+  isFull,
   game,
 }: Props) {
   const [isPending, startTransition] = useTransition();
@@ -74,6 +76,15 @@ export function JoinLeaveButtons({
     });
   };
 
+  const handleStart = () => {
+    if (!confirm("¿Confirmas que vais a empezar a jugar? La party pasará a estado \"En partida\".")) return;
+    startTransition(async () => {
+      const result = await startPartyAction(partyId);
+      if (result.error) alert(result.error);
+      else router.refresh();
+    });
+  };
+
   if (!isLoggedIn) {
     return (
       <Link
@@ -112,6 +123,11 @@ export function JoinLeaveButtons({
         {isMember && !isLeader && (
           <Button onClick={handleLeave} loading={isPending} size="sm" variant="danger">
             {t("leaveButton")}
+          </Button>
+        )}
+        {isLeader && isFull && (
+          <Button onClick={handleStart} loading={isPending} size="sm" variant="primary">
+            🎮 ¡A jugar!
           </Button>
         )}
         {isLeader && (

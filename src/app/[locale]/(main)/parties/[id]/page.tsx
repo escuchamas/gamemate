@@ -225,6 +225,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
               canJoin={false}
               isLoggedIn={!!session}
               isInGame={party.status === "IN_GAME"}
+              isFull={party.status === "FULL"}
               game={party.game}
             />
           </div>
