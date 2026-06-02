@@ -10,7 +10,6 @@
         <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa:</p>
         <ul>
           <li><strong>Titular:</strong> Fernando Zaragoza</li>
-          <li><strong>NIF:</strong> 77197293R</li>
           <li><strong>Email:</strong> soporte@gamemate.es</li>
           <li><strong>Dominio:</strong> gamemate.es</li>
         </ul>
