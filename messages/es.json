@@ -88,7 +88,7 @@
     "register": {
       "title": "Crea tu cuenta",
       "subtitle": "Únete a la comunidad y encuentra compañeros de tu nivel",
-      "name": "Nombre",
+      "name": "Nickname / Nombre visible",
       "username": "Usuario",
       "usernamePlaceholder": "gamer123",
       "usernameHint": "Solo minúsculas, números y _ (sin espacios ni mayúsculas)",

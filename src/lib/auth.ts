@@ -73,6 +73,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!dbUser?.username) {
           const base = user.name ?? user.email?.split("@")[0] ?? "user";
           updates.username = await generateUniqueUsername(base);
+          updates.needsOnboarding = true;
         }
         // Google verifies emails — mark as verified if not already
         if (!dbUser?.emailVerified) {

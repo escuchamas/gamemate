@@ -17,7 +17,7 @@ export default async function MainLayout({
     const [user, gamerProfile] = await Promise.all([
       prisma.user.findUnique({
         where: { id: session.user.id },
-        select: { emailVerified: true },
+        select: { emailVerified: true, needsOnboarding: true },
       }),
       prisma.gamerProfile.findUnique({
         where: { userId: session.user.id },
@@ -25,6 +25,7 @@ export default async function MainLayout({
       }),
     ]);
     if (!user?.emailVerified) redirect("/verify-email");
+    if (user?.needsOnboarding) redirect("/setup");
     showOnboarding = !gamerProfile;
   }
 

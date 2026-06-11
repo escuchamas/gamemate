@@ -27,6 +27,7 @@ model User {
   reputationCount Int       @default(0)
   banned          Boolean   @default(false)
   banReason       String?
+  needsOnboarding Boolean   @default(false)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 

@@ -88,7 +88,7 @@
     "register": {
       "title": "Create your account",
       "subtitle": "Join the community and find players at your level",
-      "name": "Name",
+      "name": "Nickname / Display name",
       "username": "Username",
       "usernamePlaceholder": "gamer123",
       "usernameHint": "Lowercase, numbers and _ only (no spaces or capitals)",

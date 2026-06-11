@@ -280,6 +280,33 @@ export async function resetPasswordAction(
     return { error: "Las contraseñas no coinciden" };
   }
 
+export async function completeOnboardingAction(
+  name: string,
+  username: string
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+
+  const trimmedName = name.trim();
+  const trimmedUsername = username.trim().toLowerCase();
+
+  if (!trimmedName || trimmedName.length < 2) return { error: "El nombre debe tener al menos 2 caracteres" };
+  if (!trimmedUsername || trimmedUsername.length < 3) return { error: "El usuario debe tener al menos 3 caracteres" };
+  if (!/^[a-z0-9_]+$/.test(trimmedUsername)) return { error: "Solo minúsculas, números y _" };
+
+  const existing = await prisma.user.findFirst({
+    where: { username: trimmedUsername, NOT: { id: session.user.id } },
+  });
+  if (existing) return { error: "Ese usuario ya está en uso" };
+
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { name: trimmedName, username: trimmedUsername, needsOnboarding: false },
+  });
+
+  return { success: "ok" };
+}
+
   const resetToken = await prisma.passwordResetToken.findUnique({
     where: { token },
     include: { user: true },
