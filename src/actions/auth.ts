@@ -51,6 +51,28 @@ export async function registerAction(
   // Send verification email
   await sendEmailVerificationCode(user.id, email, name ?? "");
 
+  // Notificar al admin del nuevo registro
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    await resend.emails.send({
+      from: process.env.EMAIL_FROM ?? "GameMate <noreply@gamemate.es>",
+      to: "fernandomcq123@gmail.com",
+      subject: `🎮 Nuevo registro en GameMate — ${name ?? email}`,
+      html: `
+        <div style="font-family:sans-serif;max-width:400px;padding:24px;background:#0f0f13;color:#e8e8f0;border-radius:12px">
+          <h2 style="color:#ea580c;margin:0 0 16px">Nuevo usuario registrado</h2>
+          <p style="margin:0 0 8px"><strong>Nombre:</strong> ${name ?? "—"}</p>
+          <p style="margin:0 0 8px"><strong>Usuario:</strong> @${username}</p>
+          <p style="margin:0 0 8px"><strong>Email:</strong> ${email}</p>
+          <p style="margin:0 0 16px;color:#6b7280;font-size:12px">${new Date().toLocaleString("es-ES", { timeZone: "Europe/Madrid" })}</p>
+          <a href="https://gamemate.es/es/admin/users" style="background:#ea580c;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:14px">Ver en admin →</a>
+        </div>
+      `,
+    });
+  } catch {
+    // No bloquear el registro si falla el email al admin
+  }
+
   // Auto-login and redirect to verify email
   await signIn("credentials", { email, password, redirectTo: "/verify-email" });
   return {};
