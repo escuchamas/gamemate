@@ -280,10 +280,29 @@ export async function resetPasswordAction(
     return { error: "Las contraseñas no coinciden" };
   }
 
+  const resetToken = await prisma.passwordResetToken.findUnique({
+    where: { token },
+    include: { user: true },
+  });
+
+  if (!resetToken || resetToken.expiresAt < new Date()) {
+    return { error: "invalid_token" };
+  }
+
+  const hashed = await bcrypt.hash(password, 12);
+
+  await prisma.$transaction([
+    prisma.user.update({ where: { id: resetToken.userId }, data: { password: hashed } }),
+    prisma.passwordResetToken.delete({ where: { token } }),
+  ]);
+
+  return { success: "ok" };
+}
+
 export async function completeOnboardingAction(
   name: string,
   username: string
-): Promise<ActionResult> {
+): Promise<{ error?: string; success?: string }> {
   const session = await auth();
   if (!session?.user?.id) return { error: "Debes iniciar sesión" };
 
@@ -303,25 +322,6 @@ export async function completeOnboardingAction(
     where: { id: session.user.id },
     data: { name: trimmedName, username: trimmedUsername, needsOnboarding: false },
   });
-
-  return { success: "ok" };
-}
-
-  const resetToken = await prisma.passwordResetToken.findUnique({
-    where: { token },
-    include: { user: true },
-  });
-
-  if (!resetToken || resetToken.expiresAt < new Date()) {
-    return { error: "invalid_token" };
-  }
-
-  const hashed = await bcrypt.hash(password, 12);
-
-  await prisma.$transaction([
-    prisma.user.update({ where: { id: resetToken.userId }, data: { password: hashed } }),
-    prisma.passwordResetToken.delete({ where: { token } }),
-  ]);
 
   return { success: "ok" };
 }
