@@ -153,6 +153,44 @@ export default async function LandingPage({
 
       </main>
 
+      {/* Sección por juego */}
+      <section className="max-w-4xl mx-auto w-full px-6 pb-16">
+        <p className="text-xs text-[var(--muted-foreground)] uppercase tracking-wide text-center mb-6">Busca por juego</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            {
+              href: "/minecraft",
+              img: "/games/biome-minecraft.webp",
+              title: "Minecraft",
+              desc: "Survival, hardcore, SMP, modpacks",
+            },
+            {
+              href: "/league-of-legends",
+              img: "/games/lol.jpg",
+              title: "League of Legends",
+              desc: "Duo carril, premade 5v5, Clash",
+            },
+            {
+              href: "/project-zomboid",
+              img: "/games/PZ.jpg",
+              title: "Project Zomboid",
+              desc: "Roleplay, hardcore, PvE, servidores",
+            },
+          ].map((game) => (
+            <Link key={game.href} href={game.href} className="group block rounded-xl overflow-hidden border border-[var(--card-border)] hover:border-orange-500/50 transition-all">
+              <div className="relative h-28">
+                <img src={game.img} alt={game.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <p className="font-semibold text-white text-sm">{game.title}</p>
+                  <p className="text-xs text-[var(--muted-foreground)]">{game.desc}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <PartiesCarouselSection />
       <Footer />
     </div>
