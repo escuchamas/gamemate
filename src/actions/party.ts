@@ -165,6 +165,23 @@ export async function requestJoinPartyAction(
   });
   if (!gameProfile) return { error: `INCOMPLETE_PROFILE:${party.game}` };
 
+  // Validación de edad si la party lo requiere
+  if (party.minAge || party.maxAge) {
+    const userAge = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { age: true },
+    });
+    if (!userAge?.age) {
+      return { error: "AGE_REQUIRED" };
+    }
+    if (party.minAge && userAge.age < party.minAge) {
+      return { error: `Esta party requiere tener al menos ${party.minAge} años.` };
+    }
+    if (party.maxAge && userAge.age > party.maxAge) {
+      return { error: `Esta party es para jugadores de hasta ${party.maxAge} años.` };
+    }
+  }
+
   const existing = await prisma.partyJoinRequest.findUnique({
     where: { partyId_userId: { partyId, userId: session.user.id } },
   });

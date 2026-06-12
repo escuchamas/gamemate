@@ -20,6 +20,17 @@ const ratingSchema = z.object({
   comment: z.string().max(300).optional(),
 });
 
+export async function updateAgeAction(age: number): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+  if (!Number.isInteger(age) || age < 13 || age > 99) {
+    return { error: "Introduce una edad válida (entre 13 y 99 años)" };
+  }
+  await prisma.user.update({ where: { id: session.user.id }, data: { age } });
+  updateTag(`profile-${session.user.id}`);
+  return { success: "Edad actualizada" };
+}
+
 export async function updateDisplayNameAction(
   name: string
 ): Promise<ActionResult> {

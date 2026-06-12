@@ -13,6 +13,7 @@ import { GameProfileAccordion } from "./game-profile-accordion";
 import { ProfileImageUpload } from "./profile-image-upload";
 import { ProfileTabs } from "./profile-tabs";
 import { NameEditor } from "./name-editor";
+import { AgeEditor } from "./age-editor";
 import { Link } from "@/i18n/navigation";
 
 export default async function ProfilePage({
@@ -87,6 +88,7 @@ export default async function ProfilePage({
           <div className="flex-1">
             <NameEditor currentName={u.name} />
             <p className="text-sm text-[var(--muted-foreground)]">@{u.username ?? "—"}</p>
+            <AgeEditor currentAge={u.age ?? null} />
             <div className="flex items-center gap-2 mt-1">
               <span className="text-yellow-400">⭐</span>
               <span className="text-white font-semibold">{u.reputation.toFixed(1)}</span>

@@ -37,18 +37,22 @@ export function JoinLeaveButtons({
 }: Props) {
   const [isPending, startTransition] = useTransition();
   const [incompleteProfileGame, setIncompleteProfileGame] = useState<string | null>(null);
+  const [needsAge, setNeedsAge] = useState(false);
   const router = useRouter();
   const t = useTranslations("partyDetail");
   const tMilestone = useTranslations("milestone");
 
   const handleJoin = () => {
     setIncompleteProfileGame(null);
+    setNeedsAge(false);
     startTransition(async () => {
       const result = await joinPartyAction(partyId);
       if (result.error) {
         if (result.error.startsWith("INCOMPLETE_PROFILE:")) {
           const g = result.error.split(":")[1];
           setIncompleteProfileGame(g);
+        } else if (result.error === "AGE_REQUIRED") {
+          setNeedsAge(true);
         } else {
           alert(result.error);
         }
@@ -98,6 +102,17 @@ export function JoinLeaveButtons({
 
   return (
     <div className="flex flex-col gap-2">
+      {needsAge && (
+        <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 px-4 py-3 flex flex-col gap-1.5">
+          <p className="text-sm font-medium text-amber-300">Esta party requiere tu edad</p>
+          <p className="text-xs text-[var(--muted-foreground)]">
+            El creador ha establecido un rango de edad. Añade tu edad en tu perfil para poder unirte.
+          </p>
+          <Link href="/profile" className="text-xs text-orange-400 hover:text-orange-300 underline transition-colors mt-0.5 w-fit">
+            Añadir mi edad en el perfil →
+          </Link>
+        </div>
+      )}
       {incompleteProfileGame && (
         <div className="rounded-lg bg-orange-500/10 border border-orange-500/30 px-4 py-3 flex flex-col gap-1.5">
           <p className="text-sm font-medium text-orange-300">

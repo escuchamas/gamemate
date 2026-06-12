@@ -25,6 +25,7 @@ model User {
   spokenLangs     String[]  @default(["es"]) // idiomas que habla (matchmaking)
   reputation      Float     @default(5.0)
   reputationCount Int       @default(0)
+  age             Int?
   banned          Boolean   @default(false)
   banReason       String?
   needsOnboarding Boolean   @default(false)
@@ -225,6 +226,8 @@ model Party {
   status      PartyStatus @default(OPEN)
   minPlayers  Int         @default(2)
   maxPlayers  Int         @default(4)
+  minAge      Int?
+  maxAge      Int?
   skillLevel  SkillLevel
   language    String      @default("es")
   minecraftVersion MinecraftVersion? // Solo para juego MINECRAFT
