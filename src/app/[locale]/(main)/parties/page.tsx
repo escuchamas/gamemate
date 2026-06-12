@@ -30,9 +30,12 @@ const PARTY_SELECT = {
   skillLevel: true, status: true, maxPlayers: true, language: true,
   minecraftVersion: true, lolRoles: true, lolRankMin: true, lolRankMax: true,
   modded: true, createdAt: true,
-  creator: { select: { name: true, image: true } },
+  creator: { select: { name: true, image: true, email: true } },
   _count: { select: { members: true } },
 } as const;
+
+const DEMO_DOMAIN = "@gamemate-demo.fake";
+const TARGET_VISIBLE = 15; // parties visibles totales mínimas
 
 const VALID_STATUSES = ["OPEN", "FULL", "IN_GAME"] as const;
 type ValidStatus = typeof VALID_STATUSES[number];
@@ -58,26 +61,35 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
     ? [params.status as ValidStatus]
     : ["OPEN", "FULL", "IN_GAME"];
 
-  const where: Record<string, unknown> = isMine
-    ? { members: { some: { userId: session.user.id } }, status: { in: statusFilter } }
-    : { status: { in: statusFilter } };
+  const gameFilter = (!isMine && params.game && ["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"].includes(params.game))
+    ? params.game : undefined;
+  const skillFilter = (!isMine && params.skill && ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"].includes(params.skill))
+    ? params.skill : undefined;
 
-  if (!isMine) {
-    if (params.game && ["MINECRAFT", "PROJECT_ZOMBOID", "LEAGUE_OF_LEGENDS", "OTHER"].includes(params.game)) {
-      where.game = params.game;
-    }
-    if (params.skill && ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"].includes(params.skill)) {
-      where.skillLevel = params.skill;
-    }
-    if (params.lang) where.language = params.lang;
-  }
+  const baseWhere: Record<string, unknown> = { status: { in: statusFilter } };
+  if (gameFilter) baseWhere.game = gameFilter;
+  if (skillFilter) baseWhere.skillLevel = skillFilter;
+  if (!isMine && params.lang) baseWhere.language = params.lang;
 
-  const parties = await prisma.party.findMany({
-    where,
+  const allParties = await prisma.party.findMany({
+    where: isMine
+      ? { members: { some: { userId: session.user.id } }, status: { in: statusFilter as any } }
+      : { ...baseWhere, status: { in: statusFilter as any } },
     orderBy: { createdAt: "desc" },
-    take: 50,
+    take: 100,
     select: PARTY_SELECT,
   });
+
+  let parties;
+  if (isMine) {
+    parties = allParties;
+  } else {
+    const realParties = allParties.filter(p => !p.creator.email?.endsWith(DEMO_DOMAIN));
+    const demoParties = allParties.filter(p => p.creator.email?.endsWith(DEMO_DOMAIN));
+    // Reales primero, demo rellenan hasta TARGET_VISIBLE
+    const demoSlots = Math.max(0, TARGET_VISIBLE - realParties.length);
+    parties = [...realParties, ...demoParties.slice(0, demoSlots)];
+  }
 
   return (
     <div className="flex flex-col gap-6">
