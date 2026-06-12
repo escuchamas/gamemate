@@ -360,6 +360,39 @@ export function CreatePartyForm() {
           placeholder={t("fields.serverInfoPlaceholder")}
           hint={t("fields.serverInfoHint")}
         />
+
+        {/* Rango de edad (opcional) */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-[var(--foreground)]">
+            Rango de edad <span className="text-[var(--muted-foreground)] font-normal">(opcional)</span>
+          </label>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-[var(--muted-foreground)]">Mínimo</span>
+              <input
+                type="number"
+                name="minAge"
+                min={13}
+                max={99}
+                placeholder="—"
+                className="w-16 px-2 py-1.5 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 text-center"
+              />
+            </div>
+            <span className="text-[var(--muted-foreground)]">–</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-[var(--muted-foreground)]">Máximo</span>
+              <input
+                type="number"
+                name="maxAge"
+                min={13}
+                max={99}
+                placeholder="—"
+                className="w-16 px-2 py-1.5 rounded-lg bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 text-center"
+              />
+            </div>
+          </div>
+          <p className="text-xs text-[var(--muted-foreground)]">Si lo dejas en blanco, cualquier edad puede unirse.</p>
+        </div>
       </div>
 
       {/* Rules */}

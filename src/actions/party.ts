@@ -48,6 +48,8 @@ export async function createPartyAction(
     modsNote: formData.get("modsNote") || undefined,
     serverInfo: formData.get("serverInfo") || undefined,
     gameLabel: formData.get("gameLabel") as string || undefined,
+    minAge: formData.get("minAge") ? Number(formData.get("minAge")) : undefined,
+    maxAge: formData.get("maxAge") ? Number(formData.get("maxAge")) : undefined,
     selectedRules: selectedRulesRaw ? JSON.parse(selectedRulesRaw as string) : [],
     customRules: customRulesRaw ? JSON.parse(customRulesRaw as string) : [],
   };
@@ -88,6 +90,8 @@ export async function createPartyAction(
       modsNote: data.modsNote,
       serverInfo: data.serverInfo,
       gameLabel: (raw as any).gameLabel ?? null,
+      minAge: (raw as any).minAge ?? null,
+      maxAge: (raw as any).maxAge ?? null,
       creatorId: session.user.id,
       members: {
         create: {

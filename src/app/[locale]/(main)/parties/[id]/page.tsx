@@ -192,6 +192,15 @@ export default async function PartyPage({ params }: PartyPageProps) {
             {party.modded && (
               <Badge variant="accent">{t("modded")}</Badge>
             )}
+            {(party.minAge || party.maxAge) && (
+              <Badge variant="default">
+                🎂 {party.minAge && party.maxAge
+                  ? `${party.minAge}–${party.maxAge} años`
+                  : party.minAge
+                  ? `+${party.minAge} años`
+                  : `≤${party.maxAge} años`}
+              </Badge>
+            )}
             {party.modTags.length > 0 &&
               party.modTags.map((tag) => (
                 <Badge key={tag} variant="default">
