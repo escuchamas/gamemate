@@ -102,6 +102,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (Object.keys(updates).length > 0) {
           await prisma.user.update({ where: { id: user.id }, data: updates });
         }
+        // Primer login con Google = cuenta nueva ya verificada → bienvenida
+        if (!dbUser?.username && user.id) {
+          const { trySendWelcome } = await import("@/lib/emails");
+          await trySendWelcome(user.id);
+        }
       }
       return true;
     },

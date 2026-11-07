@@ -3,9 +3,11 @@ import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Buscar duo y equipo para League of Legends en español | GameMate",
+  alternates: localeAlternates("es", "/league-of-legends", { esOnly: true }),
+  title: "Buscar duo y equipo para League of Legends en español",
   description:
     "Encuentra duo carril, premade 5v5 o equipo de Clash para LoL. Filtra por rango, rol y nivel. Comunidad española verificada. Gratis.",
   openGraph: {

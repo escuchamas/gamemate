@@ -1,6 +1,11 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
+import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
+
+// Página privada o de acceso: fuera de Google
+export const metadata: Metadata = { title: "Admin", robots: NOINDEX };
 
 const ADMIN_EMAILS = ["fernandomcq123@gmail.com", "fernando_mcq@hotmail.com"];
 

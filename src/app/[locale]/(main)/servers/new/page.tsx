@@ -2,9 +2,11 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ServerForm } from "./server-form";
 import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Publicar servidor | GameMate",
+  title: "Publicar servidor",
+  robots: NOINDEX,
   description: "Publica tu servidor de Minecraft o Project Zomboid en el tablón de GameMate y encuentra jugadores activos.",
 };
 

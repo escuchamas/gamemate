@@ -1,6 +1,19 @@
 import { auth } from "@/lib/auth";
 import { ContactForm } from "./contact-form";
 
+import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const en = locale === "en";
+  return {
+    title: en ? "Contact" : "Contacto",
+    description: en ? "Questions, issues or proposals? Get in touch with the GameMate team." : "¿Dudas, problemas o propuestas? Escribe al equipo de GameMate, la comunidad para encontrar compañeros de Minecraft, LoL y Project Zomboid.",
+    alternates: localeAlternates(locale, "/contact", { esOnly: true }),
+  };
+}
+
 export default async function ContactPage() {
   const session = await auth();
 

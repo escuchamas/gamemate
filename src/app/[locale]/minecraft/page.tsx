@@ -3,9 +3,11 @@ import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Buscar compañeros de Minecraft en español | GameMate",
+  alternates: localeAlternates("es", "/minecraft", { esOnly: true }),
+  title: "Buscar compañeros de Minecraft en español",
   description:
     "Encuentra jugadores de Minecraft a tu nivel: survival, hardcore, SMP, modpacks. Comunidad española activa. Perfiles verificados y sistema de reputación. Gratis.",
   openGraph: {

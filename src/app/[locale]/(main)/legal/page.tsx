@@ -1,4 +1,17 @@
-﻿interface Props { params: Promise<{ locale: string }> }
+import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const en = locale === "en";
+  return {
+    title: en ? "Aviso legal" : "Aviso legal",
+    description: en ? "Información legal sobre el titular y el uso de GameMate." : "Información legal sobre el titular y el uso de GameMate.",
+    alternates: localeAlternates(locale, "/legal", { esOnly: true }),
+  };
+}
+
+interface Props { params: Promise<{ locale: string }> }
 
 export default async function LegalPage({ params }: Props) {
   const { locale } = await params;

@@ -1,5 +1,18 @@
 import { Link } from "@/i18n/navigation";
 
+import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const en = locale === "en";
+  return {
+    title: en ? "Sponsorship & advertising" : "Patrocinio y publicidad para gamers",
+    description: en ? "Reach Spanish-speaking Minecraft, LoL and Project Zomboid players. Sponsor GameMate and connect with a real, targeted audience." : "Llega a jugadores hispanohablantes de Minecraft, LoL y Project Zomboid. Patrocina GameMate y conecta con una audiencia real y segmentada.",
+    alternates: localeAlternates(locale, "/sponsorship"),
+  };
+}
+
 interface Props { params: Promise<{ locale: string }> }
 
 export default async function SponsorshipPage({ params }: Props) {

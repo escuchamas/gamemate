@@ -1,4 +1,17 @@
-﻿interface Props { params: Promise<{ locale: string }> }
+import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const en = locale === "en";
+  return {
+    title: en ? "Política de cookies" : "Política de cookies",
+    description: en ? "Qué cookies usa GameMate y cómo puedes gestionarlas." : "Qué cookies usa GameMate y cómo puedes gestionarlas.",
+    alternates: localeAlternates(locale, "/cookies", { esOnly: true }),
+  };
+}
+
+interface Props { params: Promise<{ locale: string }> }
 
 export default async function CookiesPage({ params }: Props) {
   const { locale } = await params;

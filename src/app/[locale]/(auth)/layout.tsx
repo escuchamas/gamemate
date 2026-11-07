@@ -1,5 +1,10 @@
 import { Link } from "@/i18n/navigation";
 import { PartiesCarouselSection } from "@/components/landing/parties-carousel-section";
+import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
+
+// Página privada o de acceso: fuera de Google
+export const metadata: Metadata = { robots: NOINDEX };
 
 export default function AuthLayout({
   children,

@@ -1,3 +1,16 @@
+import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const en = locale === "en";
+  return {
+    title: en ? "Support GameMate" : "Apoya GameMate con una donación",
+    description: en ? "GameMate is free and ad-free. A donation helps keep the servers running and the community growing." : "GameMate es gratis y sin anuncios. Con una donación ayudas a mantener los servidores y a seguir mejorando la comunidad.",
+    alternates: localeAlternates(locale, "/donations"),
+  };
+}
+
 interface Props { params: Promise<{ locale: string }> }
 
 export default async function DonationsPage({ params }: Props) {

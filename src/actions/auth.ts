@@ -8,6 +8,7 @@ import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import twilio from "twilio";
 import { Resend } from "resend";
+import { trySendWelcome } from "@/lib/emails";
 
 type ActionResult = { error?: string; field?: string; success?: string };
 
@@ -49,7 +50,11 @@ export async function registerAction(
   });
 
   // Send verification email
-  await sendEmailVerificationCode(user.id, email, name ?? "");
+  try {
+    await sendEmailVerificationCode(user.id, email, name ?? "");
+  } catch {
+    // No bloquear el registro si falla el envío — el usuario puede reenviar desde verify-email
+  }
 
   // Notificar al admin del nuevo registro
   try {
@@ -236,6 +241,7 @@ export async function verifyEmailAction(
     data: { emailVerified: new Date() },
   });
   await prisma.emailVerification.deleteMany({ where: { userId: session.user.id } });
+  await trySendWelcome(session.user.id);
 
   redirect("/parties");
 }

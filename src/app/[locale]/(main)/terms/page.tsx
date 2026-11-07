@@ -1,4 +1,17 @@
-﻿interface Props { params: Promise<{ locale: string }> }
+import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const en = locale === "en";
+  return {
+    title: en ? "Términos y condiciones" : "Términos y condiciones",
+    description: en ? "Condiciones de uso de GameMate, la plataforma para encontrar compañeros de juego." : "Condiciones de uso de GameMate, la plataforma para encontrar compañeros de juego.",
+    alternates: localeAlternates(locale, "/terms", { esOnly: true }),
+  };
+}
+
+interface Props { params: Promise<{ locale: string }> }
 
 export default async function TermsPage({ params }: Props) {
   const { locale } = await params;

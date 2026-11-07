@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { PartiesCarouselSection } from "@/components/landing/parties-carousel-section";
 import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -22,6 +23,7 @@ export async function generateMetadata({
     description: isEs
       ? "Busca jugadores a tu nivel para Minecraft, League of Legends y Project Zomboid. Perfiles verificados, sistema de reputación y parties organizadas. Gratis para siempre."
       : "Find players at your skill level for Minecraft, League of Legends and Project Zomboid. Verified profiles, reputation system and organized parties. Free forever.",
+    alternates: localeAlternates(locale, ""),
   };
 }
 

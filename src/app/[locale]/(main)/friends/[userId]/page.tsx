@@ -5,6 +5,11 @@ import { Avatar } from "@/components/ui/avatar";
 import { Link } from "@/i18n/navigation";
 import { DirectChat } from "./direct-chat";
 import { markMessagesReadAction } from "@/actions/friends";
+import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
+
+// Página privada o de acceso: fuera de Google
+export const metadata: Metadata = { title: "Mensajes", robots: NOINDEX };
 
 interface Props {
   params: Promise<{ userId: string }>;

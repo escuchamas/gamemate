@@ -1,4 +1,17 @@
-﻿interface Props { params: Promise<{ locale: string }> }
+import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const en = locale === "en";
+  return {
+    title: en ? "Política de privacidad" : "Política de privacidad",
+    description: en ? "Cómo trata GameMate tus datos personales: qué recogemos, para qué y cuáles son tus derechos." : "Cómo trata GameMate tus datos personales: qué recogemos, para qué y cuáles son tus derechos.",
+    alternates: localeAlternates(locale, "/privacy", { esOnly: true }),
+  };
+}
+
+interface Props { params: Promise<{ locale: string }> }
 
 export default async function PrivacyPage({ params }: Props) {
   const { locale } = await params;

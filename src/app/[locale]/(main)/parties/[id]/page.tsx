@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
+import { localeAlternates, NOINDEX } from "@/lib/seo";
 import { GAME_LABELS as GL, SKILL_LABELS as SL } from "@/lib/constants";
 
 export async function generateMetadata({
@@ -12,16 +13,21 @@ export async function generateMetadata({
   const { id, locale } = await params;
   const party = await prisma.party.findUnique({
     where: { id },
-    select: { name: true, description: true, game: true, skillLevel: true, maxPlayers: true },
+    select: {
+      name: true, description: true, game: true, skillLevel: true, maxPlayers: true, status: true,
+      creator: { select: { email: true } },
+    },
   });
-  if (!party) return { title: "Party no encontrada" };
+  if (!party) return { title: "Party no encontrada", robots: NOINDEX };
+  // Las parties de demo y las cerradas no aportan nada en Google
+  const indexable = party.status !== "CLOSED" && !party.creator.email?.endsWith("@gamemate-demo.fake");
 
   const isEs = locale === "es";
   const gameLabel = GL[party.game as keyof typeof GL] ?? party.game;
   const skillLabel = SL[party.skillLevel as keyof typeof SL] ?? party.skillLevel;
   const title = isEs
-    ? `${party.name} – Party de ${gameLabel} | GameMate`
-    : `${party.name} – ${gameLabel} Party | GameMate`;
+    ? `${party.name} – Party de ${gameLabel}`
+    : `${party.name} – ${gameLabel} Party`;
   const description = party.description?.slice(0, 155) ?? (
     isEs
       ? `Party de ${gameLabel} nivel ${skillLabel}. Hasta ${party.maxPlayers} jugadores. Únete en GameMate.`
@@ -31,6 +37,8 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: localeAlternates(locale, `/parties/${id}`),
+    ...(!indexable && { robots: NOINDEX }),
     openGraph: {
       title,
       description,

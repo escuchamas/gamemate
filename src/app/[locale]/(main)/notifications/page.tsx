@@ -3,6 +3,11 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
 import { markAllNotificationsReadAction } from "@/actions/notifications";
+import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
+
+// Página privada o de acceso: fuera de Google
+export const metadata: Metadata = { title: "Notificaciones", robots: NOINDEX };
 
 const TYPE_ICON: Record<string, string> = {
   FRIEND_REQUEST: "👤",

@@ -9,8 +9,11 @@ import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Game, SkillLevel } from "@/generated/prisma/client";
 import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
 
 export const metadata: Metadata = {
+  // Requiere sesión: para Google es una redirección al login, así que no se indexa.
+  robots: NOINDEX,
   title: "Parties activas – Busca equipo para Minecraft, LoL y Project Zomboid",
   description:
     "Encuentra parties de Minecraft, League of Legends y Project Zomboid a tu nivel. Filtra por juego, nivel y idioma. Únete a jugadores verificados.",

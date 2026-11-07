@@ -9,6 +9,11 @@ import {
   removeFriendAction,
 } from "@/actions/friends";
 import { AddFriendForm } from "./add-friend-form";
+import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
+
+// Página privada o de acceso: fuera de Google
+export const metadata: Metadata = { title: "Amigos", robots: NOINDEX };
 
 interface Props {
   searchParams: Promise<{ q?: string }>;

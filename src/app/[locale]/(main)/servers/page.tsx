@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { GAME_LABELS, GAME_ICONS } from "@/lib/constants";
 import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
 import type { Game } from "@/generated/prisma/client";
 
 export const metadata: Metadata = {
-  title: "Servidores de Minecraft y Project Zomboid en español | GameMate",
+  title: "Servidores de Minecraft y Project Zomboid en español",
+  alternates: localeAlternates("es", "/servers", { esOnly: true }),
   description:
     "Encuentra los mejores servidores de Minecraft y Project Zomboid en español. Supervivencia, roleplay, hardcore y más. Comunidad verificada y activa.",
 };

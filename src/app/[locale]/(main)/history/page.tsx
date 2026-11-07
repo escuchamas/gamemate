@@ -7,6 +7,11 @@ import { Link } from "@/i18n/navigation";
 import { GAME_ICONS, GAME_LABELS, SKILL_LABELS } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import { sendFriendRequestAction } from "@/actions/friends";
+import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
+
+// Página privada o de acceso: fuera de Google
+export const metadata: Metadata = { title: "Historial", robots: NOINDEX };
 
 export default async function HistoryPage() {
   const session = await auth();

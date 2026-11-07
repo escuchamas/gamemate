@@ -15,6 +15,11 @@ import { ProfileTabs } from "./profile-tabs";
 import { NameEditor } from "./name-editor";
 import { AgeEditor } from "./age-editor";
 import { Link } from "@/i18n/navigation";
+import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
+
+// Página privada o de acceso: fuera de Google
+export const metadata: Metadata = { title: "Mi perfil", robots: NOINDEX };
 
 export default async function ProfilePage({
   searchParams,

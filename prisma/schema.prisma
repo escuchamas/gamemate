@@ -29,6 +29,8 @@ model User {
   banned          Boolean   @default(false)
   banReason       String?
   needsOnboarding Boolean   @default(false)
+  emailOptOut     Boolean   @default(false)   // baja de los emails automáticos (no afecta a los transaccionales)
+  lastSeenAt      DateTime?                   // última visita con sesión (para emails de reenganche)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
@@ -67,6 +69,7 @@ model User {
   notifications         Notification[]
   gameServers           GameServer[]
   serverVotes           ServerVote[]
+  emailLogs             EmailLog[]
 }
 
 model Account {
@@ -791,4 +794,20 @@ model ServerVote {
   user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([serverId, userId, date])
+}
+
+// Registro de emails automáticos enviados (evita duplicados y alimenta el informe semanal)
+model EmailLog {
+  id     String   @id @default(cuid())
+  userId String?
+  type     String    // flow1 | flow2 | flow3 | monthly | admin_report
+  template String?   // welcome | comeback | nudge | highlights
+  resendId String?   // id del email en Resend (para consultar aperturas)
+  openedAt DateTime? // primera apertura o clic detectados
+  sentAt   DateTime  @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@index([sentAt])
 }

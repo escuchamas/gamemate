@@ -7,6 +7,7 @@ import { GAME_LABELS, GAME_ICONS } from "@/lib/constants";
 import { VoteButton } from "./vote-button";
 import type { Game } from "@/generated/prisma/client";
 import type { Metadata } from "next";
+import { localeAlternates, SITE_URL } from "@/lib/seo";
 
 const GAME_COVERS: Partial<Record<Game, string>> = {
   MINECRAFT: "/games/biome-minecraft.webp",
@@ -25,9 +26,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     select: { name: true, description: true, game: true },
   });
   if (!server) return { title: "Servidor no encontrado" };
+  const title = `${server.name} — Servidor de ${GAME_LABELS[server.game as Game]} en español`;
+  const description = server.description.slice(0, 160);
+  const cover = GAME_COVERS[server.game as Game];
   return {
-    title: `${server.name} — Servidor de ${GAME_LABELS[server.game as Game]} en español | GameMate`,
-    description: server.description.slice(0, 160),
+    title,
+    description,
+    alternates: localeAlternates("es", `/servers/${id}`, { esOnly: true }),
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/es/servers/${id}`,
+      siteName: "GameMate",
+      type: "website",
+      ...(cover && { images: [{ url: `${SITE_URL}${cover}`, width: 800, height: 400 }] }),
+    },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 

@@ -30,14 +30,8 @@ export async function generateMetadata({
     },
     description,
     metadataBase: new URL(BASE),
-    alternates: {
-      canonical: `${BASE}/${locale}`,
-      languages: {
-        "es": `${BASE}/es`,
-        "en": `${BASE}/en`,
-        "x-default": `${BASE}/es`,
-      },
-    },
+    // canonical/hreflang se definen en cada página (localeAlternates): si se pusieran
+    // aquí, todas las páginas heredarían el canonical de la home.
     openGraph: {
       type: "website",
       locale: isEs ? "es_ES" : "en_US",

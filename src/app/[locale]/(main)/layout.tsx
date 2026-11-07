@@ -17,13 +17,17 @@ export default async function MainLayout({
     const [user, gamerProfile] = await Promise.all([
       prisma.user.findUnique({
         where: { id: session.user.id },
-        select: { emailVerified: true, needsOnboarding: true },
+        select: { emailVerified: true, needsOnboarding: true, lastSeenAt: true },
       }),
       prisma.gamerProfile.findUnique({
         where: { userId: session.user.id },
         select: { id: true },
       }),
     ]);
+    // Última visita (como mucho una escritura cada 12 h): decide si seguir enviando emails
+    if (user && (!user.lastSeenAt || Date.now() - user.lastSeenAt.getTime() > 12 * 60 * 60 * 1000)) {
+      await prisma.user.update({ where: { id: session.user.id }, data: { lastSeenAt: new Date() } }).catch(() => {});
+    }
     if (!user?.emailVerified) redirect("/verify-email");
     if (user?.needsOnboarding) redirect("/setup");
     showOnboarding = !gamerProfile;

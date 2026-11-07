@@ -2,6 +2,11 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { CreatePartyWizard } from "./create-party-wizard";
+import type { Metadata } from "next";
+import { NOINDEX } from "@/lib/seo";
+
+// Página privada o de acceso: fuera de Google
+export const metadata: Metadata = { title: "Crear party", robots: NOINDEX };
 
 export default async function NewPartyPage() {
   const session = await auth();

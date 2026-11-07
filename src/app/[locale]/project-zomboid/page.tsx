@@ -3,9 +3,11 @@ import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import type { Metadata } from "next";
+import { localeAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Buscar compañeros de Project Zomboid en español | GameMate",
+  alternates: localeAlternates("es", "/project-zomboid", { esOnly: true }),
+  title: "Buscar compañeros de Project Zomboid en español",
   description:
     "Encuentra supervivientes para Project Zomboid: roleplay, hardcore, PvE, PvP. Servidores y parties en español. Perfiles verificados. Gratis.",
   openGraph: {
