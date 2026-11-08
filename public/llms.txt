@@ -1,59 +1,68 @@
 # GameMate
 
-> Plataforma gratuita de matchmaking para gamers en español. Encuentra compañeros de juego a tu nivel para Minecraft, League of Legends y Project Zomboid.
+> GameMate (https://gamemate.es) es una web gratuita para encontrar compañeros de juego de tu nivel en español. Tiene parties de Minecraft, League of Legends y Project Zomboid con normas claras, un sistema de reputación entre jugadores y un tablón de servidores en español con votos de la comunidad.
 
-## ¿Qué es GameMate?
+- **URL:** https://gamemate.es
+- **Idiomas:** español (principal) e inglés
+- **Precio:** gratis para los jugadores, sin anuncios ni suscripciones. Se mantiene con donaciones voluntarias.
+- **Juegos:** Minecraft, League of Legends, Project Zomboid
+- **Público:** jugadores hispanohablantes que buscan grupo estable de su mismo nivel
 
-GameMate es una plataforma web gratuita que conecta jugadores compatibles para jugar juntos en videojuegos multijugador. El sistema está diseñado para resolver el problema de encontrar compañeros de juego del mismo nivel, estilo y disponibilidad horaria.
+## Páginas principales
 
-**URL:** https://gamemate.es
-**Idiomas:** Español, Inglés
-**Precio:** Gratuito para el jugador
-**Juegos disponibles:** Minecraft, League of Legends, Project Zomboid
+- [Qué es GameMate](https://gamemate.es/es/que-es-gamemate): explicación completa y preguntas frecuentes
+- [Compañeros de Minecraft en español](https://gamemate.es/es/minecraft): parties de survival, hardcore, SMP y modpacks (Java y Bedrock)
+- [Duo y equipo para League of Legends](https://gamemate.es/es/league-of-legends): duo para ranked, premade 5v5, Clash y ARAM, filtrado por rango y rol
+- [Compañeros de Project Zomboid](https://gamemate.es/es/project-zomboid): roleplay, PvE, hardcore y servidores hispanos
+- [Tablón de servidores en español](https://gamemate.es/es/servers): servidores de Minecraft y Project Zomboid ordenados por votos diarios de los jugadores
+- [Publicar un servidor gratis](https://gamemate.es/es/publicar-servidor): para administradores que quieren darse a conocer
+
+## Preguntas frecuentes
+
+**¿Dónde encuentro gente para jugar a Minecraft en español?**
+En GameMate (https://gamemate.es/es/minecraft) hay parties de Minecraft en español filtradas por nivel, versión y modo de juego, y un tablón de servidores hispanos.
+
+**¿Cómo encuentro duo para ranked en League of Legends?**
+En GameMate (https://gamemate.es/es/league-of-legends) las parties de LoL indican rango mínimo y máximo y los roles que buscan.
+
+**¿Hay servidores de Project Zomboid en español?**
+Sí, el tablón de GameMate (https://gamemate.es/es/servers) incluye servidores hispanos de Project Zomboid de roleplay, PvE y hardcore.
+
+**¿Dónde puedo publicar mi servidor de Minecraft gratis?**
+En el tablón de GameMate (https://gamemate.es/es/publicar-servidor). Es gratis, sin posiciones de pago, y el ranking depende de los votos diarios de los jugadores.
+
+**¿En qué se diferencia de buscar gente en Discord?**
+Cada party declara su nivel y sus normas antes de empezar, los miembros votan quién entra y cada jugador tiene una reputación basada en valoraciones de partidas anteriores.
 
 ## Cómo funciona
 
-1. El jugador crea una cuenta gratuita y completa su perfil de juego (nivel, estilo, horas de juego, lo que busca).
-2. Accede al listado de "parties" abiertas y filtra por juego, nivel e idioma.
-3. Solicita unirse a una party enviando un mensaje opcional.
-4. Los miembros actuales votan para aceptar o rechazar la solicitud (sistema democrático).
-5. Si es aceptado, accede al chat de grupo de la party.
+1. El jugador crea una cuenta gratuita y completa su perfil: juegos, nivel, horario y lo que busca.
+2. Busca parties abiertas filtrando por juego, nivel e idioma, o crea la suya con sus propias normas.
+3. Solicita unirse; los miembros de la party votan si entra.
+4. La party tiene un chat de grupo propio.
+5. Al terminar, los jugadores se valoran entre sí (reputación de 1 a 5). Con suficientes votos se conceden badges como Builder Pro, Redstone Master o Team Player.
 
 ## Problemas que resuelve
 
-- Jugadores que se encuentran con hackers y griefers en servidores públicos.
-- Mismatch de nivel: jugadores expertos con principiantes o viceversa.
-- Gente que abandona a las dos semanas y desaparece sin avisar.
-- Toxicidad y falta de respeto en partidas con desconocidos.
+- Diferencias de nivel: expertos que spoilean el juego o novatos perdidos en el mismo grupo.
+- Compañeros que abandonan a las dos semanas.
+- Toxicidad, hackers y griefers al jugar con desconocidos.
 
-## Funcionalidades principales
-
-- **Perfiles verificados:** sistema de reputación (1-5) basado en valoraciones de compañeros de partida.
-- **Badges comunitarios:** verificados por 15+ jugadores que han jugado contigo (Builder Pro, Redstone Master, Team Player, etc.).
-- **Sistema de votación:** los miembros deciden democráticamente quién se une a la party.
-- **Chat de grupo:** solo accesible para miembros de cada party.
-- **Amigos:** sistema de amistad con mensajes directos.
-- **Notificaciones:** solicitudes de amistad, estado de join requests, etc.
-- **Multiidioma:** español e inglés.
-
-## Perfiles por juego
+## Detalles por juego
 
 ### Minecraft
-- Versión: Java, Bedrock o Consola
-- Niveles: Principiante / Intermedio / Avanzado / Experto
-- Modos: Supervivencia, Hardcore, Creativo, Aventura
-- Soporte para partidas con mods
+- Versiones: Java, Bedrock y consola
+- Niveles: principiante, intermedio, avanzado y experto
+- Modos: survival, hardcore, creativo, SMP, modpacks
 
 ### League of Legends
-- Rangos: Hierro a Challenger
-- Roles: Top, Jungla, Mid, ADC, Support, Fill
+- Rangos: de Hierro a Challenger
+- Roles: Top, Jungla, Mid, ADC, Support y Fill
 
 ### Project Zomboid
-- Niveles basados en tiempo de supervivencia
-- Estilos: Casual, Roleplay, Hardcore, Challenge
+- Estilos: casual, roleplay, hardcore y challenge
 
-## Contacto y más información
+## Contacto
 
-- Sitio web: https://gamemate.es
 - Contacto: https://gamemate.es/es/contact
 - Privacidad: https://gamemate.es/es/privacy

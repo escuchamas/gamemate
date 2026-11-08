@@ -280,7 +280,9 @@
     "cookies": "Cookie policy",
     "legalNotice": "Legal notice",
     "rights": "© {year} GameMate. All rights reserved.",
-    "madeWith": "Made with ❤️ for real gamers"
+    "madeWith": "Made with ❤️ for real gamers",
+    "about": "What is GameMate",
+    "servers": "Servers"
   },
   "home": {
     "signup": "Sign up",

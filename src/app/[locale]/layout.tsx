@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { CookieBanner } from "@/components/cookie-banner";
+import { JsonLd } from "@/components/json-ld";
 
 const BASE = "https://gamemate.es";
 
@@ -96,28 +97,21 @@ export default async function LocaleLayout({
     description: locale === "es"
       ? "Encuentra compañeros de juego a tu nivel en Minecraft, League of Legends y Project Zomboid. Sin tóxicos, gratis."
       : "Find gaming partners at your skill level for Minecraft, League of Legends and Project Zomboid. Free forever.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: `${BASE}/${locale}/parties?search={search_term_string}` },
-      "query-input": "required name=search_term_string",
-    },
+    inLanguage: ["es", "en"],
     publisher: {
       "@type": "Organization",
       name: "GameMate",
-      logo: { "@type": "ImageObject", url: `${BASE}/logo redondo.png` },
+      logo: { "@type": "ImageObject", url: `${BASE}/logo%20redondo.png` },
       url: BASE,
     },
   };
 
+  // Los datos estructurados van en <body>: un <script> escrito a mano en <head>
+  // provocaba un aviso de hidratación en React.
   return (
     <html lang={locale} className="h-full" suppressHydrationWarning>
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <JsonLd data={jsonLd} />
         <NextIntlClientProvider messages={messages}>
           {children}
           <CookieBanner />

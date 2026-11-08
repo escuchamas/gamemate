@@ -23,6 +23,12 @@ export async function Footer() {
             <p className="text-xs font-semibold text-[var(--foreground)] uppercase tracking-wider mb-1">
               {t("platform")}
             </p>
+            <Link href="/que-es-gamemate" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
+              {t("about")}
+            </Link>
+            <Link href="/servers" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
+              {t("servers")}
+            </Link>
             <Link href="/contact" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
               {t("contact")}
             </Link>

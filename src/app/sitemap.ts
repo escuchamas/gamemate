@@ -21,6 +21,7 @@ const spanishRoutes: { path: string; priority: number; freq: Freq }[] = [
   { path: "/project-zomboid", priority: 0.9, freq: "daily" },
   { path: "/servers", priority: 0.8, freq: "daily" },
   { path: "/publicar-servidor", priority: 0.8, freq: "monthly" },
+  { path: "/que-es-gamemate", priority: 0.7, freq: "monthly" },
   { path: "/contact", priority: 0.3, freq: "yearly" },
   { path: "/privacy", priority: 0.2, freq: "yearly" },
   { path: "/cookies", priority: 0.2, freq: "yearly" },

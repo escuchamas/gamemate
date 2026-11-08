@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import type { Metadata } from "next";
+import { JsonLd, faqJsonLd } from "@/components/json-ld";
 import { localeAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -162,6 +163,7 @@ export default async function MinecraftPage() {
           </Link>
         </section>
 
+        <JsonLd data={faqJsonLd(FAQ)} />
         {/* FAQ */}
         <section>
           <h2 className="text-xl font-bold text-white mb-4">Preguntas frecuentes</h2>
