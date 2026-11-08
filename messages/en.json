@@ -27,33 +27,6 @@
     "register": "Sign up",
     "logout": "Log out"
   },
-  "landing": {
-    "tagline": "Finding good teammates",
-    "taglineHighlight": "shouldn't be this hard.",
-    "descriptionBefore": "Pros who spoil the ending, noobs who can't even craft a pickaxe, teammates who quit after two weeks and leave you alone in the world... GameMate matches you with players at ",
-    "descriptionStrong": "your exact skill level and commitment",
-    "descriptionAfter": " so you can finally enjoy the game the way it's meant to be played.",
-    "cta": "Start — it's free 🚀",
-    "freeForever": "Free forever for players. No subscriptions, no catch.",
-    "browseParties": "Browse active parties",
-    "featuresTitle": "Why GameMate?",
-    "features": {
-      "level": {
-        "title": "No spoilers",
-        "desc": "Filtered by real skill. Everyone's at the same point. No one rushing ahead and ruining the experience."
-      },
-      "rules": {
-        "title": "No clueless noobs",
-        "desc": "Level is declared and verified by the community with badges. No more teammates who can't craft a pickaxe."
-      },
-      "reputation": {
-        "title": "No quitters",
-        "desc": "Commitment reputation visible on every profile. Two-week quitters have it on their record for everyone to see."
-      }
-    },
-    "badgesNote": "Only awarded when 15 or more players have confirmed them",
-    "footer": "Made by a gamer, for gamers. 0 corporate, 100% community."
-  },
   "auth": {
     "login": {
       "title": "Welcome back",
@@ -308,5 +281,58 @@
     "legalNotice": "Legal notice",
     "rights": "© {year} GameMate. All rights reserved.",
     "madeWith": "Made with ❤️ for real gamers"
+  },
+  "home": {
+    "signup": "Sign up",
+    "signupFree": "Sign up for free",
+    "hero": {
+      "title": "Find people at your level to play with",
+      "lead": "Minecraft, League of Legends and Project Zomboid parties with clear rules from minute one. No pros spoiling everything, no teammates vanishing after two weeks.",
+      "servers": "Browse servers",
+      "fine": "Free, no ads, no subscriptions."
+    },
+    "lobby": {
+      "aria": "Example of an open party looking for players",
+      "sampleName": "Chill survival 1.21",
+      "level": "{level} level",
+      "countAria": "{n} of {max} players",
+      "player": "Player",
+      "ready": "Ready",
+      "yourSlot": "Your slot",
+      "join": "Join",
+      "free": "Open",
+      "seeParty": "See this party",
+      "freeMore": "{n} more open slots",
+      "levels": {
+        "BEGINNER": "Beginner",
+        "INTERMEDIATE": "Intermediate",
+        "ADVANCED": "Advanced",
+        "EXPERT": "Expert"
+      }
+    },
+    "steps": {
+      "title": "How it works",
+      "profile": {
+        "title": "Create your profile",
+        "desc": "Tell us what you play, when you're usually online and your skill level, so the right people can find you."
+      },
+      "party": {
+        "title": "Join a party or start your own",
+        "desc": "Every party sets its level and rules before it starts. If it isn't a fit, you know before you join."
+      },
+      "reputation": {
+        "title": "Play and rate",
+        "desc": "When you're done, the group rates each other. Enough votes earn badges that show on your profile."
+      }
+    },
+    "games": {
+      "title": "Pick a game",
+      "minecraft": "Survival, hardcore, SMP and modpacks. Java or Bedrock.",
+      "lol": "Ranked duo, 5v5 premades, Clash or ARAM with people at your elo.",
+      "pz": "Roleplay, PvE, hardcore and Spanish-speaking servers.",
+      "cta": "Find {game} teammates"
+    },
+    "serversNote": "Run a Minecraft or Project Zomboid server?",
+    "serversNoteLink": "List it on the board for free"
   }
 }

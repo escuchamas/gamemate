@@ -27,33 +27,6 @@
     "register": "Registrarse",
     "logout": "Salir"
   },
-  "landing": {
-    "tagline": "Jugar en buena compañía",
-    "taglineHighlight": "no debería ser tan difícil.",
-    "descriptionBefore": "Pros que te spoilean el final, novatos que no saben ni hacer un pico, compis que se aburren a las dos semanas y te dejan tirado en el mundo... GameMate te empareja con jugadores de ",
-    "descriptionStrong": "tu mismo nivel y compromiso",
-    "descriptionAfter": " para que por fin disfrutes el juego como se merece.",
-    "cta": "Empezar — es gratis 🚀",
-    "freeForever": "Gratis para siempre para el jugador. Sin suscripciones, sin trampa.",
-    "browseParties": "Ver parties activas",
-    "featuresTitle": "¿Por qué GameMate?",
-    "features": {
-      "level": {
-        "title": "Sin spoileadores",
-        "desc": "Filtramos por nivel real. Todos van al mismo punto del juego. Nada de que el experto te cuente el final antes de tiempo."
-      },
-      "rules": {
-        "title": "Sin novatos perdidos",
-        "desc": "El nivel se declara y la comunidad lo verifica con badges. No más compis que no saben ni craftear un pico."
-      },
-      "reputation": {
-        "title": "Sin abandoners",
-        "desc": "Reputación de compromiso visible en cada perfil. Los que dejan el mundo a las dos semanas lo tienen reflejado."
-      }
-    },
-    "badgesNote": "Solo se conceden cuando 15 o más jugadores los avalan",
-    "footer": "Hecho por un gamer, para gamers. 0 corporativo, 100% comunidad."
-  },
   "auth": {
     "login": {
       "title": "Bienvenido de nuevo",
@@ -308,5 +281,58 @@
     "legalNotice": "Aviso legal",
     "rights": "© {year} GameMate. Todos los derechos reservados.",
     "madeWith": "Hecho con ❤️ para gamers de verdad"
+  },
+  "home": {
+    "signup": "Crear cuenta",
+    "signupFree": "Crear cuenta gratis",
+    "hero": {
+      "title": "Encuentra gente de tu nivel para jugar",
+      "lead": "Parties de Minecraft, League of Legends y Project Zomboid con normas claras desde el minuto uno. Sin pros que te lo spoilean todo ni compis que desaparecen a las dos semanas.",
+      "servers": "Ver servidores",
+      "fine": "Gratis, sin anuncios y sin suscripciones."
+    },
+    "lobby": {
+      "aria": "Ejemplo de party abierta buscando jugadores",
+      "sampleName": "Survival relajado 1.21",
+      "level": "Nivel {level}",
+      "countAria": "{n} de {max} jugadores",
+      "player": "Jugador",
+      "ready": "Listo",
+      "yourSlot": "Tu sitio",
+      "join": "Unirme",
+      "free": "Libre",
+      "seeParty": "Ver esta party",
+      "freeMore": "{n} sitios libres más",
+      "levels": {
+        "BEGINNER": "Principiante",
+        "INTERMEDIATE": "Intermedio",
+        "ADVANCED": "Avanzado",
+        "EXPERT": "Experto"
+      }
+    },
+    "steps": {
+      "title": "Cómo funciona",
+      "profile": {
+        "title": "Crea tu perfil",
+        "desc": "Dinos a qué juegas, cuándo sueles conectarte y qué nivel tienes. Así te encuentran las personas adecuadas."
+      },
+      "party": {
+        "title": "Únete a una party o crea la tuya",
+        "desc": "Cada party fija su nivel y sus normas antes de empezar. Si no encaja contigo, lo sabes antes de entrar."
+      },
+      "reputation": {
+        "title": "Juega y valora",
+        "desc": "Al acabar, el grupo se valora entre sí. Con suficientes votos se ganan badges que se ven en el perfil."
+      }
+    },
+    "games": {
+      "title": "Elige juego",
+      "minecraft": "Survival, hardcore, SMP y modpacks. Java o Bedrock.",
+      "lol": "Duo para ranked, premade 5v5, Clash o ARAM con gente de tu elo.",
+      "pz": "Roleplay, PvE, hardcore y servidores en español.",
+      "cta": "Buscar compañeros de {game}"
+    },
+    "serversNote": "¿Tienes un servidor de Minecraft o Project Zomboid?",
+    "serversNoteLink": "Publícalo gratis en el tablón"
   }
 }

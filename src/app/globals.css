@@ -65,3 +65,141 @@ body {
   background: var(--muted);
   border-radius: 3px;
 }
+
+/* ─── Portada ──────────────────────────────────────────────────────────────
+   Colores sacados del logo: menta (GAME) y naranja (MATE). Fuentes: Chakra Petch
+   para titulares y Rubik para texto, cargadas en src/app/[locale]/page.tsx. */
+.home {
+  --h-bg: #10131a;
+  --h-panel: #171b24;
+  --h-line: #262c3a;
+  --h-mint: #4fd1b5;
+  --h-orange: #f97316;
+  --h-text: #e8eaf0;
+  --h-muted: #8b93a7;
+  background: var(--h-bg);
+  color: var(--h-text);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+.home :focus-visible { outline: 2px solid var(--h-mint); outline-offset: 3px; border-radius: 6px; }
+
+.home-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  max-width: 72rem; margin: 0 auto; width: 100%; padding: 18px 16px;
+}
+@media (min-width: 640px) { .home-header { padding: 18px 20px; } }
+.home-link { font-size: 0.9375rem; color: var(--h-muted); }
+.home-link:hover { color: var(--h-text); }
+
+.home-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-display), system-ui, sans-serif; font-weight: 700;
+  font-size: 1.0625rem; letter-spacing: 0.01em;
+  padding: 12px 22px; border-radius: 10px;
+  background: var(--h-orange); color: #fff;
+  box-shadow: 0 3px 0 #b4500c; /* canto 3D, como las letras del logo */
+  transition: transform .12s, box-shadow .12s, background .12s;
+}
+.home-btn:hover { background: #fb8a3c; }
+.home-btn:active { transform: translateY(3px); box-shadow: 0 0 0 #b4500c; }
+.home-btn--small { font-size: 0.9375rem; padding: 8px 14px; white-space: nowrap; }
+.home-link { white-space: nowrap; }
+.home-btn--ghost { background: transparent; color: var(--h-text); box-shadow: inset 0 0 0 1.5px var(--h-line); }
+.home-btn--ghost:hover { background: var(--h-panel); }
+.home-btn--ghost:active { transform: none; box-shadow: inset 0 0 0 1.5px var(--h-line); }
+
+/* Hero */
+.home-hero {
+  max-width: 72rem; margin: 0 auto; padding: 40px 20px 72px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; align-items: center;
+}
+@media (min-width: 900px) {
+  .home-hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); padding-top: 72px; padding-bottom: 104px; }
+}
+.home-h1 {
+  font-family: var(--font-display), system-ui, sans-serif; font-weight: 700;
+  font-size: clamp(2.25rem, 5.2vw, 3.75rem); line-height: 1.04; letter-spacing: -0.01em;
+  max-width: 14ch; margin: 0 0 20px; color: #fff;
+}
+.home-lead { font-size: 1.125rem; line-height: 1.6; color: var(--h-muted); max-width: 34rem; margin: 0 0 28px; }
+.home-fine { font-size: 0.875rem; color: var(--h-muted); margin: 14px 0 0; }
+
+/* Sala de espera */
+.lobby {
+  background: var(--h-panel); border: 1.5px solid var(--h-line); border-radius: 16px;
+  padding: 20px; box-shadow: 6px 6px 0 rgba(79, 209, 181, 0.18); /* sombra desplazada en menta */
+  width: 100%; max-width: 26rem; justify-self: center;
+}
+.lobby-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 16px; border-bottom: 1.5px solid var(--h-line); }
+.lobby-title { font-family: var(--font-display), system-ui, sans-serif; font-weight: 700; font-size: 1.25rem; color: #fff; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lobby-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; margin: 4px 0 0; font-size: 0.875rem; color: var(--h-muted); }
+.lobby-meta > span { white-space: nowrap; }
+.lobby-meta-sep { width: 4px; height: 4px; border-radius: 1px; background: var(--h-line); }
+.lobby-count { font-family: var(--font-display), system-ui, sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--h-mint); margin: 0; font-variant-numeric: tabular-nums; }
+.lobby-slots { list-style: none; margin: 0; padding: 12px 0 0; display: grid; gap: 8px; }
+.lobby-slot { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; min-height: 52px; }
+.lobby-slot--taken { background: #1d2230; animation: lobby-in .35s ease-out both; }
+.lobby-slot--you { border: 1.5px dashed var(--h-orange); animation: lobby-in .35s ease-out both; }
+.lobby-slot--free { border: 1.5px dashed var(--h-line); }
+.lobby-avatar {
+  width: 32px; height: 32px; border-radius: 8px; flex: none; object-fit: cover;
+  display: grid; place-items: center; font-weight: 600; font-size: 0.8125rem; color: #10131a;
+}
+.lobby-avatar--empty { border: 1.5px solid var(--h-orange); color: var(--h-orange); font-size: 1.125rem; animation: lobby-pulse 1.6s ease-in-out infinite; }
+.lobby-avatar--free { border: 1.5px solid var(--h-line); }
+.lobby-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lobby-slot--free .lobby-name { color: var(--h-muted); }
+.lobby-slot--you .lobby-name { color: #fff; font-weight: 500; }
+.lobby-ready { font-size: 0.8125rem; font-weight: 500; color: var(--h-mint); }
+.lobby-join {
+  font-family: var(--font-display), system-ui, sans-serif; font-weight: 700; font-size: 0.9375rem;
+  padding: 6px 14px; border-radius: 8px; background: var(--h-orange); color: #fff;
+}
+.lobby-join:hover { background: #fb8a3c; }
+.lobby-foot { display: block; margin-top: 14px; font-size: 0.875rem; color: var(--h-muted); text-align: center; }
+.lobby-foot:hover { color: var(--h-text); }
+/* Solo movimiento, sin opacidad: si la animación no llega a ejecutarse, el contenido se ve igual */
+@keyframes lobby-in { from { transform: translateY(8px); } to { transform: none; } }
+@keyframes lobby-pulse { 50% { box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.18); } }
+
+/* Secciones */
+.home-section { max-width: 72rem; margin: 0 auto; padding: 0 20px 88px; }
+.home-h2 { font-family: var(--font-display), system-ui, sans-serif; font-weight: 700; font-size: clamp(1.625rem, 3vw, 2.125rem); color: #fff; margin: 0 0 32px; }
+.home-h3 { font-family: var(--font-display), system-ui, sans-serif; font-weight: 600; font-size: 1.25rem; color: #fff; margin: 0 0 8px; }
+.home-p { color: var(--h-muted); line-height: 1.6; margin: 0; max-width: 36rem; }
+
+/* Pasos: una línea los une, porque es un orden real */
+.home-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px; position: relative; }
+@media (min-width: 900px) {
+  .home-steps { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .home-steps::before { content: ""; position: absolute; top: 20px; left: 20px; right: 33%; height: 2px; background: var(--h-line); }
+}
+.home-step { position: relative; }
+.home-step-n {
+  position: relative; display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 16px;
+  border-radius: 10px; background: var(--h-bg); border: 2px solid var(--h-mint); color: var(--h-mint);
+  font-family: var(--font-display), system-ui, sans-serif; font-weight: 700; font-size: 1.25rem;
+}
+.home-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; }
+.home-badge { font-size: 0.8125rem; padding: 4px 10px; border-radius: 999px; background: var(--h-panel); border: 1px solid var(--h-line); color: var(--h-text); }
+
+/* Juegos: filas con imagen, no tarjetas iguales */
+.home-games { display: grid; gap: 12px; }
+.home-game {
+  display: grid; grid-template-columns: 1fr; overflow: hidden;
+  border-radius: 14px; background: var(--h-panel); border: 1.5px solid var(--h-line);
+  transition: border-color .15s;
+}
+.home-game:hover { border-color: var(--h-mint); }
+@media (min-width: 640px) { .home-game { grid-template-columns: 240px 1fr; } }
+.home-game-img { width: 100%; height: 140px; object-fit: cover; }
+@media (min-width: 640px) { .home-game-img { height: 128px; } }
+.home-game-body { padding: 20px 22px; display: flex; flex-direction: column; justify-content: center; }
+.home-game-cta { margin-top: 12px; font-weight: 500; color: var(--h-mint); }
+.home-servers-note { margin: 24px 0 0; color: var(--h-muted); }
+.home-inline-link { color: var(--h-orange); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lobby-slot--taken, .lobby-slot--you, .lobby-avatar--empty { animation: none; }
+  .home-btn, .home-game { transition: none; }
+}
