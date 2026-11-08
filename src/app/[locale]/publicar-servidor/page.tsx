@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { JsonLd, faqJsonLd } from "@/components/json-ld";
 import { localeAlternates } from "@/lib/seo";
 
@@ -95,7 +96,9 @@ const FAQ = [
   },
 ];
 
-export default function PublicarServidorPage() {
+export default async function PublicarServidorPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale); // permite generar la página por adelantado
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
       <header className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto w-full">

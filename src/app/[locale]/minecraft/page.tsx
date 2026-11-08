@@ -3,7 +3,9 @@ import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { JsonLd, faqJsonLd } from "@/components/json-ld";
+import { GameGuide, GUIDES } from "@/components/game-guide";
 import { localeAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -49,7 +51,12 @@ const FAQ = [
   },
 ];
 
-export default async function MinecraftPage() {
+// Generada por adelantado y renovada cada 5 minutos con las parties nuevas
+export const revalidate = 300;
+
+export default async function MinecraftPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale); // permite generar la página por adelantado
   const parties = await prisma.party.findMany({
     where: { game: "MINECRAFT", status: { in: ["OPEN", "FULL"] } },
     orderBy: { createdAt: "desc" },
@@ -162,6 +169,8 @@ export default async function MinecraftPage() {
             Ver servidores de Minecraft →
           </Link>
         </section>
+
+        <GameGuide {...GUIDES.minecraft} />
 
         <JsonLd data={faqJsonLd(FAQ)} />
         {/* FAQ */}

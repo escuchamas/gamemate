@@ -1,6 +1,4 @@
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Chakra_Petch, Rubik } from "next/font/google";
 import { Link } from "@/i18n/navigation";
 import { BADGE_INFO } from "@/lib/constants";
@@ -56,14 +54,17 @@ const GAMES = [
   { key: "pz", href: "/project-zomboid", img: "/games/PZ.jpg", title: "Project Zomboid" },
 ] as const;
 
+// Generada por adelantado y renovada cada 5 minutos (la sala de espera muestra una party real).
+// Quien tiene sesión iniciada no llega aquí: middleware.ts lo manda a sus parties.
+export const revalidate = 300;
+
 export default async function LandingPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const session = await auth();
-  if (session) redirect(`/${locale}/parties`);
+  setRequestLocale(locale);
 
   const t = await getTranslations("home");
   const tNav = await getTranslations("nav");

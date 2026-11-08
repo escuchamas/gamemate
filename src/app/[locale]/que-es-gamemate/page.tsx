@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
 import { JsonLd, faqJsonLd } from "@/components/json-ld";
 
@@ -58,7 +59,9 @@ const orgJsonLd = {
   knowsLanguage: ["es", "en"],
 };
 
-export default function QueEsGameMatePage() {
+export default async function QueEsGameMatePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale); // permite generar la página por adelantado
   return (
     <div className={`home ${display.variable} ${body.variable} min-h-screen flex flex-col`}>
       <JsonLd data={orgJsonLd} />
