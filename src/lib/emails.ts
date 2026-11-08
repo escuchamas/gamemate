@@ -50,7 +50,7 @@ function button(href: string, label: string): string {
 
 function layout(body: string, userId?: string): string {
   const footer = userId
-    ? `<p style="margin:24px 0 0;color:#6b7280;font-size:12px;line-height:1.5">Recibes este email porque tienes cuenta en GameMate.<br><a href="${unsubscribeUrl(userId)}" style="color:#9ca3af">Darme de baja de estos emails</a></p>`
+    ? `<p style="margin:24px 0 0;color:#6b7280;font-size:12px;line-height:1.5">Recibes este email porque tienes cuenta en GameMate. ¿Demasiado spam de habilidades?<br><a href="${unsubscribeUrl(userId)}" style="color:#9ca3af">Darme de baja (ff, sin rencores)</a></p>`
     : "";
   return `<!doctype html><html lang="es"><body style="margin:0;padding:24px;background:#0b0b0f">
 <div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:520px;margin:0 auto;padding:28px;background:#0f0f13;color:#e8e8f0;border-radius:12px;border:1px solid #1f1f2a">
@@ -88,15 +88,25 @@ async function send(opts: {
     headers["List-Unsubscribe"] = `<${unsubscribeUrl(opts.userId)}>`;
     headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
   }
+  // Modo prueba (scripts locales): asunto marcado y sin registrar el envío
+  const test = process.env.EMAIL_TEST_MODE === "1";
+  if (test && process.env.EMAIL_PREVIEW_DIR) {
+    // Vista previa: guarda el HTML en vez de enviarlo
+    const { writeFileSync } = await import("fs");
+    writeFileSync(`${process.env.EMAIL_PREVIEW_DIR}/${opts.template}-${opts.type}-${Date.now()}.html`, `<!-- ${opts.subject} -->
+${opts.html}`);
+    return;
+  }
   const { data, error } = await resend().emails.send({
     from: FROM,
     to: opts.to,
-    subject: opts.subject,
+    subject: test ? `[PRUEBA] ${opts.subject}` : opts.subject,
     html: opts.html,
     headers,
     tags: [{ name: "type", value: opts.type }, { name: "template", value: opts.template }],
   });
   if (error) throw new Error(`Resend: ${error.message}`);
+  if (test) return;
   await prisma.emailLog.create({
     data: { userId: opts.userId ?? null, type: opts.type, template: opts.template, resendId: data?.id ?? null },
   });
@@ -118,46 +128,47 @@ export type Highlights = {
 
 function highlightsBlock(h: Highlights): string {
   const lines: string[] = [];
-  if (h.newParties > 0) lines.push(`<strong>${h.newParties}</strong> parties nuevas creadas por jugadores este mes`);
-  if (h.newServers > 0) lines.push(`<strong>${h.newServers}</strong> servidores nuevos en el tablón`);
+  if (h.newParties > 0) lines.push(`<strong>${h.newParties}</strong> parties nuevas este mes (más que diamantes en un chunk con suerte 💎)`);
+  if (h.newServers > 0) lines.push(`<strong>${h.newServers}</strong> servidores nuevos en el tablón, recién crafteados`);
   const top = h.topServers.map(
     (s) => `<a href="${SITE_URL}/es/servers/${s.id}" style="color:#fb923c">${escapeHtml(s.name)}</a> <span style="color:#9ca3af">· ${escapeHtml(s.game)}</span>`
   );
-  return (lines.length ? ul(lines) : "") + (top.length ? p("Los servidores más votados ahora mismo:") + ul(top) : "");
+  return (lines.length ? ul(lines) : "") + (top.length ? p("El top del tablón ahora mismo (los que van <em>fed</em> de votos):") + ul(top) : "");
 }
 
 export async function sendWelcomeEmail(user: Recipient) {
   const html = layout(
-    `${h1(`¡Bienvenido, ${firstName(user.name)}! 👋`)}
-    ${p("Ya formas parte de GameMate, el sitio para encontrar gente <strong>de tu nivel</strong> con la que jugar a Minecraft, League of Legends y Project Zomboid.")}
-    ${p("Para sacarle partido en 2 minutos:")}
+    `${h1(`¡Bienvenido a la party, ${firstName(user.name)}! 🎮`)}
+    ${p("Acabas de spawnear en GameMate. Aquí se viene a encontrar gente <strong>de tu nivel</strong> para Minecraft, LoL y Project Zomboid: ni smurfs que te humillan, ni compañeros que confunden un creeper con una mascota.")}
+    ${p("Tu misión de tutorial (dura menos que una partida de ARAM):")}
     ${ul([
-      "<strong>Completa tu perfil gamer</strong> — juegos, horario y nivel. Así te encuentran.",
-      "<strong>Únete a una party</strong> o crea la tuya con tus normas.",
-      "<strong>Echa un ojo a los servidores</strong> en español y vota tus favoritos.",
+      "<strong>Completa tu perfil gamer</strong> — juegos, horario y nivel. Es tu ward: sin él no te ve nadie.",
+      "<strong>Únete a una party</strong> o crea la tuya con tus normas. Tú eres el shotcaller.",
+      "<strong>Pásate por los servidores</strong> en español y vota a tus favoritos. Gratis, sin pay-to-win.",
     ])}
-    ${cta(`${SITE_URL}/es/parties`, "Ver parties abiertas")}`,
+    ${p("GLHF 🫡")}
+    ${cta(`${SITE_URL}/es/parties`, "Buscar mi primera party")}`,
     user.id
   );
-  await send({ to: user.email, subject: "Bienvenido a GameMate 🎮 — así encuentras tu equipo", html, userId: user.id, type: "flow1", template: "welcome" });
+  await send({ to: user.email, subject: "Has spawneado en GameMate 🎮 (tutorial incluido)", html, userId: user.id, type: "flow1", template: "welcome" });
 }
 
 /** Primer email para cuentas que ya existían antes de activar el flujo, y reactivación a los 3 meses. */
 export async function sendComebackEmail(user: Recipient, h: Highlights, type: "flow1" | "reactivation") {
   const intro = type === "reactivation"
-    ? "Hace unos meses que no te vemos por GameMate. La comunidad sigue jugando; esto es lo que te encontrarás si vuelves:"
-    : "Hace tiempo que te registraste en GameMate y la comunidad ha ido creciendo. Esto es lo que te encontrarás si vuelves:";
+    ? "Llevas tanto tiempo AFK que ya íbamos a pedir remake. Tranqui, no te hemos reportado: tu cuenta sigue aquí y la comunidad sigue jugando. Esto es lo que te estás perdiendo:"
+    : "Te registraste en GameMate hace tiempo y desde entonces esto ha subido de nivel más rápido que un granjero de XP. Esto es lo que te espera si vuelves:";
   const html = layout(
-    `${h1(`Hola de nuevo, ${firstName(user.name)} 🕹️`)}
+    `${h1(type === "reactivation" ? `${firstName(user.name)}, ¿sigues ahí? 👀` : `${firstName(user.name)}, el respawn ya está listo ⏳`)}
     ${p(intro)}
     ${highlightsBlock(h)}
-    ${p("Si no ves una party a tu medida, crea la tuya: tú decides juego, nivel y normas.")}
-    ${cta(`${SITE_URL}/es/parties`, "Volver a GameMate")}`,
+    ${p("¿No ves una party a tu medida? Créala tú: eliges juego, nivel y normas. Nada de inteos, nada de ff al 15.")}
+    ${cta(`${SITE_URL}/es/parties`, "Hacer respawn")}`,
     user.id
   );
   await send({
     to: user.email,
-    subject: type === "reactivation" ? "¿Echamos una partida? Te echamos de menos en GameMate" : "Lo nuevo en GameMate desde que te registraste",
+    subject: type === "reactivation" ? "Llevas AFK 3 meses… ¿pedimos remake? 🕹️" : "Tu respawn en GameMate está listo ⏳",
     html,
     userId: user.id,
     type,
@@ -181,18 +192,18 @@ export async function trySendWelcome(userId: string) {
 
 export async function sendNudgeEmail(user: Recipient & { hasProfile: boolean }) {
   const body = user.hasProfile
-    ? p("Tu perfil ya está listo, pero aún no te has unido a ninguna party. Es lo que hace que GameMate funcione: entra, elige una de tu juego y nivel, y a jugar.")
-    : p("Te falta un paso: <strong>completar tu perfil gamer</strong> (juegos, horario y nivel). Sin él, nadie puede encontrarte para jugar.");
+    ? p("Tienes el perfil listo pero sigues en la base comprando items desde hace una semana. Las parties no se unen solas: entra, elige una de tu juego y nivel, y sal a la grieta (o a la mina).")
+    : p("Te falta completar tu <strong>perfil gamer</strong> (juegos, horario y nivel). Ahora mismo eres como un jungla que no gankea: existir, existes, pero nadie te ve.")
   const html = layout(
-    `${h1(`${firstName(user.name)}, ¿jugamos? 🎯`)}
+    `${h1(`${firstName(user.name)}, ¿jugamos o qué? 🎯`)}
     ${body}
-    ${p("Si no encuentras nada a tu medida, crea tu propia party: tú decides el nivel, las normas y cuánta gente entra.")}
-    ${user.hasProfile ? cta(`${SITE_URL}/es/parties`, "Buscar una party") : cta(`${SITE_URL}/es/profile`, "Completar mi perfil")}`,
+    ${p("¿Nada te convence? Crea tu propia party: tú pones el nivel, las normas y cuánta gente entra. Si alguien tiltea, fuera.")}
+    ${user.hasProfile ? cta(`${SITE_URL}/es/parties`, "Salir de la base") : cta(`${SITE_URL}/es/profile`, "Completar mi perfil")}`,
     user.id
   );
   await send({
     to: user.email,
-    subject: user.hasProfile ? "Tu primera party te está esperando" : "Te falta un paso para encontrar equipo",
+    subject: user.hasProfile ? "Llevas una semana en la base comprando items 🛒" : "Eres un jungla que no gankea (todavía) 🌲",
     html,
     userId: user.id,
     type: "flow2",
@@ -202,14 +213,14 @@ export async function sendNudgeEmail(user: Recipient & { hasProfile: boolean }) 
 
 export async function sendHighlightsEmail(user: Recipient, h: Highlights, type: "flow3" | "monthly") {
   const html = layout(
-    `${h1("Esto es lo que se mueve en GameMate 🔥")}
-    ${p(`${firstName(user.name)}, te dejamos lo más destacado de la comunidad:`)}
+    `${h1("Parche de novedades de GameMate 📜")}
+    ${p(`${firstName(user.name)}, aquí van las notas del parche (sin nerfeos, prometido):`)}
     ${highlightsBlock(h)}
-    ${p("¿Tienes un servidor o un grupo? Publícalo gratis y que te encuentren jugadores de tu nivel.")}
+    ${p("¿Tienes servidor o un grupo que necesita gente? Publícalo gratis y deja que te encuentren jugadores de tu elo… o de tu nivel de redstone.")}
     ${cta(`${SITE_URL}/es/servers`, "Ver servidores y parties")}`,
     user.id
   );
-  await send({ to: user.email, subject: "Servidores y parties destacadas en GameMate", html, userId: user.id, type, template: "highlights" });
+  await send({ to: user.email, subject: "Notas del parche: lo nuevo en GameMate 📜", html, userId: user.id, type, template: "highlights" });
 }
 
 // ─── Informe para el admin ────────────────────────────────────────────────────
