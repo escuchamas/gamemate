@@ -13,9 +13,9 @@ const display = Chakra_Petch({ subsets: ["latin"], weight: ["600", "700"], varia
 const body = Rubik({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Qué es GameMate: buscar compañeros de juego en español",
+  title: "Qué es GameMate: compañeros de juego en español",
   description:
-    "GameMate es una web gratuita para encontrar compañeros de juego de tu nivel en Minecraft, League of Legends y Project Zomboid, con parties con normas, reputación y un tablón de servidores en español.",
+    "Web gratuita para encontrar compañeros de juego de tu nivel en Minecraft, LoL y Project Zomboid: parties con normas, reputación y servidores en español.",
   alternates: localeAlternates("es", "/que-es-gamemate", { esOnly: true }),
 };
 
@@ -50,6 +50,7 @@ const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "GameMate",
+  alternateName: ["GameMate.es", "GameMate España"],
   url: SITE_URL,
   logo: `${SITE_URL}/logo%20redondo.png`,
   description: "Web gratuita para encontrar compañeros de juego en español para Minecraft, League of Legends y Project Zomboid.",

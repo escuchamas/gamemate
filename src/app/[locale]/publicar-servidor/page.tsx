@@ -7,9 +7,9 @@ import { localeAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: localeAlternates("es", "/publicar-servidor", { esOnly: true }),
-  title: "Publicar servidor de Minecraft o Project Zomboid en español",
+  title: "Publicar servidor de Minecraft o Zomboid gratis",
   description:
-    "Publica tu servidor en el tablón de GameMate gratis. Llega a jugadores hispanohablantes activos. Sistema de votos diarios para subir en el ranking. Sin comisiones.",
+    "Publica gratis tu servidor en el tablón de GameMate y llega a jugadores hispanohablantes. Votos diarios para subir en el ranking, sin posiciones de pago.",
   openGraph: {
     title: "Publicar servidor en GameMate — gratis y sin comisiones",
     description:
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     url: "https://gamemate.es/es/publicar-servidor",
     siteName: "GameMate",
     type: "website",
+    images: [{ url: "https://gamemate.es/games/biome-minecraft.webp", width: 800, height: 400 }],
   },
 };
 

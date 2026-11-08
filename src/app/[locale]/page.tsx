@@ -23,10 +23,10 @@ export async function generateMetadata({
   const isEs = locale === "es";
   return {
     title: isEs
-      ? "GameMate – Encuentra compañeros para Minecraft, LoL y Project Zomboid"
-      : "GameMate – Find teammates for Minecraft, LoL and Project Zomboid",
+      ? "GameMate: compañeros para Minecraft, LoL y Project Zomboid"
+      : "GameMate: teammates for Minecraft, LoL and Project Zomboid",
     description: isEs
-      ? "Busca jugadores a tu nivel para Minecraft, League of Legends y Project Zomboid. Perfiles verificados, sistema de reputación y parties organizadas. Gratis para siempre."
+      ? "Busca jugadores de tu nivel para Minecraft, League of Legends y Project Zomboid: parties con normas, reputación y servidores en español. Gratis."
       : "Find players at your skill level for Minecraft, League of Legends and Project Zomboid. Verified profiles, reputation system and organized parties. Free forever.",
     alternates: localeAlternates(locale, ""),
   };
@@ -128,7 +128,7 @@ export default async function LandingPage({
           <div className="home-games">
             {GAMES.map((g) => (
               <Link key={g.key} href={g.href} className="home-game">
-                <img src={g.img} alt="" className="home-game-img" loading="lazy" />
+                <img src={g.img} alt={g.title} width={240} height={128} className="home-game-img" loading="lazy" />
                 <div className="home-game-body">
                   <h3 className="home-h3">{g.title}</h3>
                   <p className="home-p">{t(`games.${g.key}`)}</p>

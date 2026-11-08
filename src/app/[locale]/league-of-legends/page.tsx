@@ -8,7 +8,7 @@ import { localeAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: localeAlternates("es", "/league-of-legends", { esOnly: true }),
-  title: "Buscar duo y equipo para League of Legends en español",
+  title: "Buscar duo y equipo de LoL en español",
   description:
     "Encuentra duo carril, premade 5v5 o equipo de Clash para LoL. Filtra por rango, rol y nivel. Comunidad española verificada. Gratis.",
   openGraph: {
