@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { isAdmin } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
@@ -9,8 +9,6 @@ import { AdminNav } from "@/components/admin/admin-nav";
 
 // Página privada o de acceso: fuera de Google
 export const metadata: Metadata = { title: "Admin", robots: NOINDEX };
-
-const ADMIN_EMAILS = ["fernandomcq123@gmail.com", "fernando_mcq@hotmail.com"];
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -33,10 +31,7 @@ async function getStats() {
 }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth();
-  if (!session?.user?.email || !ADMIN_EMAILS.includes(session.user.email)) {
-    redirect("/");
-  }
+  if (!(await isAdmin())) redirect("/");
 
   const s = await getStats();
   // Datos reales (sin cuentas de demo), última semana

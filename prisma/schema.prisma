@@ -487,6 +487,7 @@ model EmailVerification {
   id        String   @id @default(cuid())
   userId    String
   code      String
+  attempts  Int      @default(0) // intentos fallidos: a los 5 se invalida el código
   expiresAt DateTime
   createdAt DateTime @default(now())
 
@@ -499,6 +500,7 @@ model PhoneVerification {
   id        String   @id @default(cuid())
   userId    String
   code      String
+  attempts  Int      @default(0) // intentos fallidos: a los 5 se invalida el código
   expiresAt DateTime
   createdAt DateTime @default(now())
 

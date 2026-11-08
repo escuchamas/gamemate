@@ -8,7 +8,15 @@ import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import twilio from "twilio";
 import { Resend } from "resend";
-import { trySendWelcome } from "@/lib/emails";
+import { trySendWelcome, escapeHtml } from "@/lib/emails";
+import { randomInt } from "crypto";
+
+const MAX_CODE_ATTEMPTS = 5;      // intentos fallidos antes de invalidar un código
+const RESEND_COOLDOWN_MS = 60_000; // tiempo mínimo entre envíos de código
+
+function sixDigitCode() {
+  return randomInt(100000, 1000000).toString();
+}
 
 type ActionResult = { error?: string; field?: string; success?: string };
 
@@ -62,13 +70,13 @@ export async function registerAction(
     await resend.emails.send({
       from: process.env.EMAIL_FROM ?? "GameMate <noreply@gamemate.es>",
       to: "fernandomcq123@gmail.com",
-      subject: `🎮 Nuevo registro en GameMate — ${name ?? email}`,
+      subject: `🎮 Nuevo registro en GameMate — ${(name ?? email).slice(0, 60)}`,
       html: `
         <div style="font-family:sans-serif;max-width:400px;padding:24px;background:#0f0f13;color:#e8e8f0;border-radius:12px">
           <h2 style="color:#ea580c;margin:0 0 16px">Nuevo usuario registrado</h2>
-          <p style="margin:0 0 8px"><strong>Nombre:</strong> ${name ?? "—"}</p>
-          <p style="margin:0 0 8px"><strong>Usuario:</strong> @${username}</p>
-          <p style="margin:0 0 8px"><strong>Email:</strong> ${email}</p>
+          <p style="margin:0 0 8px"><strong>Nombre:</strong> ${escapeHtml(name ?? "—")}</p>
+          <p style="margin:0 0 8px"><strong>Usuario:</strong> @${escapeHtml(username)}</p>
+          <p style="margin:0 0 8px"><strong>Email:</strong> ${escapeHtml(email)}</p>
           <p style="margin:0 0 16px;color:#6b7280;font-size:12px">${new Date().toLocaleString("es-ES", { timeZone: "Europe/Madrid" })}</p>
           <a href="https://gamemate.es/es/admin/users" style="background:#ea580c;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:14px">Ver en admin →</a>
         </div>
@@ -115,7 +123,10 @@ export async function loginAction(
   return {};
 }
 
-export async function sendPhoneCodeAction(userId: string): Promise<ActionResult> {
+export async function sendPhoneCodeAction(): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+  const userId = session.user.id;
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { phone: true, phoneVerified: true },
@@ -124,7 +135,12 @@ export async function sendPhoneCodeAction(userId: string): Promise<ActionResult>
   if (!user?.phone) return { error: "No tienes un número de teléfono registrado" };
   if (user.phoneVerified) return { error: "Tu teléfono ya está verificado" };
 
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  const last = await prisma.phoneVerification.findFirst({ where: { userId }, orderBy: { createdAt: "desc" } });
+  if (last && Date.now() - last.createdAt.getTime() < RESEND_COOLDOWN_MS) {
+    return { error: "Espera un minuto antes de pedir otro código." };
+  }
+
+  const code = sixDigitCode();
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 min
 
   await prisma.phoneVerification.deleteMany({ where: { userId } });
@@ -150,23 +166,29 @@ export async function sendPhoneCodeAction(userId: string): Promise<ActionResult>
 }
 
 export async function verifyPhoneAction(
-  userId: string,
   _prev: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Debes iniciar sesión" };
+  const userId = session.user.id;
   const raw = { code: formData.get("code") };
   const parsed = phoneVerifySchema.safeParse(raw);
   if (!parsed.success) return { error: "Código inválido" };
 
-  const verification = await prisma.phoneVerification.findFirst({
-    where: {
-      userId,
-      code: parsed.data.code,
-      expiresAt: { gt: new Date() },
-    },
+  const current = await prisma.phoneVerification.findFirst({
+    where: { userId, expiresAt: { gt: new Date() } },
+    orderBy: { createdAt: "desc" },
   });
-
-  if (!verification) return { error: "Código incorrecto o expirado" };
+  if (!current) return { error: "Código incorrecto o expirado" };
+  if (current.attempts >= MAX_CODE_ATTEMPTS) {
+    await prisma.phoneVerification.deleteMany({ where: { userId } });
+    return { error: "Demasiados intentos. Pide un código nuevo." };
+  }
+  if (current.code !== parsed.data.code) {
+    await prisma.phoneVerification.update({ where: { id: current.id }, data: { attempts: { increment: 1 } } });
+    return { error: "Código incorrecto o expirado" };
+  }
 
   await prisma.user.update({
     where: { id: userId },
@@ -179,8 +201,8 @@ export async function verifyPhoneAction(
 
 // ─── EMAIL VERIFICATION ───────────────────────────────────────────────────────
 
-export async function sendEmailVerificationCode(userId: string, email: string, name: string): Promise<void> {
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
+async function sendEmailVerificationCode(userId: string, email: string, name: string): Promise<void> {
+  const code = sixDigitCode();
   const expiresAt = new Date(Date.now() + 30 * 60 * 1000); // 30 min
 
   await prisma.emailVerification.deleteMany({ where: { userId } });
@@ -193,7 +215,7 @@ export async function sendEmailVerificationCode(userId: string, email: string, n
     subject: "Verifica tu cuenta de GameMate",
     html: `
       <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0f0f13;color:#e8e8f0;border-radius:12px">
-        <h1 style="color:#f97316;font-size:24px;margin-bottom:8px">¡Bienvenido a GameMate, ${name}!</h1>
+        <h1 style="color:#f97316;font-size:24px;margin-bottom:8px">¡Bienvenido a GameMate, ${escapeHtml(name)}!</h1>
         <p style="color:#8888aa;margin-bottom:24px">Usa este código para verificar tu cuenta. Válido 30 minutos.</p>
         <div style="background:#1a1a24;border:1px solid #2a2a3a;border-radius:8px;padding:24px;text-align:center;margin-bottom:24px">
           <span style="font-size:36px;font-weight:bold;letter-spacing:8px;color:#f97316">${code}</span>
@@ -216,6 +238,11 @@ export async function resendEmailVerificationAction(): Promise<ActionResult> {
   if (!user) return { error: "Usuario no encontrado" };
   if (user.emailVerified) return { error: "Tu email ya está verificado" };
 
+  const last = await prisma.emailVerification.findFirst({ where: { userId: session.user.id }, orderBy: { createdAt: "desc" } });
+  if (last && Date.now() - last.createdAt.getTime() < RESEND_COOLDOWN_MS) {
+    return { error: "Espera un minuto antes de pedir otro código." };
+  }
+
   await sendEmailVerificationCode(session.user.id, user.email, user.name ?? "");
   return { success: "Código reenviado. Revisa tu email." };
 }
@@ -230,11 +257,19 @@ export async function verifyEmailAction(
   const code = (formData.get("code") as string)?.trim();
   if (!code || !/^\d{6}$/.test(code)) return { error: "Código inválido" };
 
-  const verification = await prisma.emailVerification.findFirst({
-    where: { userId: session.user.id, code, expiresAt: { gt: new Date() } },
+  const current = await prisma.emailVerification.findFirst({
+    where: { userId: session.user.id, expiresAt: { gt: new Date() } },
+    orderBy: { createdAt: "desc" },
   });
-
-  if (!verification) return { error: "Código incorrecto o expirado" };
+  if (!current) return { error: "Código incorrecto o expirado" };
+  if (current.attempts >= MAX_CODE_ATTEMPTS) {
+    await prisma.emailVerification.deleteMany({ where: { userId: session.user.id } });
+    return { error: "Demasiados intentos. Pide un código nuevo." };
+  }
+  if (current.code !== code) {
+    await prisma.emailVerification.update({ where: { id: current.id }, data: { attempts: { increment: 1 } } });
+    return { error: "Código incorrecto o expirado" };
+  }
 
   await prisma.user.update({
     where: { id: session.user.id },

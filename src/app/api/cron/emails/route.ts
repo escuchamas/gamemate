@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { isAuthorizedCron } from "@/lib/cron";
 import { GAME_LABELS } from "@/lib/constants";
 import type { Game } from "@/generated/prisma/client";
 import {
@@ -27,7 +28,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const realUser = { NOT: { email: { endsWith: DEMO_EMAIL_DOMAIN } } };
 
 export async function GET(req: NextRequest) {
-  if (req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!isAuthorizedCron(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

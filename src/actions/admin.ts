@@ -5,14 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 
-const ADMIN_EMAILS = ["fernandomcq123@gmail.com", "fernando_mcq@hotmail.com"];
-
-async function requireAdmin() {
-  const session = await auth();
-  if (!session?.user?.email || !ADMIN_EMAILS.includes(session.user.email)) {
-    throw new Error("Unauthorized");
-  }
-}
+import { requireAdmin } from "@/lib/admin";
 
 export async function markContactReadAction(id: string): Promise<void> {
   await requireAdmin();

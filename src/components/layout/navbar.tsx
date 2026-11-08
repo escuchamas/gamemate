@@ -8,8 +8,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { MobileMenu } from "./mobile-menu";
 import { NavLink } from "./nav-link";
 import { getLocale } from "next-intl/server";
-
-const ADMIN_EMAILS = ["fernandomcq123@gmail.com", "fernando_mcq@hotmail.com"];
+import { isAdmin as checkIsAdmin } from "@/lib/admin";
 
 export async function Navbar() {
   const session = await auth();
@@ -19,7 +18,7 @@ export async function Navbar() {
     ? (await prisma.user.findUnique({ where: { id: session.user.id }, select: { image: true } }))?.image
     : null;
 
-  const isAdmin = session?.user?.email ? ADMIN_EMAILS.includes(session.user.email) : false;
+  const isAdmin = session ? await checkIsAdmin() : false;
 
   const pendingFriendRequests = session?.user?.id
     ? await prisma.friendship.count({ where: { receiverId: session.user.id, status: "PENDING" } })

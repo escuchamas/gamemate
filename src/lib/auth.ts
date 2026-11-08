@@ -66,7 +66,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Auto-generate username for new Google users
         const dbUser = await prisma.user.findUnique({
           where: { id: user.id },
-          select: { username: true, banned: true, emailVerified: true },
+          select: { username: true, banned: true, emailVerified: true, password: true },
         });
         if (dbUser?.banned) return false;
         const updates: Record<string, unknown> = {};
@@ -78,6 +78,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           // Notificar al admin del nuevo registro via Google
           try {
             const { Resend } = await import("resend");
+            const { escapeHtml } = await import("@/lib/emails");
             const resend = new Resend(process.env.RESEND_API_KEY);
             await resend.emails.send({
               from: process.env.EMAIL_FROM ?? "GameMate <noreply@gamemate.es>",
@@ -86,8 +87,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               html: `
                 <div style="font-family:sans-serif;max-width:400px;padding:24px;background:#0f0f13;color:#e8e8f0;border-radius:12px">
                   <h2 style="color:#ea580c;margin:0 0 16px">Nuevo usuario (Google)</h2>
-                  <p style="margin:0 0 8px"><strong>Nombre:</strong> ${user.name ?? "—"}</p>
-                  <p style="margin:0 0 8px"><strong>Email:</strong> ${user.email}</p>
+                  <p style="margin:0 0 8px"><strong>Nombre:</strong> ${escapeHtml(user.name ?? "—")}</p>
+                  <p style="margin:0 0 8px"><strong>Email:</strong> ${escapeHtml(user.email ?? "")}</p>
                   <p style="margin:0 0 16px;color:#6b7280;font-size:12px">${new Date().toLocaleString("es-ES", { timeZone: "Europe/Madrid" })}</p>
                   <a href="https://gamemate.es/es/admin/users" style="background:#ea580c;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:14px">Ver en admin →</a>
                 </div>
@@ -98,6 +99,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Google verifies emails — mark as verified if not already
         if (!dbUser?.emailVerified) {
           updates.emailVerified = new Date();
+          // Si la cuenta tenía contraseña pero el email nunca se verificó, esa contraseña
+          // pudo ponerla otra persona registrándose con este email. Google acaba de
+          // demostrar quién es el dueño: se borra (siempre puede crear otra con "olvidé mi contraseña").
+          if (dbUser?.password) updates.password = null;
         }
         if (Object.keys(updates).length > 0) {
           await prisma.user.update({ where: { id: user.id }, data: updates });
