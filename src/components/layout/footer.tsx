@@ -20,7 +20,7 @@ export async function Footer() {
 
           {/* Links principales */}
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold text-[var(--foreground)] uppercase tracking-wider mb-1">
+            <p className="text-sm font-semibold text-[var(--foreground)] mb-1">
               {t("platform")}
             </p>
             <Link href="/que-es-gamemate" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">
@@ -45,7 +45,7 @@ export async function Footer() {
 
           {/* Legal */}
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold text-[var(--foreground)] uppercase tracking-wider mb-1">
+            <p className="text-sm font-semibold text-[var(--foreground)] mb-1">
               {t("legal")}
             </p>
             <Link href="/terms" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">

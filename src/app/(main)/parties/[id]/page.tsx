@@ -138,7 +138,7 @@ export default async function PartyPage({ params }: PartyPageProps) {
             <div className="flex flex-col gap-4">
               {Object.entries(rulesByCategory).map(([category, rules]) => (
                 <div key={category}>
-                  <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wide mb-2">
+                  <p className="text-sm font-medium text-[var(--muted-foreground)] mb-2">
                     {RULE_CATEGORY_LABELS[category as keyof typeof RULE_CATEGORY_LABELS]}
                   </p>
                   <div className="flex flex-col gap-1.5">

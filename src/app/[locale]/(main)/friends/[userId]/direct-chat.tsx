@@ -108,7 +108,7 @@ export function DirectChat({ friendId, currentUserId, initialMessages }: Props) 
         <button
           onClick={handleSend}
           disabled={isPending || !input.trim()}
-          className="px-4 py-2 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-500 transition-colors disabled:opacity-50"
+          className="px-4 py-2 rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none text-sm font-medium hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-50"
         >
           Enviar
         </button>

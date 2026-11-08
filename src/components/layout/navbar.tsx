@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./locale-switcher";
 import { Avatar } from "@/components/ui/avatar";
 import { MobileMenu } from "./mobile-menu";
+import { NavLink } from "./nav-link";
 import { getLocale } from "next-intl/server";
 
 const ADMIN_EMAILS = ["fernandomcq123@gmail.com", "fernando_mcq@hotmail.com"];
@@ -45,49 +46,35 @@ export async function Navbar() {
             locale={locale}
           />
           <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-            <img src="/icon.png" alt="GameMate" className="h-8 w-8 rounded-full" />
+            <img src="/icon.png" alt="GameMate" className="h-8 w-8 rounded-full sm:hidden" />
+            <img src="/logo.png" alt="GameMate" className="hidden sm:block h-6" />
           </Link>
         </div>
 
         {/* Nav links */}
         <nav className="hidden sm:flex items-center gap-0.5">
-          <Link
-            href="/parties"
-            className="px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-          >
+          <NavLink href="/parties" exact>
             {t("parties")}
-          </Link>
-          <Link
-            href="/servers"
-            className="px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-          >
+          </NavLink>
+          <NavLink href="/servers">
             Servidores
-          </Link>
+          </NavLink>
           {session && (
             <>
-              <Link
-                href="/parties/new"
-                className="px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
+              <NavLink href="/parties/new">
                 {t("createParty")}
-              </Link>
-              <Link
-                href="/history"
-                className="px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
+              </NavLink>
+              <NavLink href="/history">
                 {t("history")}
-              </Link>
-              <Link
-                href="/friends"
-                className="relative px-2.5 py-1.5 text-sm rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--muted)] transition-colors"
-              >
+              </NavLink>
+              <NavLink href="/friends">
                 {t("friends")}
                 {pendingFriendRequests > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-orange-500 text-white text-[10px] rounded-full flex items-center justify-center font-bold">
                     {pendingFriendRequests}
                   </span>
                 )}
-              </Link>
+              </NavLink>
             </>
           )}
         </nav>
@@ -145,7 +132,7 @@ export async function Navbar() {
               </Link>
               <Link
                 href="/register"
-                className="px-4 py-1.5 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium"
+                className="px-4 py-1.5 text-sm rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors font-medium"
               >
                 {t("register")}
               </Link>

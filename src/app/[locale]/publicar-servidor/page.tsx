@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
-import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { PublicHeader } from "@/components/layout/public-header";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { JsonLd, faqJsonLd } from "@/components/json-ld";
@@ -101,16 +101,7 @@ export default async function PublicarServidorPage({ params }: { params: Promise
   setRequestLocale(locale); // permite generar la página por adelantado
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
-      <header className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto w-full">
-        <Link href="/" className="hover:opacity-80 transition-opacity">
-          <img src="/logo.png" alt="GameMate" className="h-8" />
-        </Link>
-        <div className="flex items-center gap-3">
-          <LocaleSwitcher />
-          <Link href="/login" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">Entrar</Link>
-          <Link href="/register" className="px-4 py-1.5 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium">Registrarse</Link>
-        </div>
-      </header>
+      <PublicHeader />
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-12 flex flex-col gap-14">
 
@@ -128,7 +119,7 @@ export default async function PublicarServidorPage({ params }: { params: Promise
           <div className="flex gap-3 justify-center flex-wrap">
             <Link
               href="/servers/new"
-              className="px-7 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors text-base"
+              className="px-7 py-3 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-semibold hover:bg-[var(--primary-hover)] transition-colors text-base"
             >
               Publicar mi servidor gratis
             </Link>
@@ -195,7 +186,7 @@ export default async function PublicarServidorPage({ params }: { params: Promise
           </p>
           <Link
             href="/servers/new"
-            className="px-8 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors text-lg"
+            className="px-8 py-3 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-semibold hover:bg-[var(--primary-hover)] transition-colors text-lg"
           >
             Publicar mi servidor gratis
           </Link>

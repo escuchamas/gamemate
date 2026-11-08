@@ -167,7 +167,7 @@ export function RatePlayerButton({ ratedId, ratedName, partyId, existingRating }
         <button
           type="submit"
           disabled={isPending}
-          className="w-full py-2 rounded-xl bg-orange-600 text-white text-sm font-semibold hover:bg-orange-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full py-2 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none text-sm font-semibold hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isPending ? "Guardando..." : alreadyRated ? "Guardar cambios ✓" : "Enviar valoración ✓"}
         </button>

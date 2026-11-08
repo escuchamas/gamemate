@@ -38,7 +38,7 @@ export function ProfileBanner() {
         <div className="flex items-center gap-3 flex-shrink-0">
           <Link
             href="/profile"
-            className="px-3 py-1.5 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium whitespace-nowrap"
+            className="px-3 py-1.5 text-xs rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors font-medium whitespace-nowrap"
           >
             Completar perfil
           </Link>

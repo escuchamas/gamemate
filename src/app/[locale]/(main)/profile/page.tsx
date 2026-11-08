@@ -80,7 +80,7 @@ export default async function ProfilePage({
             <p className="text-sm font-medium text-orange-400">Email sin verificar</p>
             <p className="text-xs text-[var(--muted-foreground)]">Verifica tu cuenta para acceder a todas las funciones.</p>
           </div>
-          <Link href="/verify-email" className="px-3 py-1.5 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors flex-shrink-0">
+          <Link href="/verify-email" className="px-3 py-1.5 text-xs rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors flex-shrink-0">
             Verificar ahora
           </Link>
         </div>

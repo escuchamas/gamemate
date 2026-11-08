@@ -1,16 +1,13 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Chakra_Petch, Rubik } from "next/font/google";
 import { Link } from "@/i18n/navigation";
 import { BADGE_INFO } from "@/lib/constants";
 import { Footer } from "@/components/layout/footer";
-import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { PublicHeader } from "@/components/layout/public-header";
 import { PartiesCarouselSection } from "@/components/landing/parties-carousel-section";
 import { LobbyHero } from "@/components/landing/lobby-hero";
 import type { Metadata } from "next";
 import { localeAlternates } from "@/lib/seo";
 
-const display = Chakra_Petch({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-display", display: "swap" });
-const body = Rubik({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 
 export async function generateMetadata({
   params,
@@ -70,22 +67,13 @@ export default async function LandingPage({
   const tNav = await getTranslations("nav");
 
   return (
-    <div className={`home ${display.variable} ${body.variable} min-h-screen flex flex-col`}>
+    <div className="home min-h-screen flex flex-col">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <header className="home-header">
-        <Link href="/" className="shrink-0">
-          <img src="/logo.png" alt="GameMate" className="h-6 sm:h-8" />
-        </Link>
-        <nav className="flex items-center gap-2.5 sm:gap-4">
-          <LocaleSwitcher />
-          <Link href="/login" className="home-link">{tNav("login")}</Link>
-          <Link href="/register" className="home-btn home-btn--small">{t("signup")}</Link>
-        </nav>
-      </header>
+      <PublicHeader />
 
       <main className="flex-1">
         {/* Hero: titular + sala de espera */}

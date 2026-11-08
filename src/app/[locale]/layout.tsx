@@ -5,6 +5,11 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { CookieBanner } from "@/components/cookie-banner";
 import { JsonLd } from "@/components/json-ld";
+import { Chakra_Petch, Rubik } from "next/font/google";
+
+// Fuentes de la marca para toda la web: Chakra Petch (titulares) y Rubik (texto)
+const display = Chakra_Petch({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-display", display: "swap" });
+const body = Rubik({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 
 const BASE = "https://gamemate.es";
 
@@ -114,7 +119,7 @@ export default async function LocaleLayout({
   // Los datos estructurados van en <body>: un <script> escrito a mano en <head>
   // provocaba un aviso de hidratación en React.
   return (
-    <html lang={locale} className="h-full" suppressHydrationWarning>
+    <html lang={locale} className={`h-full ${display.variable} ${body.variable}`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <JsonLd data={jsonLd} />
         <NextIntlClientProvider messages={messages}>

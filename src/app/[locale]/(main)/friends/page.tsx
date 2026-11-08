@@ -104,7 +104,7 @@ export default async function FriendsPage({ searchParams }: Props) {
           />
           <button
             type="submit"
-            className="px-4 py-2 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-500 transition-colors"
+            className="px-4 py-2 rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none text-sm font-medium hover:bg-[var(--primary-hover)] transition-colors"
           >
             Buscar
           </button>
@@ -190,7 +190,7 @@ export default async function FriendsPage({ searchParams }: Props) {
                 </div>
                 <div className="flex gap-2">
                   <form action={acceptFriendRequestAction.bind(null, f.id)}>
-                    <button type="submit" className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors">
+                    <button type="submit" className="px-3 py-1 text-xs rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors">
                       Aceptar
                     </button>
                   </form>
@@ -245,7 +245,7 @@ export default async function FriendsPage({ searchParams }: Props) {
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/friends/${friend.id}`}
-                      className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
+                      className="px-3 py-1 text-xs rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors"
                     >
                       💬 Mensaje
                     </Link>

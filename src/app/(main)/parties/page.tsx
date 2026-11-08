@@ -64,7 +64,7 @@ export default async function PartiesPage({ searchParams }: PartiesPageProps) {
           ) : (
             <Link
               href="/register"
-              className="px-4 py-2 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
+              className="px-4 py-2 text-sm rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors"
             >
               Únete para crear una
             </Link>

@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
+/* Paleta de toda la web, sacada del logo: menta (GAME) y naranja (MATE) sobre noche.
+   Las fuentes (--font-display: Chakra Petch, --font-body: Rubik) se cargan en src/app/[locale]/layout.tsx. */
 :root {
-  --background: #0f0f13;
-  --foreground: #e8e8f0;
-  --card: #1a1a24;
-  --card-border: #2a2a3a;
+  --background: #10131a;
+  --foreground: #e8eaf0;
+  --card: #171b24;
+  --card-border: #262c3a;
   --primary: #f97316;
-  --primary-hover: #ea580c;
+  --primary-hover: #fb8a3c;
+  --primary-edge: #b4500c; /* canto 3D de los botones, como las letras del logo */
   --primary-foreground: #ffffff;
-  --muted: #2a2a38;
-  --muted-foreground: #8888aa;
-  --accent: #22d3ee;
+  --muted: #1f2430;
+  --muted-foreground: #8b93a7;
+  --accent: #4fd1b5;
   --success: #22c55e;
   --warning: #f59e0b;
   --danger: #ef4444;
@@ -34,8 +37,19 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+}
+
+/* Titulares con la fuente de la marca en toda la web */
+h1, h2, h3 {
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+  letter-spacing: -0.005em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 * {
@@ -44,8 +58,8 @@ body {
 
 /* Mobile drawer — explicit class because Tailwind arbitrary values don't always compile */
 .mobile-drawer {
-  background-color: #0f0f13 !important;
-  border-right: 1px solid #2a2a3a;
+  background-color: var(--background) !important;
+  border-right: 1px solid var(--card-border);
 }
 
 /* Carousel auto-scroll */
@@ -66,17 +80,18 @@ body {
   border-radius: 3px;
 }
 
-/* ─── Portada ──────────────────────────────────────────────────────────────
-   Colores sacados del logo: menta (GAME) y naranja (MATE). Fuentes: Chakra Petch
-   para titulares y Rubik para texto, cargadas en src/app/[locale]/page.tsx. */
+/* ─── Portada y páginas públicas ───────────────────────────────────────────── */
+/* Alias de la paleta global, usados por la portada y la cabecera pública */
+:root {
+  --h-bg: var(--background);
+  --h-panel: var(--card);
+  --h-line: var(--card-border);
+  --h-mint: var(--accent);
+  --h-orange: var(--primary);
+  --h-text: var(--foreground);
+  --h-muted: var(--muted-foreground);
+}
 .home {
-  --h-bg: #10131a;
-  --h-panel: #171b24;
-  --h-line: #262c3a;
-  --h-mint: #4fd1b5;
-  --h-orange: #f97316;
-  --h-text: #e8eaf0;
-  --h-muted: #8b93a7;
   background: var(--h-bg);
   color: var(--h-text);
   font-family: var(--font-body), system-ui, sans-serif;

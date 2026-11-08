@@ -43,7 +43,7 @@ export default function VerifyEmailPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full py-3 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors disabled:opacity-50"
+          className="w-full py-3 rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-semibold hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-50"
         >
           {isPending ? "Verificando..." : "Verificar cuenta"}
         </button>

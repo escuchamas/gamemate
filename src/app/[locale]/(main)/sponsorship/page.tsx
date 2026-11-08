@@ -94,7 +94,7 @@ export default async function SponsorshipPage({ params }: Props) {
         </div>
         <Link
           href="/contact"
-          className="flex-shrink-0 px-5 py-2.5 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors text-sm"
+          className="flex-shrink-0 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-semibold hover:bg-[var(--primary-hover)] transition-colors text-sm"
         >
           {en ? "Contact us" : "Contactar"}
         </Link>

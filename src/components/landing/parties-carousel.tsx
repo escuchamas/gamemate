@@ -39,7 +39,7 @@ export function PartiesCarousel({ parties }: Props) {
 
   return (
     <div className="w-full overflow-hidden py-6 select-none" aria-hidden="true">
-      <p className="text-center text-xs text-[var(--muted-foreground)] uppercase tracking-widest mb-4">
+      <p className="text-center text-sm text-[var(--muted-foreground)] mb-4">
         Parties activas ahora mismo
       </p>
       <div

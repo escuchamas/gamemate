@@ -28,7 +28,7 @@ export function Avatar({ image, name, size = "md", className = "" }: AvatarProps
   }
 
   return (
-    <div className={`${base} bg-orange-600 flex items-center justify-center text-white font-bold`}>
+    <div className={`${base} bg-[var(--accent)] flex items-center justify-center text-[var(--background)] font-semibold`}>
       {getInitials(name)}
     </div>
   );

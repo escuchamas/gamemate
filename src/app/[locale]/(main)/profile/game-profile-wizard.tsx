@@ -238,7 +238,7 @@ export function GameProfileWizard({ game, existing, onDone }: Props) {
               type="button"
               onClick={handleSubmit}
               disabled={isPending}
-              className="px-6 py-2 rounded-xl bg-orange-600 text-white text-sm font-semibold hover:bg-orange-500 transition-colors disabled:opacity-50"
+              className="px-6 py-2 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none text-sm font-semibold hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-50"
             >
               {isPending ? "Guardando..." : existing ? "Guardar cambios" : "Finalizar"}
             </button>
@@ -247,7 +247,7 @@ export function GameProfileWizard({ game, existing, onDone }: Props) {
               type="button"
               onClick={() => canAdvance() && go(step + 1, "forward")}
               disabled={!canAdvance()}
-              className="px-6 py-2 rounded-xl bg-orange-600 text-white text-sm font-semibold hover:bg-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none text-sm font-semibold hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente →
             </button>

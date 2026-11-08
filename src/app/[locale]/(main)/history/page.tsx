@@ -92,7 +92,7 @@ export default async function HistoryPage() {
                   <p className="text-sm text-[var(--muted-foreground)]">Solo tú en esta party.</p>
                 ) : (
                   <div className="flex flex-col gap-2">
-                    <p className="text-xs text-[var(--muted-foreground)] uppercase tracking-wide">Compañeros</p>
+                    <p className="text-sm text-[var(--muted-foreground)]">Compañeros</p>
                     {otherMembers.map(({ user }) => {
                       const friendship = friendMap.get(user.id);
                       return (
@@ -135,7 +135,7 @@ function FriendButton({
       <form action={sendFriendRequestAction.bind(null, userId)}>
         <button
           type="submit"
-          className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
+          className="px-3 py-1 text-xs rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors"
         >
           + Añadir amigo
         </button>

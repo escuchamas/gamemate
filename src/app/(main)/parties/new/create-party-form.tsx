@@ -200,7 +200,7 @@ export function CreatePartyForm() {
 
           {/* Required rules */}
           <div>
-            <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wide mb-2">
+            <p className="text-sm font-medium text-[var(--muted-foreground)] mb-2">
               Obligatorias
             </p>
             <div className="flex flex-col gap-2">
@@ -225,7 +225,7 @@ export function CreatePartyForm() {
 
           {/* Optional default rules */}
           <div>
-            <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wide mb-2">
+            <p className="text-sm font-medium text-[var(--muted-foreground)] mb-2">
               Opcionales — marca las que quieras incluir
             </p>
             <div className="flex flex-col gap-2">
@@ -257,7 +257,7 @@ export function CreatePartyForm() {
 
           {/* Custom rules */}
           <div>
-            <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wide mb-2">
+            <p className="text-sm font-medium text-[var(--muted-foreground)] mb-2">
               Normas personalizadas
             </p>
 
@@ -316,7 +316,7 @@ export function CreatePartyForm() {
               <button
                 type="button"
                 onClick={addCustomRule}
-                className="px-3 py-1.5 rounded-lg bg-orange-600 text-white text-xs hover:bg-orange-500 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none text-xs hover:bg-[var(--primary-hover)] transition-colors"
               >
                 +
               </button>

@@ -504,7 +504,7 @@ export function CreatePartyWizard() {
 
             {requiredRules.length > 0 && (
               <div className="flex flex-col gap-2">
-                <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wide">Siempre activas</p>
+                <p className="text-sm font-medium text-[var(--muted-foreground)]">Siempre activas</p>
                 {requiredRules.map((r) => (
                   <div key={r.text} className="flex items-start gap-2 px-3 py-2 rounded-lg bg-green-600/10 border border-green-600/20">
                     <span className="text-green-400 mt-0.5 flex-shrink-0">✓</span>
@@ -516,7 +516,7 @@ export function CreatePartyWizard() {
 
             {optionalRules.length > 0 && (
               <div className="flex flex-col gap-2">
-                <p className="text-xs font-medium text-[var(--muted-foreground)] uppercase tracking-wide">Opcionales — toca para activar</p>
+                <p className="text-sm font-medium text-[var(--muted-foreground)]">Opcionales — toca para activar</p>
                 {optionalRules.map((r) => {
                   const active = data.selectedRules.includes(r.text);
                   return (
@@ -620,7 +620,7 @@ export function CreatePartyWizard() {
             type="button"
             onClick={next}
             disabled={submitting}
-            className="px-6 py-2.5 rounded-xl bg-orange-600 text-white font-medium text-sm hover:bg-orange-500 transition-colors disabled:opacity-60"
+            className="px-6 py-2.5 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-medium text-sm hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-60"
           >
             {currentStep === "summary" ? (submitting ? "Creando..." : "Crear party 🚀") : "Siguiente →"}
           </button>

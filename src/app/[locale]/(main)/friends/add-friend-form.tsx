@@ -20,7 +20,7 @@ export function AddFriendForm({ targetId }: { targetId: string }) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors"
+        className="px-3 py-1 text-xs rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors"
       >
         + Añadir amigo
       </button>
@@ -58,7 +58,7 @@ export function AddFriendForm({ targetId }: { targetId: string }) {
         <button
           type="submit"
           disabled={pending}
-          className="px-3 py-1 text-xs rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors disabled:opacity-50"
+          className="px-3 py-1 text-xs rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-50"
         >
           {pending ? "Enviando..." : "Enviar"}
         </button>

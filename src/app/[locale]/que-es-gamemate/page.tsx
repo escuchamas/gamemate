@@ -1,7 +1,6 @@
-import { Chakra_Petch, Rubik } from "next/font/google";
 import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
-import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { PublicHeader } from "@/components/layout/public-header";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
@@ -10,8 +9,6 @@ import { JsonLd, faqJsonLd } from "@/components/json-ld";
 // Página "sobre nosotros" pensada para que buscadores y asistentes de IA entiendan
 // qué es GameMate y puedan citarlo. Solo en español (canonical a /es).
 
-const display = Chakra_Petch({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-display", display: "swap" });
-const body = Rubik({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 
 export const metadata: Metadata = {
   title: "Qué es GameMate: compañeros de juego en español",
@@ -63,20 +60,11 @@ export default async function QueEsGameMatePage({ params }: { params: Promise<{ 
   const { locale } = await params;
   setRequestLocale(locale); // permite generar la página por adelantado
   return (
-    <div className={`home ${display.variable} ${body.variable} min-h-screen flex flex-col`}>
+    <div className="home min-h-screen flex flex-col">
       <JsonLd data={orgJsonLd} />
       <JsonLd data={faqJsonLd(FAQ)} />
 
-      <header className="home-header">
-        <Link href="/" className="shrink-0">
-          <img src="/logo.png" alt="GameMate" className="h-6 sm:h-8" />
-        </Link>
-        <nav className="flex items-center gap-2.5 sm:gap-4">
-          <LocaleSwitcher />
-          <Link href="/login" className="home-link">Entrar</Link>
-          <Link href="/register" className="home-btn home-btn--small">Crear cuenta</Link>
-        </nav>
-      </header>
+      <PublicHeader />
 
       <main className="flex-1">
         <article className="home-section" style={{ paddingTop: 48, maxWidth: "46rem" }}>

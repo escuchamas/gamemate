@@ -136,7 +136,7 @@ export function GamerProfileWizard({ onComplete }: Props) {
                 className="flex-1 px-3 py-2 rounded-xl bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <button type="button" onClick={() => addCustomGame(gamesPlaying, setGamesPlaying, customGame, setCustomGame)}
-                className="px-3 py-2 rounded-xl bg-orange-600 text-white text-sm hover:bg-orange-500 transition-colors">+</button>
+                className="px-3 py-2 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none text-sm hover:bg-[var(--primary-hover)] transition-colors">+</button>
             </div>
             {gamesPlaying.length > 0 && (
               <p className="text-xs text-orange-400">{gamesPlaying.length} seleccionado{gamesPlaying.length > 1 ? "s" : ""}: {gamesPlaying.join(", ")}</p>
@@ -172,7 +172,7 @@ export function GamerProfileWizard({ onComplete }: Props) {
                 className="flex-1 px-3 py-2 rounded-xl bg-[var(--muted)] border border-[var(--card-border)] text-sm text-white placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <button type="button" onClick={() => addCustomGame(gamesWanted, setGamesWanted, customWanted, setCustomWanted)}
-                className="px-3 py-2 rounded-xl bg-orange-600 text-white text-sm hover:bg-orange-500 transition-colors">+</button>
+                className="px-3 py-2 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none text-sm hover:bg-[var(--primary-hover)] transition-colors">+</button>
             </div>
           </div>
         )}
@@ -287,14 +287,14 @@ export function GamerProfileWizard({ onComplete }: Props) {
 
         {currentStep !== "hours" && currentStep !== "done" && (
           <button type="button" onClick={() => go("forward")}
-            className="px-6 py-2.5 rounded-xl bg-orange-600 text-white font-medium text-sm hover:bg-orange-500 transition-colors">
+            className="px-6 py-2.5 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-medium text-sm hover:bg-[var(--primary-hover)] transition-colors">
             Siguiente →
           </button>
         )}
 
         {currentStep === "done" && (
           <button type="button" onClick={handleSubmit} disabled={submitting}
-            className="px-6 py-2.5 rounded-xl bg-orange-600 text-white font-medium text-sm hover:bg-orange-500 transition-colors disabled:opacity-60 w-full">
+            className="px-6 py-2.5 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-medium text-sm hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-60 w-full">
             {submitting ? "Guardando..." : "Entrar a GameMate 🚀"}
           </button>
         )}

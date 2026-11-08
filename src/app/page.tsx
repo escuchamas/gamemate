@@ -23,7 +23,7 @@ export default async function LandingPage() {
           </Link>
           <Link
             href="/register"
-            className="px-4 py-1.5 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium"
+            className="px-4 py-1.5 text-sm rounded-lg bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none hover:bg-[var(--primary-hover)] transition-colors font-medium"
           >
             Registrarse
           </Link>
@@ -52,7 +52,7 @@ export default async function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/register"
-              className="px-8 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors text-lg"
+              className="px-8 py-3 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-semibold hover:bg-[var(--primary-hover)] transition-colors text-lg"
             >
               Empezar gratis 🚀
             </Link>
@@ -97,7 +97,7 @@ export default async function LandingPage() {
 
         {/* Badges preview */}
         <div className="max-w-2xl w-full">
-          <p className="text-xs text-[var(--muted-foreground)] uppercase tracking-wide mb-3">
+          <p className="text-sm text-[var(--muted-foreground)] mb-3">
             Badges verificados por la comunidad
           </p>
           <div className="flex flex-wrap justify-center gap-2">

@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/footer";
-import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { PublicHeader } from "@/components/layout/public-header";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { JsonLd, faqJsonLd } from "@/components/json-ld";
@@ -64,16 +64,7 @@ export default async function LeagueOfLegendsPage({ params }: { params: Promise<
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
-      <header className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto w-full">
-        <Link href="/" className="hover:opacity-80 transition-opacity">
-          <img src="/logo.png" alt="GameMate" className="h-8" />
-        </Link>
-        <div className="flex items-center gap-3">
-          <LocaleSwitcher />
-          <Link href="/login" className="text-sm text-[var(--muted-foreground)] hover:text-white transition-colors">Entrar</Link>
-          <Link href="/register" className="px-4 py-1.5 text-sm rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition-colors font-medium">Registrarse</Link>
-        </div>
-      </header>
+      <PublicHeader />
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-12 flex flex-col gap-12">
 
@@ -90,7 +81,7 @@ export default async function LeagueOfLegendsPage({ params }: { params: Promise<
             Busca duo carril, premade 5v5 o equipo de Clash. Filtra por rango y rol. Sin toxic, sin flaming — perfiles verificados con reputación real.
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
-            <Link href="/register" className="px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors">
+            <Link href="/register" className="px-6 py-3 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-semibold hover:bg-[var(--primary-hover)] transition-colors">
               Buscar duo gratis
             </Link>
             <Link href="/parties?game=LEAGUE_OF_LEGENDS" className="px-6 py-3 rounded-xl bg-[var(--card)] border border-[var(--card-border)] text-white font-semibold hover:bg-[var(--muted)] transition-colors">
@@ -169,7 +160,7 @@ export default async function LeagueOfLegendsPage({ params }: { params: Promise<
         <section className="text-center rounded-2xl bg-orange-600/10 border border-orange-500/20 p-8">
           <h2 className="text-2xl font-bold text-white mb-2">¿Listo para subir de rango?</h2>
           <p className="text-[var(--muted-foreground)] mb-6">Regístrate gratis y encuentra tu duo o premade en menos de 2 minutos.</p>
-          <Link href="/register" className="px-8 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-500 transition-colors text-lg">
+          <Link href="/register" className="px-8 py-3 rounded-xl bg-[var(--primary)] text-white shadow-[0_3px_0_var(--primary-edge)] active:translate-y-[3px] active:shadow-none font-semibold hover:bg-[var(--primary-hover)] transition-colors text-lg">
             Empezar gratis
           </Link>
         </section>
